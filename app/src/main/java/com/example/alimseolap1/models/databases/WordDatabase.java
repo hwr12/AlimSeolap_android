@@ -1,4 +1,4 @@
-package com.example.alimseolap1.databases;
+package com.example.alimseolap1.models.databases;
 
 
 import android.content.Context;
@@ -9,8 +9,8 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 import com.example.alimseolap1.DataTransformer;
-import com.example.alimseolap1.daos.WordDao;
-import com.example.alimseolap1.entities.WordEntity;
+import com.example.alimseolap1.models.daos.WordDao;
+import com.example.alimseolap1.models.entities.WordEntity;
 
 @Database(entities = {WordEntity.class}, version = 1)
 @TypeConverters({DataTransformer.class})

@@ -1,4 +1,4 @@
-package com.example.alimseolap1.entities;
+package com.example.alimseolap1.models.entities;
 
 
 import androidx.room.ColumnInfo;

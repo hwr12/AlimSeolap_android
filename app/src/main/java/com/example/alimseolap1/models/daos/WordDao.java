@@ -1,4 +1,4 @@
-package com.example.alimseolap1.daos;
+package com.example.alimseolap1.models.daos;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -8,9 +8,8 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 import androidx.room.Update;
 
-import com.example.alimseolap1.entities.WordEntity;
+import com.example.alimseolap1.models.entities.WordEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Dao

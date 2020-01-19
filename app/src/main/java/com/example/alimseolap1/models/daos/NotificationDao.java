@@ -1,4 +1,4 @@
-package com.example.alimseolap1.daos;
+package com.example.alimseolap1.models.daos;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -7,7 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.example.alimseolap1.entities.NotificationEntity;
+import com.example.alimseolap1.models.entities.NotificationEntity;
 
 import java.util.Date;
 import java.util.List;
