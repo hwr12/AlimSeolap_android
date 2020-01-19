@@ -7,6 +7,6 @@ public interface Main {
     }
 
     interface Presenter{
-
+        void PermissionCheck();
     }
 }
