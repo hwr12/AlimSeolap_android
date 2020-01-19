@@ -3,9 +3,11 @@ package com.example.alimseolap1.entities;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(indices = {@Index(value = {"word"},
+        unique = true)})
 public class WordEntity {
 
     @PrimaryKey(autoGenerate = true)
@@ -32,4 +34,17 @@ public class WordEntity {
     //포괄 총점
     @ColumnInfo(defaultValue = "0")
     public float score;
+
+
+    public void plusPositive_called_count(){
+        this.positive_called_count++;
+    }
+
+    public void plusNegative_called_count(){
+        this.negative_called_count++;
+    }
+
+    public void setNomalization(float average, float sigma){
+        //표준정규화를 실시합니다.
+    }
 }

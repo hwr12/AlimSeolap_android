@@ -35,6 +35,7 @@ public class NotificationEntity {
     public Date arrive_time;
 
     //첫번째 서버 통신 후 저장하는 값입니다.
+    public long server_id;
     public String first_prime_word_id;
     public String second_prime_word_id;
     public String third_prime_word_id;

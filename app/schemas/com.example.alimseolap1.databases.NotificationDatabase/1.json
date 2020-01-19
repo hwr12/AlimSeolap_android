@@ -1,0 +1,263 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "7b054e143d044805c8be095c1e7b356b",
+    "entities": [
+      {
+        "tableName": "NotificationEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `sender_app` TEXT, `title` TEXT, `content` TEXT, `intent_url` TEXT, `imageFile_path` TEXT, `user_id` INTEGER NOT NULL, `arrive_time` INTEGER, `server_id` INTEGER NOT NULL, `first_prime_word_id` TEXT, `second_prime_word_id` TEXT, `third_prime_word_id` TEXT, `fourth_prime_word_id` TEXT, `wordVector` TEXT, `expect_positive_evaluation_num` INTEGER NOT NULL, `expect_negative_evaluation_num` INTEGER NOT NULL, `this_user_expect_evaluation` REAL NOT NULL, `word2vec_nn_version` INTEGER NOT NULL, `this_user_real_evaluation` INTEGER NOT NULL, `evaluation_time` INTEGER, FOREIGN KEY(`first_prime_word_id`) REFERENCES `WordEntity`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`second_prime_word_id`) REFERENCES `WordEntity`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`third_prime_word_id`) REFERENCES `WordEntity`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`fourth_prime_word_id`) REFERENCES `WordEntity`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sender_app",
+            "columnName": "sender_app",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "content",
+            "columnName": "content",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "intent_url",
+            "columnName": "intent_url",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "imageFile_path",
+            "columnName": "imageFile_path",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "user_id",
+            "columnName": "user_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "arrive_time",
+            "columnName": "arrive_time",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "server_id",
+            "columnName": "server_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "first_prime_word_id",
+            "columnName": "first_prime_word_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "second_prime_word_id",
+            "columnName": "second_prime_word_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "third_prime_word_id",
+            "columnName": "third_prime_word_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fourth_prime_word_id",
+            "columnName": "fourth_prime_word_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "wordVector",
+            "columnName": "wordVector",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "expect_positive_evaluation_num",
+            "columnName": "expect_positive_evaluation_num",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "expect_negative_evaluation_num",
+            "columnName": "expect_negative_evaluation_num",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "this_user_expect_evaluation",
+            "columnName": "this_user_expect_evaluation",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "word2vec_nn_version",
+            "columnName": "word2vec_nn_version",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "this_user_real_evaluation",
+            "columnName": "this_user_real_evaluation",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "evaluation_time",
+            "columnName": "evaluation_time",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "WordEntity",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "first_prime_word_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "WordEntity",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "second_prime_word_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "WordEntity",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "third_prime_word_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "WordEntity",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "fourth_prime_word_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "WordEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `word` TEXT, `positive_called_count` INTEGER NOT NULL DEFAULT 0, `negative_called_count` INTEGER NOT NULL DEFAULT 0, `positive_normalization` REAL NOT NULL DEFAULT 0, `negative_nomalization` REAL NOT NULL DEFAULT 0, `score` REAL NOT NULL DEFAULT 0)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "word",
+            "columnName": "word",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "positive_called_count",
+            "columnName": "positive_called_count",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "0"
+          },
+          {
+            "fieldPath": "negative_called_count",
+            "columnName": "negative_called_count",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "0"
+          },
+          {
+            "fieldPath": "positive_normalization",
+            "columnName": "positive_normalization",
+            "affinity": "REAL",
+            "notNull": true,
+            "defaultValue": "0"
+          },
+          {
+            "fieldPath": "negative_nomalization",
+            "columnName": "negative_nomalization",
+            "affinity": "REAL",
+            "notNull": true,
+            "defaultValue": "0"
+          },
+          {
+            "fieldPath": "score",
+            "columnName": "score",
+            "affinity": "REAL",
+            "notNull": true,
+            "defaultValue": "0"
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_WordEntity_word",
+            "unique": true,
+            "columnNames": [
+              "word"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_WordEntity_word` ON `${TABLE_NAME}` (`word`)"
+          }
+        ],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7b054e143d044805c8be095c1e7b356b')"
+    ]
+  }
+}
