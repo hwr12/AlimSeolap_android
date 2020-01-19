@@ -29,11 +29,15 @@ public abstract class WordDao {
 
     //디비에 있는 단어 모델 값을 수정합니다.
     @Update
-    public abstract void updateWords(List<WordEntity> wordEntities);
+    public abstract void updateWord(List<WordEntity> wordEntities);
+    @Update
+    public abstract void updateWord(WordEntity wordEntity);
 
     //디비에 있는 단어 모델을 삭제합니다.
     @Delete
-    public abstract void deleteWords(List<WordEntity> wordEntities);
+    public abstract void deleteWord(List<WordEntity> wordEntities);
+    @Delete
+    public abstract void deleteWord(WordEntity wordEntity);
 
 
 

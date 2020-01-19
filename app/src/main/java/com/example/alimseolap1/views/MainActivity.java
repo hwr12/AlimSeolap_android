@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.alimseolap1.R;
-import com.example.alimseolap1.interfaces.Main.View;
+import com.example.alimseolap1.interfaces.MainInterface.View;
 
 public class MainActivity extends AppCompatActivity implements View {
 

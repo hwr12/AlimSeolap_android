@@ -23,11 +23,11 @@ public class WordEntity {
     @ColumnInfo(defaultValue = "0")
     public int negative_called_count;
 
-    //표준정규화를 거친 긍정 count
+    //표준정규화 점수로 나타낸 긍정 count
     @ColumnInfo(defaultValue = "0")
     public float positive_normalization;
 
-    //표준정규화를 거친 부정 count
+    //표준정규화 점수로 나타낸 부정 count
     @ColumnInfo(defaultValue = "0")
     public float negative_nomalization;
 

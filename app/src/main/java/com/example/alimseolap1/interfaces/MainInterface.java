@@ -1,6 +1,6 @@
 package com.example.alimseolap1.interfaces;
 
-public interface Main {
+public interface MainInterface {
 
     interface View{
 

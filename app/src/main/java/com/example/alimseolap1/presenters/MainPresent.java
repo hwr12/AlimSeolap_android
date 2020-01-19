@@ -8,15 +8,15 @@ import android.widget.Toast;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.example.alimseolap1.R;
-import com.example.alimseolap1.interfaces.Main.Presenter;
+import com.example.alimseolap1.interfaces.MainInterface.Presenter;
 
 import java.util.Set;
 
-public class Main implements Presenter {
+public class MainPresent implements Presenter {
 
     Context context;
 
-    public Main(Context context){
+    public MainPresent(Context context){
         this.context = context;
     }
 
