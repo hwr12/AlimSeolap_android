@@ -53,8 +53,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        return viewHolder;
+        ViewHolder viewHolder = new ViewHolder(view);        return viewHolder;
     }
 
     // 재활용 되는 View가 호출, Adapter가 해당 position에 해당하는 데이터를 결합

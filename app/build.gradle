@@ -65,4 +65,6 @@ dependencies {
 
     // 탭 레이아웃 및 다른 레이아웃 지원
     implementation 'com.google.android.material:material:1.0.0'
+
+
 }

@@ -1,4 +1,4 @@
-package com.example.alimseolap1.views;
+package com.example.alimseolap1.views.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,9 +9,11 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager.widget.ViewPager;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -19,6 +21,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -31,6 +34,8 @@ import com.example.alimseolap1.interfaces.MyService;
 import com.example.alimseolap1.models.NotiData;
 import com.example.alimseolap1.presenters.RecyclerViewAdapter;
 import com.example.alimseolap1.services.NotiCrawlingService;
+import com.example.alimseolap1.views.Adapters.ContentsPagerAdapter;
+import com.google.android.material.tabs.TabLayout;
 import com.google.gson.JsonObject;
 
 import java.text.SimpleDateFormat;
@@ -53,10 +58,89 @@ public class MainActivity extends AppCompatActivity implements View {
     int user_id;
     List<NotiData> app;
 
+    private Context mContext;
+    private TabLayout mTabLayout;
+
+    private ViewPager mViewPager;
+
+    private ContentsPagerAdapter mContentsPagerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mContext = getApplicationContext();
+
+
+
+
+        mTabLayout.addTab(mTabLayout.newTab().setCustomView(createTabView("추려보기")));
+
+        mTabLayout.addTab(mTabLayout.newTab().setCustomView(createTabView("모두보기")));
+
+        mTabLayout.addTab(mTabLayout.newTab().setCustomView(createTabView("세팅")));
+
+        mViewPager = (ViewPager) findViewById(R.id.pager_content);
+
+
+        mContentsPagerAdapter = new ContentsPagerAdapter(
+
+                getSupportFragmentManager(), mTabLayout.getTabCount());
+
+        mViewPager.setAdapter(mContentsPagerAdapter);
+
+
+
+        mViewPager.addOnPageChangeListener(
+
+                new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
+
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
+
+
+            @Override
+
+            public void onTabSelected(TabLayout.Tab tab) {
+
+                mViewPager.setCurrentItem(tab.getPosition());
+
+            }
+
+
+
+            @Override
+
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+
+
+            }
+
+
+
+            @Override
+
+            public void onTabReselected(TabLayout.Tab tab) {
+
+
+
+            }
+
+        });
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         final Switch sw =  findViewById(R.id.switch1);
@@ -343,6 +427,18 @@ public class MainActivity extends AppCompatActivity implements View {
         Set<String> sets = NotificationManagerCompat.getEnabledListenerPackages(this);
         //  Notify앱의 알림 접근 허용이 되어있는가?
         return sets != null && sets.contains(getPackageName());
+    }
+
+    private android.view.View createTabView(String tabName) {
+
+        android.view.View tabView = (android.view.View) LayoutInflater.from(mContext).inflate(R.layout.custom_tab, null);
+
+        TextView txt_name = (TextView) tabView.findViewById(R.id.txt_name);
+
+        txt_name.setText(tabName);
+
+        return tabView;
+
     }
 
 
