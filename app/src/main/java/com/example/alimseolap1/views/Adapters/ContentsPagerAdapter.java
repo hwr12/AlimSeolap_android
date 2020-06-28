@@ -8,69 +8,28 @@ import com.example.alimseolap1.views.Fragment.AllFragment;
 import com.example.alimseolap1.views.Fragment.SettingsFragment;
 import com.example.alimseolap1.views.Fragment.SortFragment;
 
+import java.util.ArrayList;
+
 public class ContentsPagerAdapter extends FragmentStatePagerAdapter {
 
-    private int mPageCount;
+    ArrayList<Fragment> items = new ArrayList<Fragment>();
 
-
-
-    public ContentsPagerAdapter(FragmentManager fm, int pageCount) {
-
+    public ContentsPagerAdapter(FragmentManager fm) {
         super(fm);
-
-        this.mPageCount = pageCount;
-
     }
 
-
+    public void addItem(Fragment item){
+        items.add(item);
+    }
 
     @Override
-
     public Fragment getItem(int position) {
-
-        switch (position) {
-
-            case 0:
-
-                AllFragment allFragment = new AllFragment();
-
-                return allFragment;
-
-
-
-            case 1:
-
-                SortFragment sortFragment = new SortFragment();
-
-                return sortFragment;
-
-
-
-            case 2:
-
-                SettingsFragment settingsFragment = new SettingsFragment();
-
-                return settingsFragment;
-
-
-
-
-            default:
-
-                return null;
-
-        }
-
+        return items.get(position);
     }
-
-
 
     @Override
-
     public int getCount() {
-
-        return mPageCount;
-
+        return items.size();
     }
-
 }
+

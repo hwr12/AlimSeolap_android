@@ -1,7 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.Activity.MainActivity">
+
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <Switch
+                android:id="@+id/switch1"
+                android:layout_width="201dp"
+                android:layout_height="102dp"
+                android:layout_marginTop="12dp"
+                android:showText="true"
+                android:switchTextAppearance="@style/SwitchTextAppearance"
+                android:textAlignment="center"
+                android:textOff="무관심"
+                android:textOn="관심"
+                android:thumb="@drawable/switch_thumb_selector"
+                android:track="@drawable/switch_trac_selector"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+
+                android:id="@+id/swipe_layout"
+                android:layout_width="315dp"
+                android:layout_height="312dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/switch1">
+
+ <!--               <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />  -->
+
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="199dp"
+                android:layout_height="167dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/wordcloudsample" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
 
 
 </LinearLayout>

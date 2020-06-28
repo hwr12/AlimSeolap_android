@@ -1,6 +1,327 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="148dp"
+        android:layout_height="116dp"
+        android:layout_gravity="center_horizontal"
+        app:srcCompat="@drawable/avatar"
+        tools:srcCompat="@drawable/alimi_sample_image" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/overlay_dark_90"
+        android:text="알림이"
+        android:textStyle="bold"
+        android:textSize="20dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:orientation="vertical"></LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="44dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="35dp"
+            android:layout_weight="1"
+            android:text="내 정보 수정하기"
+            android:textColor="@color/overlay_dark_90"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="50dp"
+            android:background="@color/transparent"
+
+            android:scaleX="0.3"
+            android:scaleY="0.3"
+            app:srcCompat="@drawable/yellow_arrows" />
+    </LinearLayout>
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_marginLeft="35dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="44dp"
+            android:layout_height="wrap_content"
+            android:text="제안하기"
+            android:textColor="@color/overlay_dark_90"
+            android:layout_weight="1"
+            android:textStyle="bold"/>
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="50dp"
+            android:background="@color/transparent"
+
+            android:scaleX="0.3"
+            android:scaleY="0.3"
+            app:srcCompat="@drawable/yellow_arrows" />
+    </LinearLayout>
+
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_marginLeft="35dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="44dp"
+            android:layout_height="wrap_content"
+            android:text="알림서랍 팀 소개
+"
+            android:textColor="@color/overlay_dark_90"
+            android:layout_weight="1"
+            android:textStyle="bold"/>
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="50dp"
+            android:background="@color/transparent"
+
+            android:scaleX="0.3"
+            android:scaleY="0.3"
+            app:srcCompat="@drawable/yellow_arrows" />
+    </LinearLayout>
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_marginLeft="35dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="44dp"
+            android:layout_height="wrap_content"
+            android:text="로그아웃 하기"
+            android:textColor="@color/overlay_dark_90"
+            android:layout_weight="1"
+            android:textStyle="bold"/>
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="50dp"
+            android:background="@color/transparent"
+
+            android:scaleX="0.3"
+            android:scaleY="0.3"
+            app:srcCompat="@drawable/yellow_arrows" />
+    </LinearLayout>
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_marginLeft="35dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="44dp"
+            android:layout_height="wrap_content"
+            android:text="푸시알림 수신"
+            android:textColor="@color/overlay_dark_90"
+            android:layout_weight="1"
+            android:textStyle="bold"/>
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="50dp"
+            android:background="@color/transparent"
+
+            android:scaleX="0.3"
+            android:scaleY="0.3"
+            app:srcCompat="@drawable/yellow_arrows" />
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_marginLeft="35dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="44dp"
+            android:layout_height="wrap_content"
+            android:text="서비스 이용약관"
+            android:textColor="@color/overlay_dark_90"
+            android:layout_weight="1"
+            android:textStyle="bold"/>
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="50dp"
+            android:background="@color/transparent"
+
+            android:scaleX="0.3"
+            android:scaleY="0.3"
+            app:srcCompat="@drawable/yellow_arrows" />
+    </LinearLayout>
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_marginLeft="35dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="44dp"
+            android:layout_height="wrap_content"
+            android:text="개인정보 처리방침"
+            android:textColor="@color/overlay_dark_90"
+            android:layout_weight="1"
+            android:textStyle="bold"/>
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="50dp"
+            android:background="@color/transparent"
+
+            android:scaleX="0.3"
+            android:scaleY="0.3"
+            app:srcCompat="@drawable/yellow_arrows" />
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="202dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="165dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:layout_weight="1"
+                android:text="버전정보"
+                android:textColor="@color/overlay_dark_90"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="165dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:layout_weight="1"
+                android:text="이전버전 입니다."
+                android:textColor="@color/overlay_dark_70" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="업데이트"
+            android:textSize="30dp"
+            android:textColor="@color/mdtp_white"
+            android:textStyle="bold"
+            android:background="@drawable/update_btn_shape"
+            android:layout_weight="1"
+            android:scaleY="0.5"
+            android:scaleX="0.5"
+            />
+
+    </LinearLayout>
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_marginLeft="35dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="44dp"
+            android:layout_height="wrap_content"
+            android:text="알림 받을 앱"
+            android:textColor="@color/overlay_dark_90"
+            android:layout_weight="1"
+            android:textStyle="bold"/>
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="50dp"
+            android:background="@color/transparent"
+
+            android:scaleX="0.3"
+            android:scaleY="0.3"
+            app:srcCompat="@drawable/yellow_arrows" />
+    </LinearLayout>
+
 
 </LinearLayout>
