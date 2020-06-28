@@ -8,9 +8,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.alimseolap1.R;
@@ -34,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements View {
     RecyclerView recyclerView;
     List<NotiData> notiData;
     LinearLayoutManager linearLayoutManager;
+    private Context mContext;
+
 
 
 
@@ -42,6 +47,12 @@ public class MainActivity extends AppCompatActivity implements View {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        tab_layout = (TabLayout) findViewById(R.id.tab_layout);
+
+        mContext = getApplicationContext();
+
+
 
         ViewPager pager = findViewById(R.id.pager);
         //캐싱을 해놓을 프래그먼트 개수
@@ -66,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements View {
 
 
 
+
  /*      recyclerView = findViewById(R.id.recyclerView);
 
         linearLayoutManager = new LinearLayoutManager(this);
@@ -83,6 +95,8 @@ public class MainActivity extends AppCompatActivity implements View {
         //initToolbar();
 
     }
+
+
 
 
 
