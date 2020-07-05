@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -47,14 +48,22 @@ public class MainActivity extends AppCompatActivity implements View {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mContext = getApplicationContext();
         tab_layout = (TabLayout) findViewById(R.id.tab_layout);
 
-        mContext = getApplicationContext();
 
 
 
+
+        //뷰페이저 설정
         ViewPager pager = findViewById(R.id.pager);
+        tab_layout.getTabAt(0).setText("추려보기");
+        tab_layout.getTabAt(1).setText("모두보기");
+        tab_layout.getTabAt(2).setText("설정");
+
+
+
+
         //캐싱을 해놓을 프래그먼트 개수
         pager.setOffscreenPageLimit(3);
 
@@ -71,6 +80,9 @@ public class MainActivity extends AppCompatActivity implements View {
         adapter.addItem(settingsFragment);
 
         pager.setAdapter(adapter);
+
+        //뷰페이저와 탭레이아웃 연동
+        tab_layout.setupWithViewPager(pager);
 
         //initComponent();
 
