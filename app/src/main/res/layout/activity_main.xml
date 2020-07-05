@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.Activity.MainActivity">
+    tools:context=".views.Activity.MainActivity"
+    android:fitsSystemWindows="true">
 
 
 
@@ -25,12 +26,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:layout_weight="9"
             app:tabGravity="fill"
             app:tabIndicatorColor="#EBAF24"
             app:tabIndicatorGravity="top"
             app:tabMode="fixed"
-            app:tabTextAppearance="@style/CustomTabTextAppearance"
-            android:layout_weight="8">
+            app:tabTextAppearance="@style/CustomTabTextAppearance">
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/search"

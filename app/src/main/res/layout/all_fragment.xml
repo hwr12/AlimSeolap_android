@@ -11,6 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,14 +19,14 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
 
             <Switch
+                android:layout_marginTop="8dp"
                 android:id="@+id/switch1"
-                android:layout_width="201dp"
-                android:layout_height="102dp"
-                android:layout_marginTop="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:showText="true"
                 android:switchTextAppearance="@style/SwitchTextAppearance"
                 android:textAlignment="center"
@@ -34,16 +35,15 @@
                 android:thumb="@drawable/switch_thumb_selector"
                 android:track="@drawable/switch_trac_selector"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-
 
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="199dp"
                 android:layout_height="167dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -51,6 +51,13 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler1"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
 
     </LinearLayout>
 

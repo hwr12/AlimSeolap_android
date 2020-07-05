@@ -19,4 +19,8 @@
     <string name="default_notification_channel_id">Default</string>
     <string name="webview_loading">Load Content... </string>
 
+    <string name="appbar_scrolling_view_behavior" translatable="false">
+        com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior
+    </string>
+
 </resources>

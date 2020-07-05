@@ -9,18 +9,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.alimseolap1.R;
 import com.example.alimseolap1.interfaces.Main.View;
 import com.example.alimseolap1.models.NotiData;
-import com.example.alimseolap1.presenters.RecyclerViewAdapter;
+import com.example.alimseolap1.views.Adapters.RecyclerViewAdapter;
 import com.example.alimseolap1.views.Adapters.ContentsPagerAdapter;
 import com.example.alimseolap1.views.Fragment.AllFragment;
 import com.example.alimseolap1.views.Fragment.SettingsFragment;

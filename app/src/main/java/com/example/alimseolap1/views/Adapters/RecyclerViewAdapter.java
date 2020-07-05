@@ -1,4 +1,4 @@
-package com.example.alimseolap1.presenters;
+package com.example.alimseolap1.views.Adapters;
 
 
 import android.app.Activity;
@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.alimseolap1.DBHelper;
@@ -24,17 +23,15 @@ import com.example.alimseolap1.models.NotiData;
 
 import java.util.List;
 
-import retrofit2.http.HEAD;
-
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private Activity activity;
     private List<NotiData> app;
 
 
-    public RecyclerViewAdapter(Activity activity, List<NotiData> person) {
+    public RecyclerViewAdapter(Activity activity, List<NotiData> app) {
         this.activity = activity;
-        this.app = person;
+        this.app = app;
         Log.d("준영_갱신", "RecyclerViewAdapter: 실행됨");
     }
 
@@ -52,7 +49,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);        return viewHolder;
     }
 
@@ -69,7 +66,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         NotiData data = app.get(position);
 
         // 데이터 결합
-        holder.notiTitle.setText(data.getNotiTitle());
+//      holder.notiTitle.setText(data.getNotiTitle());
         Log.d("준영", position + " 번째 알림의 extra_Title은 " + data.getNotiTitle() + " 입니다.");
         holder.notiText.setText(data.getNotiText());
         Log.d("준영", position + " 번째 알림의 extra_text은 " + data.getPkg_name() + " 입니다.");
@@ -156,7 +153,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         public ViewHolder(View itemView) {
             super(itemView);
-            notiTitle = (TextView) itemView.findViewById(R.id.notititle);
+//            notiTitle = (TextView) itemView.findViewById(R.id.notititle);
             notiText = (TextView) itemView.findViewById(R.id.notitext);
             icon = (ImageView) itemView.findViewById(R.id.app_icon);
             app_name = (TextView) itemView.findViewById(R.id.app_name);
