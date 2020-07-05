@@ -27,7 +27,7 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View {
+public class MainActivity extends BaseActivity implements View {
 
     private ViewPager view_pager;
     private TabLayout tab_layout;

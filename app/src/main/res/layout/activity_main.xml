@@ -5,7 +5,8 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".views.Activity.MainActivity"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:background="@color/white_transparency">
 
 
 
@@ -14,7 +15,8 @@
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"></androidx.viewpager.widget.ViewPager>
+            android:layout_weight="1"
+            android:background="@color/white_transparency"></androidx.viewpager.widget.ViewPager>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -69,7 +71,8 @@
             android:scaleX="1"
             android:scaleY="1"
             app:srcCompat="@drawable/icon_app"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"
+            />
 
     </LinearLayout>
 

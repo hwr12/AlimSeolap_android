@@ -51,6 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_gravity="left"
                 android:background="@drawable/recycler_border"
                 android:ems="10"
                 android:inputType="textPersonName"
@@ -58,7 +59,9 @@
                 android:hint="  내용을 입력해주세요"
                 android:textSize="12sp"
                 android:textColor="@color/grey_60"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:drawableRight="@drawable/ic_arrow_forward_black_24dp" />
+
 
 
         </LinearLayout>

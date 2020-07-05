@@ -16,7 +16,7 @@
         android:layout_width="148dp"
         android:layout_height="116dp"
         android:layout_gravity="center_horizontal"
-        app:srcCompat="@drawable/alimi_sample_image" />
+        app:srcCompat="@drawable/alimi_sample" />
 
     <TextView
         android:id="@+id/textView"
