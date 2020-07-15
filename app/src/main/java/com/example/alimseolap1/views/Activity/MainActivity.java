@@ -81,6 +81,7 @@ public class MainActivity extends BaseActivity implements View {
         //뷰페이저와 탭레이아웃 연동
         tab_layout.setupWithViewPager(pager);
 
+
         //initComponent();
 
 

@@ -20,13 +20,21 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.alimseolap1.R;
 import com.example.alimseolap1.models.NotiData;
 import com.example.alimseolap1.views.Activity.MainActivity;
+import com.example.alimseolap1.views.Adapters.CategoryPagerAdapter;
+import com.example.alimseolap1.views.Adapters.ContentsPagerAdapter;
 import com.example.alimseolap1.views.Adapters.RecyclerViewAdapter;
+import com.example.alimseolap1.views.Fragment.SortFragment_Sub_Category_Fragment.CategoryAll;
+import com.example.alimseolap1.views.Fragment.SortFragment_Sub_Category_Fragment.CategoryContents;
+import com.example.alimseolap1.views.Fragment.SortFragment_Sub_Category_Fragment.CategoryGame;
+import com.example.alimseolap1.views.Fragment.SortFragment_Sub_Category_Fragment.CategoryOthers;
+import com.example.alimseolap1.views.Fragment.SortFragment_Sub_Category_Fragment.CategoryShopping;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SortFragment extends Fragment  {
+    ViewPager viewPager;
 
     RecyclerViewAdapter recyclerViewAdapter;
     RecyclerView recyclerView;
@@ -45,7 +53,7 @@ public class SortFragment extends Fragment  {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.sort_fragment, null);
 
-        recyclerView = view.findViewById(R.id.recycler1);
+
 
 //        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
  //       ((AppCompatActivity)getActivity()).getSupportActionBar().setCustomView(R.layout.custom_toolbar);
@@ -67,34 +75,43 @@ public class SortFragment extends Fragment  {
         tab_layout.getTabAt(0).setText("전체");
         tab_layout.getTabAt(1).setText("쇼핑");
         tab_layout.getTabAt(2).setText("게임");
-        tab_layout.getTabAt(2).setText("컨텐츠");
-        tab_layout.getTabAt(2).setText("기타");
+        tab_layout.getTabAt(3).setText("컨텐츠");
+        tab_layout.getTabAt(4).setText("기타");
 
 
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
-        notiData = new ArrayList<>();
-        notiData.add(new NotiData(0,"com.android.chrome","테스트","테스트","테스트",null,null,null,"테스트1", "테스트",null,"테스트","20.07.05 11:26"));
-        notiData.add(new NotiData(0,"com.android.chrome","테스트","테스트","테스트",null,null,null,"테스트", "테스트",null,"테스트","20.07.05 10:43"));
-        notiData.add(new NotiData(0,"com.android.chrome","테스트","테스트","테스트",null,null,null,"테스트", "테스트",null,"테스트","20.07.05 10:43"));
-        notiData.add(new NotiData(0,"com.android.chrome","테스트","테스트","테스트",null,null,null,"테스트", "테스트",null,"테스트","20.07.05 10:43"));
-        notiData.add(new NotiData(0,"com.android.chrome","테스트","테스트","테스트",null,null,null,"테스트", "테스트",null,"테스트","20.07.05 10:43"));
-        notiData.add(new NotiData(0,"com.android.chrome","테스트","테스트","테스트",null,null,null,"테스트", "테스트",null,"테스트","20.07.05 10:43"));
-        notiData.add(new NotiData(0,"com.android.chrome","테스트","테스트","테스트",null,null,null,"테스트", "테스트",null,"테스트","20.07.05 10:43"));
-        notiData.add(new NotiData(0,"com.android.chrome","테스트","테스트","테스트",null,null,null,"테스트", "테스트",null,"테스트","20.07.05 10:43"));
-        notiData.add(new NotiData(0,"com.android.chrome","테스트","테스트","테스트",null,null,null,"테스트", "테스트",null,"테스트","20.07.05 10:43"));
-        notiData.add(new NotiData(0,"com.android.chrome","테스트","테스트","테스트",null,null,null,"테스트", "테스트",null,"테스트","20.07.05 10:43"));
-        notiData.add(new NotiData(0,"com.android.chrome","테스트","테스트","테스트",null,null,null,"테스트", "테스트",null,"테스트","20.07.05 10:43"));
-        notiData.add(new NotiData(0,"com.android.chrome","테스트","테스트","테스트",null,null,null,"테스트", "테스트",null,"테스트","20.07.05 10:43"));
-        notiData.add(new NotiData(0,"com.android.chrome","테스트","테스트","테스트",null,null,null,"테스트", "테스트",null,"테스트","20.07.05 10:43"));
-        notiData.add(new NotiData(0,"com.android.chrome","테스트","테스트","테스트",null,null,null,"테스트", "테스트",null,"테스트","20.07.05 10:43"));
-        notiData.add(new NotiData(0,"com.android.chrome","테스트","테스트","테스트",null,null,null,"테스트", "테스트",null,"테스트","20.07.05 10:43"));
-        notiData.add(new NotiData(0,"com.android.chrome","테스트","테스트","테스트",null,null,null,"테스트", "테스트",null,"테스트","20.07.05 10:43"));
-        notiData.add(new NotiData(0,"com.android.chrome","테스트","테스트","테스트",null,null,null,"테스트", "테스트",null,"테스트","20.07.05 10:43"));
 
 
-        recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), notiData);
-        recyclerView.setAdapter(recyclerViewAdapter);
+        ViewPager pager = view.findViewById(R.id.category_pager);
+
+
+        //캐싱을 해놓을 프래그먼트 개수
+        pager.setOffscreenPageLimit(5);
+
+        //getSupportFragmentManager로 프래그먼트 참조가능
+        CategoryPagerAdapter adapter = new CategoryPagerAdapter(getFragmentManager());
+
+        CategoryAll categoryAll = new CategoryAll();
+        adapter.addItem(categoryAll);
+
+        CategoryShopping categoryShopping = new CategoryShopping();
+        adapter.addItem(categoryShopping);
+
+        CategoryGame categoryGame = new CategoryGame();
+        adapter.addItem(categoryGame);
+
+        CategoryContents categoryContents = new CategoryContents();
+        adapter.addItem(categoryContents);
+
+        CategoryOthers categoryOthers = new CategoryOthers();
+        adapter.addItem(categoryOthers);
+
+        pager.setAdapter(adapter);
+
+        //뷰페이저와 탭레이아웃 연동
+        tab_layout.setupWithViewPager(pager);
+
+
+
 
         return view;
     }

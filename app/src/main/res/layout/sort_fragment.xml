@@ -17,7 +17,7 @@
             android:minHeight="100dp"
             android:id="@+id/app_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="100dp"
             app:layout_scrollFlags="scroll|snap"/>
 
         <com.google.android.material.tabs.TabLayout
@@ -44,6 +44,11 @@
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="게임" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="컨텐츠" />
 
             <com.google.android.material.tabs.TabItem
@@ -56,12 +61,17 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler1"
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/category_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:background="@color/white_transparency"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"></androidx.viewpager.widget.ViewPager>
+
+
+
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

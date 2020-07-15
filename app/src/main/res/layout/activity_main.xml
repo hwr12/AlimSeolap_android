@@ -11,12 +11,12 @@
 
 
 
-        <androidx.viewpager.widget.ViewPager
+        <com.example.alimseolap1.NonSwipeableViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@color/white_transparency"></androidx.viewpager.widget.ViewPager>
+            android:background="@color/white_transparency"></com.example.alimseolap1.NonSwipeableViewPager>
 
     <LinearLayout
         android:layout_width="match_parent"
