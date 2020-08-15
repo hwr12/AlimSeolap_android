@@ -20,18 +20,40 @@ public interface NotificationDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     public long[] insertNotification(List<NotificationEntity> notificationEntities);
 
-    //디비에 있는 단어 모델 값을 수정합니다.
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    public long insertNotification(NotificationEntity notificationEntity);
+
+    //디비에 있는 단어 모델 값들을 수정합니다.
     @Update
-    public void updateNotification(List<NotificationEntity> notificationEntities);
+    public void updateNotifications(List<NotificationEntity> notificationEntities);
+
+
+
 
     //디비에 있는 단어 모델을 삭제합니다.
     @Delete
-    public void deleteNotification(List<NotificationEntity> notificationEntities);
+    public void deleteNotifications(List<NotificationEntity> notificationEntities);
+
+    @Query("UPDATE NotificationEntity SET this_user_real_evaluation = :this_user_real_evaluation WHERE id = :id")
+    public void updateNotification(long id, long this_user_real_evaluation);
+
+
+    @Query("SELECT COUNT(*) FROM notificationentity ")
+    public int number_of_notification();
+
+    @Query("DELETE FROM notificationentity " +
+            "WHERE id = :id")
+    public void deleteNotification(long id);
+
 
     //하나의 알림 모델을 가져옵니다.
     @Query("SELECT * FROM notificationentity " +
             "WHERE id = :id")
     public NotificationEntity loadNotification(long id);
+
+
+//    @Query("SELECT * FROM NotificationEntity ORDER BY id DESC LIMIT 1")
+//    public Temp loadLastNotification();
 
     //모든 알림 모델을 가져옵니다.
     @Query("SELECT * FROM NotificationEntity")
@@ -56,6 +78,6 @@ public interface NotificationDao {
 
     //해당 단어를 포함한 내용을 가진 알림을 검색합니다.
     @Query("SELECT * FROM NotificationEntity " +
-            "WHERE (sender_app||title||content) LIKE (:strings)")
+            "WHERE (app_name||title||content) LIKE (:strings)")
     public NotificationEntity[] loadStringSearchNotification(List<String> strings);
 }

@@ -1,6 +1,6 @@
 package com.example.alimseolap1.views.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -8,24 +8,36 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.PixelFormat;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.example.alimseolap1.R;
-import com.example.alimseolap1.interfaces.Main.View;
+import com.example.alimseolap1.interfaces.MainInterface.View;
 import com.example.alimseolap1.models.NotiData;
+import com.example.alimseolap1.services.NotificationCrawlingService;
 import com.example.alimseolap1.views.Adapters.RecyclerViewAdapter;
 import com.example.alimseolap1.views.Adapters.ContentsPagerAdapter;
 import com.example.alimseolap1.views.Fragment.AllFragment;
+import com.example.alimseolap1.views.Fragment.SelectFragment;
 import com.example.alimseolap1.views.Fragment.SettingsFragment;
 import com.example.alimseolap1.views.Fragment.SortFragment;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
 
 public class MainActivity extends BaseActivity implements View {
 
@@ -38,9 +50,6 @@ public class MainActivity extends BaseActivity implements View {
     private Context mContext;
 
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,16 +58,12 @@ public class MainActivity extends BaseActivity implements View {
         tab_layout = (TabLayout) findViewById(R.id.tab_layout);
 
 
-
-
-
         //뷰페이저 설정
         ViewPager pager = findViewById(R.id.pager);
         tab_layout.getTabAt(0).setText("추려보기");
         tab_layout.getTabAt(1).setText("모두보기");
         tab_layout.getTabAt(2).setText("설정");
-
-
+        tab_layout.getTabAt(3).setText("앱 선택");
 
 
         //캐싱을 해놓을 프래그먼트 개수
@@ -76,6 +81,10 @@ public class MainActivity extends BaseActivity implements View {
         SettingsFragment settingsFragment = new SettingsFragment();
         adapter.addItem(settingsFragment);
 
+        SelectFragment selectFragment = new SelectFragment();
+        adapter.addItem(selectFragment);
+
+
         pager.setAdapter(adapter);
 
         //뷰페이저와 탭레이아웃 연동
@@ -83,6 +92,8 @@ public class MainActivity extends BaseActivity implements View {
 
 
         //initComponent();
+
+
 
 
 
@@ -97,14 +108,61 @@ public class MainActivity extends BaseActivity implements View {
 
         recyclerViewAdapter = new RecyclerViewAdapter(fragmentTabsStore.getActivity(), notiData);
         recyclerView.setAdapter(recyclerViewAdapter);
-
-
   */
-
-
         //initToolbar();
 
+        Intent service_intent = new Intent(this, NotificationCrawlingService.class);
+
+        if(!isServiceRunningCheck()){
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                Log.d("준영", "버전이 오레오 이상이라서 포그라운로 서비스 실행");
+                startForegroundService(service_intent);
+            } else {
+                Log.d("준영", "버전이 오레오 미만이라서 일반 서비스 실행");
+                startService(service_intent);
+            }
+        }
+
+        if (!isPermissionGranted()) {
+            // 접근 혀용이 되어있지 않다면 1. 메시지 발생 / 2, 설정으로 이동시킴
+            Toast.makeText(getApplicationContext(), getString(R.string.app_name) + " 앱의 알림 권한을 허용해주세요.", Toast.LENGTH_LONG).show();
+            startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
+
+            WindowManager.LayoutParams windowManagerParams = new WindowManager.LayoutParams(WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY ,
+                    WindowManager.LayoutParams. FLAG_DIM_BEHIND, PixelFormat.TRANSLUCENT);
+
+            WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
+
+            LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+            View myView = (View) inflater.inflate(R.layout.floating_guide, null);
+
+            wm.addView((android.view.View) myView, windowManagerParams);
+        }
+
+
+
+
+
     }
+
+
+
+
+    public boolean isServiceRunningCheck() {
+        ActivityManager manager = (ActivityManager) this.getSystemService(Activity.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if ("com.example.alimseolap1.services;.NotificationCrawlingService".equals(service.service.getClassName())) {
+                Log.d("준영_서비스", "NotiCrawlingService가 돌아가고 있습니다 ");
+                return true;
+            }
+        }
+        Log.d("준영_서비스", "NotiCrawlingService가 안돌아가고 있습니다 ");
+        return false;
+    }
+
+
+
+
 
 
 
@@ -164,6 +222,7 @@ public class MainActivity extends BaseActivity implements View {
         return super.onOptionsItemSelected(item);
     }
 
+
     private class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         private final List<Fragment> mFragmentList = new ArrayList<>();
@@ -195,7 +254,18 @@ public class MainActivity extends BaseActivity implements View {
     }
 
 
+    private boolean isPermissionGranted() {
+        Log.d("준영", "isPermissionGranted: 퍼미션을 체크합니다.");
+        // 노티수신을 확인하는 권한을 가진 앱 모든 리스트
+        Set<String> sets = NotificationManagerCompat.getEnabledListenerPackages(this);
+        //  Notify앱의 알림 접근 허용이 되어있는가?
+        return sets != null && sets.contains(getPackageName());
+    }
+
+
 }
+
+
 
 
 

@@ -4,48 +4,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="4dp"
     android:orientation="vertical"
-    android:elevation="8dp"
-    android:layout_marginLeft="42dp"
-    android:layout_marginRight="42dp"
-    android:layout_marginBottom="17dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginBottom="5.5dp"
+    android:layout_marginTop="11.5dp"
 
-    android:background="@drawable/recycler_border">
+    android:background="@drawable/shadow2">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:paddingBottom="5dp"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/app_icon"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="11dp"
+            android:layout_height="11dp"
             android:layout_gravity="top"
-            android:layout_marginLeft="13dp"
-            android:layout_marginRight="6dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="18dp"
             tools:srcCompat="@tools:sample/avatars[0]" />
 
         <TextView
-            android:textSize="14dp"
+            android:textSize="11.3dp"
             android:fontFamily="sans-serif-medium"
             android:id="@+id/app_name"
-            android:layout_marginTop="4dp"
-            android:layout_marginLeft="5dp"
+            android:text="appname"
+            android:layout_marginTop="17.29dp"
+            android:layout_marginLeft="6.13dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/noti_id"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"/>
+
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
         android:orientation="vertical">
 
 <!--
@@ -61,21 +64,26 @@
 
         <TextView
             android:id="@+id/notitext"
+            android:textSize="11.4dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginLeft="17.83dp"
+            android:layout_marginRight="17.46dp"
+            android:layout_marginTop="14.02dp"
             android:text="notitext"/>
 
         <TextView
-            android:id="@+id/noti_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_gravity="right"
-            android:text="noti_date" />
+        android:id="@+id/noti_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11.83dp"
+        android:layout_marginBottom="10.86dp"
+        android:textSize="9.35dp"
+
+        android:layout_marginRight="17.46dp"
+        android:layout_gravity="right"
+        android:text="noti_date" />
+
 
         <!--        <TextView-->
         <!--            android:id="@+id/extra_sub_text"-->

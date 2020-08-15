@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "7b054e143d044805c8be095c1e7b356b",
+    "identityHash": "ad242c0e37cc76fc931d6c60da9dee38",
     "entities": [
       {
         "tableName": "NotificationEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `sender_app` TEXT, `title` TEXT, `content` TEXT, `intent_url` TEXT, `imageFile_path` TEXT, `user_id` INTEGER NOT NULL, `arrive_time` INTEGER, `server_id` INTEGER NOT NULL, `first_prime_word_id` TEXT, `second_prime_word_id` TEXT, `third_prime_word_id` TEXT, `fourth_prime_word_id` TEXT, `wordVector` TEXT, `expect_positive_evaluation_num` INTEGER NOT NULL, `expect_negative_evaluation_num` INTEGER NOT NULL, `this_user_expect_evaluation` REAL NOT NULL, `word2vec_nn_version` INTEGER NOT NULL, `this_user_real_evaluation` INTEGER NOT NULL, `evaluation_time` INTEGER, FOREIGN KEY(`first_prime_word_id`) REFERENCES `WordEntity`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`second_prime_word_id`) REFERENCES `WordEntity`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`third_prime_word_id`) REFERENCES `WordEntity`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`fourth_prime_word_id`) REFERENCES `WordEntity`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `app_name` TEXT, `pakage_name` TEXT, `title` TEXT, `content` TEXT, `cls_intent` TEXT, `imageFile_path` TEXT, `user_id` INTEGER NOT NULL, `arrive_time` INTEGER, `server_id` INTEGER NOT NULL, `first_prime_word_id` INTEGER NOT NULL, `second_prime_word_id` INTEGER NOT NULL, `third_prime_word_id` INTEGER NOT NULL, `fourth_prime_word_id` INTEGER NOT NULL, `wordVector` TEXT, `expect_positive_evaluation_num` INTEGER NOT NULL, `expect_negative_evaluation_num` INTEGER NOT NULL, `this_user_expect_evaluation` REAL NOT NULL, `this_user_real_evaluation` INTEGER NOT NULL, `evaluation_time` INTEGER)",
         "fields": [
           {
             "fieldPath": "id",
@@ -15,8 +15,14 @@
             "notNull": true
           },
           {
-            "fieldPath": "sender_app",
-            "columnName": "sender_app",
+            "fieldPath": "app_name",
+            "columnName": "app_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "pakage_name",
+            "columnName": "pakage_name",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -33,8 +39,8 @@
             "notNull": false
           },
           {
-            "fieldPath": "intent_url",
-            "columnName": "intent_url",
+            "fieldPath": "cls_intent",
+            "columnName": "cls_intent",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -65,26 +71,26 @@
           {
             "fieldPath": "first_prime_word_id",
             "columnName": "first_prime_word_id",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
             "fieldPath": "second_prime_word_id",
             "columnName": "second_prime_word_id",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
             "fieldPath": "third_prime_word_id",
             "columnName": "third_prime_word_id",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
             "fieldPath": "fourth_prime_word_id",
             "columnName": "fourth_prime_word_id",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
             "fieldPath": "wordVector",
@@ -111,12 +117,6 @@
             "notNull": true
           },
           {
-            "fieldPath": "word2vec_nn_version",
-            "columnName": "word2vec_nn_version",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
             "fieldPath": "this_user_real_evaluation",
             "columnName": "this_user_real_evaluation",
             "affinity": "INTEGER",
@@ -136,52 +136,7 @@
           "autoGenerate": true
         },
         "indices": [],
-        "foreignKeys": [
-          {
-            "table": "WordEntity",
-            "onDelete": "NO ACTION",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "first_prime_word_id"
-            ],
-            "referencedColumns": [
-              "id"
-            ]
-          },
-          {
-            "table": "WordEntity",
-            "onDelete": "NO ACTION",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "second_prime_word_id"
-            ],
-            "referencedColumns": [
-              "id"
-            ]
-          },
-          {
-            "table": "WordEntity",
-            "onDelete": "NO ACTION",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "third_prime_word_id"
-            ],
-            "referencedColumns": [
-              "id"
-            ]
-          },
-          {
-            "table": "WordEntity",
-            "onDelete": "NO ACTION",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "fourth_prime_word_id"
-            ],
-            "referencedColumns": [
-              "id"
-            ]
-          }
-        ]
+        "foreignKeys": []
       },
       {
         "tableName": "WordEntity",
@@ -257,7 +212,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7b054e143d044805c8be095c1e7b356b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ad242c0e37cc76fc931d6c60da9dee38')"
     ]
   }
 }

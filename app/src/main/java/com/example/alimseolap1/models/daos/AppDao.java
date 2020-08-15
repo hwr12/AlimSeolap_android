@@ -15,7 +15,7 @@ import java.util.List;
 public interface AppDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    public long[] inserApp(List<AppEntity> appEntities);
+    public long[] insertApp(List<AppEntity> appEntities);
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     public long insertApp(AppEntity appEntity);
 
@@ -26,11 +26,14 @@ public interface AppDao {
     public void updateApp(AppEntity appEntity);
 
 
-    @Delete
-    public void deleteApp(List<AppEntity> appEntities);
-    public void deleteApp(AppEntity appEntity);
+@Delete
+public void deleteApp(List<AppEntity> appEntities);
+@Delete
+public void deleteApp(AppEntity appEntity);
 
 
-    @Query("SELECT EXISTS (SELECT * FROM AppEntity WHERE pakage_name = :pakage_name)")
-    public int searchApp(String pakage_name);
+@Query("SELECT EXISTS (SELECT * FROM AppEntity " +
+        "WHERE pakage_name = :pakage_name " +
+        "AND isCrawled = 0)")
+public int searchNotApp(String pakage_name);
 }

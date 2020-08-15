@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="93.92dp"
+            android:layout_height="93.92dp"
+            android:layout_gravity="center_horizontal"
+            app:srcCompat="@drawable/alimi_sample" />
+
+        <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/overlay_dark_90"
+        android:text="알림이"
+        android:textStyle="bold"
+        android:textSize="20dp"/>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="vertical">
+
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground">
+
+            <TextView
+                android:layout_width="225.42dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:fontFamily="@font/nexon_font"
+                android:text="내 정보 수정하기"
+                android:textSize="12dp"
+                android:textColor="@color/overlay_dark_90"
+                android:textStyle="bold"/>
+
+            <ImageButton
+                android:layout_gravity="center_vertical"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="77.88dp"
+                android:background="@color/transparent"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/arrow"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="255.42dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:fontFamily="@font/nexon_font"
+
+                android:text="제안하기"
+                android:textColor="@color/overlay_dark_90"
+                android:textSize="12dp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="77.88dp"
+                android:background="@color/transparent"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/arrow" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground">
+
+
+        <TextView
+                android:layout_width="255.42dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:fontFamily="@font/nexon_font"
+                android:text="알림서랍 팀 소개"
+                android:textSize="12dp"
+                android:textColor="@color/overlay_dark_90"
+                android:textStyle="bold"/>
+
+            <ImageButton
+                android:layout_gravity="center_vertical"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginEnd="77.88dp"
+                android:background="@color/transparent"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/arrow"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical"
+            android:background="?attr/selectableItemBackground">
+
+        <TextView
+                android:layout_width="232.42dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:fontFamily="@font/nexon_font"
+
+                android:text="푸시알림 수신"
+                android:textSize="12dp"
+                android:textColor="@color/overlay_dark_90"
+                android:textStyle="bold"/>
+
+
+            <Switch
+                android:id="@+id/switch2"
+                android:layout_width="62dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="77.88dp"
+                android:switchMinWidth="62dp"
+                android:thumb="@drawable/push_thumb"
+                android:track="@drawable/push_track" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                android:layout_width="255.42dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:fontFamily="@font/nexon_font"
+
+                android:text="서비스 이용약관"
+                android:textSize="12dp"
+                android:textColor="@color/overlay_dark_90"
+                android:textStyle="bold"/>
+
+            <ImageButton
+                android:layout_gravity="center_vertical"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginEnd="77.88dp"
+                android:background="@color/transparent"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/arrow"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground">
+
+
+        <TextView
+                android:layout_width="255.42dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+            android:fontFamily="@font/nexon_font"
+
+                android:text="개인정보 처리방침"
+                android:textSize="12dp"
+                android:textColor="@color/overlay_dark_90"
+                android:textStyle="bold"/>
+
+            <ImageButton
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="77.88dp"
+                android:background="@color/transparent"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/arrow" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical"
+            android:background="?attr/selectableItemBackground">
+
+
+            <TextView
+                android:layout_width="44dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/nexon_font"
+                android:text="버전정보"
+                android:textColor="@color/overlay_dark_90"
+                android:textSize="12dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="122dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/update_btn_shape"
+                android:scaleX="1"
+                android:scaleY="1"
+                android:text="업데이트"
+                android:textColor="#707070"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                android:layout_width="255.42dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:fontFamily="@font/nexon_font"
+
+                android:text="로그아웃"
+                android:textSize="12dp"
+                android:textColor="@color/overlay_dark_90"
+                android:textStyle="bold"/>
+
+            <ImageButton
+                android:layout_gravity="center_vertical"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginRight="77.88dp"
+                android:background="@color/transparent"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/arrow"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</ScrollView>

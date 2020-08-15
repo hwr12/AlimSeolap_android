@@ -12,6 +12,7 @@ import retrofit2.http.Query;
 
 public interface MyService {
 
-    @POST("noti_data/")
+    @POST("api/noti_data/")
     Call<JsonObject> createPost(@Body JsonObject jsonObject);
+
 }

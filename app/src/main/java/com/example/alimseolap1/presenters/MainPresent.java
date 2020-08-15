@@ -8,20 +8,29 @@ import android.widget.Toast;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.example.alimseolap1.R;
+import com.example.alimseolap1.interfaces.MainInterface;
 import com.example.alimseolap1.interfaces.MainInterface.Presenter;
+import com.example.alimseolap1.models.databases.NotificationDatabase;
+import com.example.alimseolap1.models.databases.WordDatabase;
+import com.example.alimseolap1.models.entities.NotificationEntity;
+import com.example.alimseolap1.models.entities.WordEntity;
 
 import java.util.Set;
 
 public class MainPresent implements Presenter {
 
+    MainInterface.View mainActivity;
     Context context;
+    WordDatabase wordDatabase;
+    NotificationDatabase notificationDatabase;
 
-    public MainPresent(Context context){
+    public MainPresent(MainInterface.View view, Context context){
+        this.mainActivity = view;
         this.context = context;
     }
 
     @Override
-    public void PermissionCheck(){
+    public void permissionCheck(){
         Log.d("준영", "isPermissionGranted: 퍼미션을 체크합니다.");
         // 노티수신을 확인하는 권한을 가진 앱 모든 리스트
         Set<String> sets = NotificationManagerCompat.getEnabledListenerPackages(context);
@@ -31,5 +40,8 @@ public class MainPresent implements Presenter {
             context.startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
         }
     }
+
+
+
 
 }

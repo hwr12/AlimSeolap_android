@@ -86,5 +86,7 @@ public class NotiData {
         this.pkg_name = pkg_name;
     }
 
-
+    public void setNoti_id(int noti_id) {
+        this.noti_id = noti_id;
+    }
 }

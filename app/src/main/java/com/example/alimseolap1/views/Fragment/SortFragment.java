@@ -19,9 +19,9 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.alimseolap1.R;
 import com.example.alimseolap1.models.NotiData;
+
 import com.example.alimseolap1.views.Activity.MainActivity;
 import com.example.alimseolap1.views.Adapters.CategoryPagerAdapter;
-import com.example.alimseolap1.views.Adapters.ContentsPagerAdapter;
 import com.example.alimseolap1.views.Adapters.RecyclerViewAdapter;
 import com.example.alimseolap1.views.Fragment.SortFragment_Sub_Category_Fragment.CategoryAll;
 import com.example.alimseolap1.views.Fragment.SortFragment_Sub_Category_Fragment.CategoryContents;
@@ -30,7 +30,6 @@ import com.example.alimseolap1.views.Fragment.SortFragment_Sub_Category_Fragment
 import com.example.alimseolap1.views.Fragment.SortFragment_Sub_Category_Fragment.CategoryShopping;
 import com.google.android.material.tabs.TabLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SortFragment extends Fragment  {

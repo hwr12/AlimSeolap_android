@@ -14,7 +14,7 @@ public class AppEntity {
     public String app_name;
 
     //1이면 크롤링 활성화 상태이며 0이면 크롤링 받지 않습니다.
-    @ColumnInfo(defaultValue = "1")
+    @ColumnInfo(defaultValue = "0")
     public int isCrawled;
 
     public void setIsCrawled(int check){

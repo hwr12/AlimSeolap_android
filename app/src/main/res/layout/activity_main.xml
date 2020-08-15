@@ -9,14 +9,12 @@
     android:background="@color/white_transparency">
 
 
-
-
-        <com.example.alimseolap1.NonSwipeableViewPager
-            android:id="@+id/pager"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@color/white_transparency"></com.example.alimseolap1.NonSwipeableViewPager>
+    <com.example.alimseolap1.NonSwipeableViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white_transparency"></com.example.alimseolap1.NonSwipeableViewPager>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,21 +23,22 @@
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_weight="9"
             app:tabGravity="fill"
             app:tabIndicatorColor="#EBAF24"
             app:tabIndicatorGravity="top"
             app:tabMode="fixed"
+            app:tabRippleColor="#FFD262"
             app:tabTextAppearance="@style/CustomTabTextAppearance">
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="추려보기" />
+                android:paddingLeft="10dp"
+                android:text="추려보기"/>
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
@@ -51,6 +50,12 @@
                 android:layout_height="wrap_content"
                 android:text="설정" />
 
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="앱 선택" />
+
         </com.google.android.material.tabs.TabLayout>
 
         <LinearLayout
@@ -61,18 +66,6 @@
 
 
         </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/imageButton2"
-            android:layout_width="45dp"
-            android:layout_height="match_parent"
-            android:background="@color/transparent"
-            android:scaleType="centerInside"
-            android:scaleX="1"
-            android:scaleY="1"
-            app:srcCompat="@drawable/icon_app"
-            android:layout_marginRight="10dp"
-            />
 
     </LinearLayout>
 

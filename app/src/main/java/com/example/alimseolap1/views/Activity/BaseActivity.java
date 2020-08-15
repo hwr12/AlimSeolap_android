@@ -24,4 +24,6 @@ public class BaseActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(Color.BLACK);
         }
     }
+
+
 }

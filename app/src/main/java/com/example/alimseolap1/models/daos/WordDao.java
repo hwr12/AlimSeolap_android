@@ -1,5 +1,7 @@
 package com.example.alimseolap1.models.daos;
 
+import android.util.Log;
+
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -45,8 +47,12 @@ public abstract class WordDao {
 
     //id로 단어 모델을 가져옵니다.
     @Query("SELECT * FROM WordEntity " +
-            "WHERE id = :ids")
+            "WHERE id = (:ids)")
     public abstract WordEntity[] loadWords(long[] ids);
+
+    @Query("SELECT * FROM WordEntity " +
+            "WHERE id = (:id)")
+    public abstract WordEntity loadWord(long id);
 
     //단어 모델을 단어로 검색하여 id를 가져옵니다.
     @Query("SELECT id FROM WordEntity " +
@@ -75,6 +81,7 @@ public abstract class WordDao {
     //그걸 체크하고 상황에 따라 insert 합니다.
     @Transaction
     public long[] checkAndInsertWord(List<String> words){
+        Log.d("준영", "checkAndInsertWord: 진입했습니다.");
         //추가 혹은 수정된 row의 id를 받을 배열을 생성합니다.
         long[] ids = new long[words.size()];
         int index = 0;
@@ -82,12 +89,14 @@ public abstract class WordDao {
         for(String word : words){
             long temp_id = searchWord(word);
             if( temp_id == 0 ){
+                Log.d("준영", word +"는 없는 단어라서 추가합니다.");
                 //searchWord 함수가 0을 반환하면, 해당 단어가 없다는 것입니다.
                 WordEntity wordEntity = new WordEntity();
                 wordEntity.word = word;
                 ids[index] = insertWord(wordEntity);
                 index++;
             }else{
+                Log.d("준영", word +"는 아이디가 " +temp_id +"으로 이미 있어서 패스합니다.");
                 ids[index] = temp_id;
                 index++;
             }

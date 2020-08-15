@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class ContentsPagerAdapter extends FragmentStatePagerAdapter {
 
     ArrayList<Fragment> items = new ArrayList<Fragment>();
-    private String[] tabTitles = new String[]{"모두보기", "추려보기", "설정"};
+    private String[] tabTitles = new String[]{"모두보기", "추려보기", "설정", "앱 선택"};
 
     public ContentsPagerAdapter(FragmentManager fm) {
         super(fm);

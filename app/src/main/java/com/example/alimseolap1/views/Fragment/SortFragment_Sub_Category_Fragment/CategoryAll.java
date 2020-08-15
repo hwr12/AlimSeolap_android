@@ -1,26 +1,19 @@
 package com.example.alimseolap1.views.Fragment.SortFragment_Sub_Category_Fragment;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.alimseolap1.R;
 import com.example.alimseolap1.models.NotiData;
-import com.example.alimseolap1.views.Activity.MainActivity;
 import com.example.alimseolap1.views.Adapters.RecyclerViewAdapter;
 
 import java.util.ArrayList;

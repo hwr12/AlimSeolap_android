@@ -111,6 +111,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         holder.app_name.setText(applicationName);
 //        holder.package_name.setText(data.getPkg_name());
+        holder.noti_id.setText(Integer.toString(data.getNoti_id()));
 
     }
 
@@ -133,6 +134,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        TextView noti_id;
         TextView notiTitle;
         TextView notiText;
         TextView app_name;
@@ -157,6 +159,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             notiText = (TextView) itemView.findViewById(R.id.notitext);
             icon = (ImageView) itemView.findViewById(R.id.app_icon);
             app_name = (TextView) itemView.findViewById(R.id.app_name);
+            noti_id = (TextView) itemView.findViewById(R.id.noti_id);
+
+
 //            package_name = (TextView) itemView.findViewById(R.id.packge_name);
 
 //            extra_info_text = (TextView) itemView.findViewById(R.id.extra_info_text);
@@ -169,6 +174,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 //            app_string = (TextView) itemView.findViewById(R.id.app_string);
 
             noti_date = (TextView) itemView.findViewById(R.id.noti_date);
+
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
