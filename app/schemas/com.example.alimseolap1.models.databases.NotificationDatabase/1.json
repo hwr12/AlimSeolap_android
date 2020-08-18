@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ad242c0e37cc76fc931d6c60da9dee38",
+    "identityHash": "7a15a09142f5e95dcf021f199d42271f",
     "entities": [
       {
         "tableName": "NotificationEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `app_name` TEXT, `pakage_name` TEXT, `title` TEXT, `content` TEXT, `cls_intent` TEXT, `imageFile_path` TEXT, `user_id` INTEGER NOT NULL, `arrive_time` INTEGER, `server_id` INTEGER NOT NULL, `first_prime_word_id` INTEGER NOT NULL, `second_prime_word_id` INTEGER NOT NULL, `third_prime_word_id` INTEGER NOT NULL, `fourth_prime_word_id` INTEGER NOT NULL, `wordVector` TEXT, `expect_positive_evaluation_num` INTEGER NOT NULL, `expect_negative_evaluation_num` INTEGER NOT NULL, `this_user_expect_evaluation` REAL NOT NULL, `this_user_real_evaluation` INTEGER NOT NULL, `evaluation_time` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `app_name` TEXT, `pakage_name` TEXT, `title` TEXT, `content` TEXT, `cls_intent` TEXT, `imageFile_path` TEXT, `user_id` INTEGER NOT NULL, `arrive_time` INTEGER, `pendingIntent` TEXT, `server_id` INTEGER NOT NULL, `first_prime_word_id` INTEGER NOT NULL, `second_prime_word_id` INTEGER NOT NULL, `third_prime_word_id` INTEGER NOT NULL, `fourth_prime_word_id` INTEGER NOT NULL, `wordVector` TEXT, `expect_positive_evaluation_num` INTEGER NOT NULL, `expect_negative_evaluation_num` INTEGER NOT NULL, `this_user_expect_evaluation` REAL NOT NULL, `this_user_real_evaluation` INTEGER NOT NULL, `evaluation_time` INTEGER)",
         "fields": [
           {
             "fieldPath": "id",
@@ -60,6 +60,12 @@
             "fieldPath": "arrive_time",
             "columnName": "arrive_time",
             "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "pendingIntent",
+            "columnName": "pendingIntent",
+            "affinity": "TEXT",
             "notNull": false
           },
           {
@@ -212,7 +218,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ad242c0e37cc76fc931d6c60da9dee38')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7a15a09142f5e95dcf021f199d42271f')"
     ]
   }
 }

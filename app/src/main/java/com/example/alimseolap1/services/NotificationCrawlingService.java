@@ -1,6 +1,9 @@
 package com.example.alimseolap1.services;
 
+import android.app.Activity;
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -9,15 +12,25 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
+import android.util.Base64;
 import android.util.Log;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.alimseolap1.Server.APIInterface;
+import com.example.alimseolap1.interfaces.MainInterface;
+import com.example.alimseolap1.models.NotiData;
 import com.example.alimseolap1.models.databases.AppDatabase;
 import com.example.alimseolap1.models.databases.NotificationDatabase;
 import com.example.alimseolap1.models.databases.WordDatabase;
 import com.example.alimseolap1.models.entities.NotificationEntity;
+import com.example.alimseolap1.views.Activity.MainActivity;
+import com.example.alimseolap1.views.Adapters.RecyclerViewAdapter;
+import com.example.alimseolap1.views.Fragment.AllFragment;
 import com.google.gson.JsonObject;
 
 import java.io.File;
@@ -25,6 +38,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,6 +51,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static android.content.ContentValues.TAG;
+
 public class NotificationCrawlingService extends NotificationListenerService {
 
     AppDatabase appDatabase;
@@ -45,6 +61,12 @@ public class NotificationCrawlingService extends NotificationListenerService {
     Context context;
     PackageManager pm;
     NotificationEntity ne;
+    AllFragment allFragment;
+    RecyclerViewAdapter rv;
+    List<NotiData> notiData;
+    NotificationEntity noti;
+    Notification notification;
+
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -62,13 +84,24 @@ public class NotificationCrawlingService extends NotificationListenerService {
         notificationDatabase = NotificationDatabase.getNotificationDatabase(context);
         pm = context.getPackageManager();
 
-        Notification notification = sbn.getNotification();
+        notification = sbn.getNotification();
         Bundle extras = notification.extras;
         String pakage_name = sbn.getPackageName();
         Log.d("준영", "pakage_name is " + pakage_name);
         String app_name = findApp_name(pakage_name);
-
+        System.out.println(getApplicationInfo().toString());
+        System.out.println( sbn.getNotification().getChannelId() + "그리고" + sbn.toString());
         //제목과 내용중 하나가 null이면 걸러집니다.
+        PendingIntent pendingIntent = notification.contentIntent;
+
+        try {
+            pendingIntent.send();
+        } catch (PendingIntent.CanceledException e){
+
+        }
+
+
+
 
         if(extras.getString(notification.EXTRA_TITLE) == null || extras.getString(notification.EXTRA_TEXT) == null){
             Log.d("준영", "제목과 내용중 하나가 null이면 걸러집니다. ");
@@ -76,60 +109,138 @@ public class NotificationCrawlingService extends NotificationListenerService {
         }
 
 
-
         //아래의 카테고리에 속하는 알림은 크롤링하지 않습니다.
         ArrayList<String> not_crawled_category = new ArrayList<String>(Arrays.asList(
                 "alarm",
                 "call",
+                "transport",
                 "progress",
                 "sys"
         ));
+
+        //아래의 앱의 알림은 크롤링하지 않습니다.
+        /*
+        ArrayList<String> not_crawled_app_name = new ArrayList<String>(Arrays.asList(
+                "카카오톡"
+
+        ));
+
+         */
+
+         //아래의 앱 채널 아이디의 알림은 크롤링하지 않습니다.
+        ArrayList<String> not_crawled_channelId = new ArrayList<String>(Arrays.asList(
+                "quiet_new_message"
+        ));
+
 
         if(not_crawled_category.contains(notification.category)){
             Log.d("준영", "알림의 카테고리가 " + notification.category + "면 걸러집니다.");
             return;
         }
+
+        else if(not_crawled_channelId.contains(sbn.getNotification().getChannelId())){
+            Log.d("준영", "알림의 카테고리가 " + notification.category + "면 걸러집니다.");
+            return;
+        }
+
         //크롤링되지 않기로 한 앱 리스트 테이블에서 해당 알림 앱의 패키지명으로 검색하여,
         //검색 결과가 1이면 검색이 되었단 말이므로, 서비스를 종료합니다.
         //room 함수를 메인쓰레드에서 작동시키는 것은 권고되지 않는 방법이나,
         //사용자의 앱 사용 환경과 관련없는 처리일 경우, 메인쓰레드에서 함수를 가동시켜도 좋습니다.
-        if(appDatabase.appDao().searchNotApp(pakage_name) == 1){
+        else if (appDatabase.appDao().searchNotApp(pakage_name) != 0){
+            Log.d("NotiCrawlingService", "이 앱은 선택해제 되어 있으므로 걸러집니다.");
             return;
         }
 
-        SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
-        Date time = new Date();
-        String time_string = format1.format(time);
+        else {
+            Log.d("temp", "진입됨1");
+            SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date time = new Date();
+            String time_string = format1.format(time);
 
-        ne = new NotificationEntity();
-        ne.app_name = app_name;
-        ne.pakage_name = pakage_name;
-        ne.title = extras.getString(notification.EXTRA_TITLE);
-        ne.content = extras.getString(notification.EXTRA_TEXT);
-        System.out.println(ne.content);
-        try{
-            ne.cls_intent = getIntent(notification.contentIntent).resolveActivity(pm).getClassName();
-        }catch(IllegalStateException e){
-            ne.cls_intent = "No Intent";
-        }
-        SharedPreferences pref = getSharedPreferences("user", MODE_PRIVATE);
-        ne.user_id = pref.getInt("user_id", 0);
-        ne.arrive_time = time;
-        //notification이 사진을 포함하고 있을 경우, 이미지또한 저장합니다.
-        String file_path;
-        if(extras.containsKey(Notification.EXTRA_PICTURE)){
-            file_path = createBitmapFileName(time_string, app_name);
-            saveBitmapAsFile((Bitmap) extras.get(Notification.EXTRA_PICTURE), file_path);
-        }else{
-            file_path = "No Bitmap";
-        }
-        ne.imageFile_path = file_path;
-        ne.this_user_real_evaluation = 0;
+            ne = new NotificationEntity();
+            ne.app_name = app_name;
+            ne.pakage_name = pakage_name;
+            ne.title = extras.getString(notification.EXTRA_TITLE);
+            ne.content = extras.getString(notification.EXTRA_TEXT);
+            System.out.println(ne.content);
 
-        postNotificationToW2V();
-        NotificationDatabase db = NotificationDatabase.getNotificationDatabase(this);
-        db.notificationDao().insertNotification(ne);
-        Log.d("현우","DB 저장완료");
+
+
+            try {
+                //ne.cls_intent = getIntent(sbn.getNotification().contentIntent).toString();
+                    //ne.cls_intent =getIntent(notification.contentIntent).resolveActivity(pm).getClassName();
+                    ne.cls_intent = pendingIntent.toString();
+
+
+
+                    //ne.cls_intent = getIntent(notification.contentIntent).resolveActivity(pm).getClassName();
+                    //ne.cls_intent = getIntent(notification.contentIntent).resolveActivity(pm).getClassName();
+                } catch (IllegalStateException e) {
+                    ne.cls_intent = "No Intent";
+            }
+
+
+
+
+
+            SharedPreferences pref = getSharedPreferences("user", MODE_PRIVATE);
+            ne.user_id = pref.getInt("user_id", 0);
+            ne.arrive_time = time;
+            //notification이 사진을 포함하고 있을 경우, 이미지또한 저장합니다.
+            String file_path;
+            if (extras.containsKey(Notification.EXTRA_PICTURE)) {
+                file_path = createBitmapFileName(time_string, app_name);
+                saveBitmapAsFile((Bitmap) extras.get(Notification.EXTRA_PICTURE), file_path);
+            } else {
+                file_path = "No Bitmap";
+            }
+            ne.imageFile_path = file_path;
+
+            // 유저평가의 디폴트 값입니다. 이 값은 allfragment에서 유저의 스와이프평가가 있을시 값이  1 또는 -1로 바뀝니다.
+            ne.this_user_real_evaluation = 0;
+
+            System.out.println(ne.cls_intent);
+            System.out.println(sbn.getNotification().toString());
+            System.out.println(pendingIntent);
+
+
+            postNotificationToW2V();
+            NotificationDatabase db = NotificationDatabase.getNotificationDatabase(this);
+            db.notificationDao().insertNotification(ne);
+            Log.d("현우", "DB 저장완료");
+
+            //Intent intent = new Intent("노티 업데이트 브로드캐스트");
+            //LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+            notiData = new ArrayList<>();
+            Intent in = new Intent("Update");
+            LocalBroadcastManager.getInstance(context).sendBroadcast(in);
+            Log.d("NotiCrawlingService", "AllFragment의 updaterecyclerview()메서드 실행시킴");
+        }
+
+    }
+
+    private void convertIntentAndString() {
+        try {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_LAUNCHER);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setPackage("com.example.www");
+            intent.putExtra("testKey", "testValue");
+
+            String uriString = intent.toUri(Intent.URI_INTENT_SCHEME);
+
+            Log.e(TAG, uriString);
+            // intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;launchFlags=0x10000000;package=com.example.www;S.testKey=testValue;end
+
+                    intent = Intent.parseUri(uriString, Intent.URI_INTENT_SCHEME);
+            Log.e(TAG, "value: " + intent.getStringExtra("testKey"));
+            // value : testValue
+
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

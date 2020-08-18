@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,6 +26,8 @@ import android.widget.Toast;
 import com.example.alimseolap1.R;
 import com.example.alimseolap1.interfaces.MainInterface.View;
 import com.example.alimseolap1.models.NotiData;
+import com.example.alimseolap1.models.databases.AppDatabase;
+import com.example.alimseolap1.models.entities.AppEntity;
 import com.example.alimseolap1.services.NotificationCrawlingService;
 import com.example.alimseolap1.views.Adapters.RecyclerViewAdapter;
 import com.example.alimseolap1.views.Adapters.ContentsPagerAdapter;
@@ -48,20 +51,24 @@ public class MainActivity extends BaseActivity implements View {
     List<NotiData> notiData;
     LinearLayoutManager linearLayoutManager;
     private Context mContext;
+    WindowManager wm;
+    android.view.View v;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         mContext = getApplicationContext();
         tab_layout = (TabLayout) findViewById(R.id.tab_layout);
 
 
         //뷰페이저 설정
         ViewPager pager = findViewById(R.id.pager);
-        tab_layout.getTabAt(0).setText("추려보기");
-        tab_layout.getTabAt(1).setText("모두보기");
+        tab_layout.getTabAt(0).setText("모두보기");
+        tab_layout.getTabAt(1).setText("추려보기");
         tab_layout.getTabAt(2).setText("설정");
         tab_layout.getTabAt(3).setText("앱 선택");
 
@@ -111,6 +118,8 @@ public class MainActivity extends BaseActivity implements View {
   */
         //initToolbar();
 
+
+
         Intent service_intent = new Intent(this, NotificationCrawlingService.class);
 
         if(!isServiceRunningCheck()){
@@ -123,26 +132,23 @@ public class MainActivity extends BaseActivity implements View {
             }
         }
 
+
         if (!isPermissionGranted()) {
             // 접근 혀용이 되어있지 않다면 1. 메시지 발생 / 2, 설정으로 이동시킴
             Toast.makeText(getApplicationContext(), getString(R.string.app_name) + " 앱의 알림 권한을 허용해주세요.", Toast.LENGTH_LONG).show();
             startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
-
-            WindowManager.LayoutParams windowManagerParams = new WindowManager.LayoutParams(WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY ,
-                    WindowManager.LayoutParams. FLAG_DIM_BEHIND, PixelFormat.TRANSLUCENT);
-
-            WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
-
+            WindowManager.LayoutParams windowManagerParams = new WindowManager.LayoutParams(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN, PixelFormat.TRANSLUCENT);
+            wm = (WindowManager) getSystemService(WINDOW_SERVICE);
             LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-            View myView = (View) inflater.inflate(R.layout.floating_guide, null);
-
-            wm.addView((android.view.View) myView, windowManagerParams);
+            v =  inflater.inflate(R.layout.floating_guide, null);
+            wm.addView(v, windowManagerParams);
         }
 
+    }
 
-
-
-
+    public void onButtonClick(android.view.View view) {
+        wm.removeView(v);
     }
 
 

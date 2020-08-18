@@ -14,6 +14,7 @@ public class NotiData {
     String group_name;
     String app_string;
     String noti_date;
+    String pending_intent;
     int noti_id;
 
     public NotiData(int noti_id, String pkg_name, String notiTitle, String notiText, String extra_info_text, String extra_people_list, String extra_picture, String extra_sub_text, String extra_summary_text, String extra_massage, String group_name, String app_string, String noti_date) {
@@ -30,6 +31,7 @@ public class NotiData {
         this.group_name = group_name;
         this.app_string = app_string;
         this.noti_date = noti_date;
+
     }
 
     public int getNoti_id() { return  noti_id; }

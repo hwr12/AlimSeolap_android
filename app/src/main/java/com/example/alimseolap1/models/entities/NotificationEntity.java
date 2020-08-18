@@ -1,5 +1,7 @@
 package com.example.alimseolap1.models.entities;
 
+import android.app.PendingIntent;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -35,6 +37,7 @@ public class NotificationEntity {
         public String imageFile_path;
         public int user_id;
         public Date arrive_time;
+        public String pendingIntent;
 
         //첫번째 서버 통신 후 저장하는 값입니다.
         public long server_id;
