@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.alimseolap1">
+    package="com.whysly.alimseolap1">
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:networkSecurityConfig="@xml/network_security_config">
-        <activity android:name=".views.Activity.MainActivity">
+        <activity android:name="com.whysly.alimseolap1.views.Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,9 +19,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".views.Activity.NofticationListenerSettings"/>
+        <activity android:name="com.whysly.alimseolap1.views.Activity.NofticationListenerSettings"/>
         <service
-            android:name=".services.NotificationCrawlingService"
+            android:name="com.whysly.alimseolap1.services.NotificationCrawlingService"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
