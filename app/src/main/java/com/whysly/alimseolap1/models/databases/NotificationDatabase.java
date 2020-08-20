@@ -22,7 +22,6 @@ public abstract class  NotificationDatabase extends RoomDatabase {
     public static NotificationDatabase getNotificationDatabase(Context context) {
         if (notificationDatabase == null) {
             notificationDatabase = Room.databaseBuilder(context.getApplicationContext(), NotificationDatabase.class, "notification-db")
-                    .allowMainThreadQueries()
                     .build();
         }
         return notificationDatabase;

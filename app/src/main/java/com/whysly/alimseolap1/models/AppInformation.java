@@ -1,12 +1,12 @@
 package com.whysly.alimseolap1.models;
 
-public class AppInfomation {
+public class AppInformation {
 
     private String app_name;
     private String app_pkg_name;
     private int isCrawled;
 
-    public AppInfomation(String app_name, String app_pkg_name, int isCrawled) {
+    public AppInformation(String app_name, String app_pkg_name, int isCrawled) {
         this.app_name = app_name;
         this.app_pkg_name = app_pkg_name;
         this.isCrawled = isCrawled;

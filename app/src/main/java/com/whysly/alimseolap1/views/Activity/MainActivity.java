@@ -1,13 +1,5 @@
 package com.whysly.alimseolap1.views.Activity;
 
-import androidx.core.app.NotificationManagerCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
-
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
@@ -22,17 +14,25 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import androidx.core.app.NotificationManagerCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 import com.whysly.alimseolap1.R;
+import com.whysly.alimseolap1.interfaces.MainInterface;
 import com.whysly.alimseolap1.models.NotiData;
 import com.whysly.alimseolap1.services.NotificationCrawlingService;
-import com.whysly.alimseolap1.views.Adapters.RecyclerViewAdapter;
 import com.whysly.alimseolap1.views.Adapters.ContentsPagerAdapter;
+import com.whysly.alimseolap1.views.Adapters.RecyclerViewAdapter;
 import com.whysly.alimseolap1.views.Fragment.AllFragment;
-import com.whysly.alimseolap1.views.Fragment.SelectFragment;
+import com.whysly.alimseolap1.views.Fragment.SelectAppFragment;
 import com.whysly.alimseolap1.views.Fragment.SettingsFragment;
 import com.whysly.alimseolap1.views.Fragment.SortFragment;
-import com.google.android.material.tabs.TabLayout;
-import com.whysly.alimseolap1.interfaces.MainInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,8 +85,8 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
         SettingsFragment settingsFragment = new SettingsFragment();
         adapter.addItem(settingsFragment);
 
-        SelectFragment selectFragment = new SelectFragment();
-        adapter.addItem(selectFragment);
+        SelectAppFragment selectAppFragment = new SelectAppFragment();
+        adapter.addItem(selectAppFragment);
 
 
         pager.setAdapter(adapter);

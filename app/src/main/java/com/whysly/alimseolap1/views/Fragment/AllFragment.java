@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -26,6 +25,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.JsonObject;
+import com.whysly.alimseolap1.AsyncTask.N_PreloadAsyncTask;
+import com.whysly.alimseolap1.AsyncTask.N_UpdateAsyncTask;
 import com.whysly.alimseolap1.R;
 import com.whysly.alimseolap1.interfaces.MyService;
 import com.whysly.alimseolap1.models.NotiData;
@@ -106,13 +107,13 @@ public class AllFragment extends Fragment {
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
 
-        PreloadAsyncTask async = new PreloadAsyncTask();
-        async.execute();
+        notiData = new ArrayList<>();
+        N_PreloadAsyncTask NPreloadAsyncTask = new N_PreloadAsyncTask(getActivity(), recyclerView, notiData);
+        NPreloadAsyncTask.execute();
 
 
         //recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), notiData);
         //recyclerView.setAdapter(recyclerViewAdapter);
-
         // Swipe on recyclerview activated
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
 
@@ -184,17 +185,12 @@ public class AllFragment extends Fragment {
 
 
     public void updateRecyclerView() {
-        //NotificationDatabase db = NotificationDatabase.getNotificationDatabase(getContext());
-       // notiData.clear();
-        db = NotificationDatabase.getNotificationDatabase(getContext());
-        noti = db.notificationDao().loadNotification(db.notificationDao().number_of_notification());
-        notiData.add(new NotiData((int) noti.id, noti.pakage_name, noti.title, noti.content, "null", "null", "null", "null", "null", "null", "null", noti.app_name, noti.arrive_time.toString()));
-        recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), notiData);
-        //recyclerViewAdapter.updateList(notiData);
-        Log.d("AllFragment", "RecyclerviewAdapter의 updateList()메서드 실행시킴");
-        recyclerViewAdapter.notifyDataSetChanged();
-        recyclerView.setAdapter(recyclerViewAdapter);
+        N_UpdateAsyncTask NUpdateAsyncTask = new N_UpdateAsyncTask(getActivity(), recyclerView, notiData);
+        NUpdateAsyncTask.execute();
+
+
     }
+    /*
 
     class PreloadAsyncTask extends AsyncTask<Integer, Long, List<NotiData>> {
 
@@ -244,6 +240,8 @@ public class AllFragment extends Fragment {
             recyclerView.setAdapter(new RecyclerViewAdapter(getActivity(), notiData));
         }
     }
+
+     */
 
 
 

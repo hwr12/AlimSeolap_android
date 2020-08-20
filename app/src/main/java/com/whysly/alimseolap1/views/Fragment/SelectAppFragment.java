@@ -18,17 +18,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.whysly.alimseolap1.R;
-import com.whysly.alimseolap1.models.AppInfomation;
+import com.whysly.alimseolap1.models.AppInformation;
 import com.whysly.alimseolap1.models.databases.AppDatabase;
 import com.whysly.alimseolap1.models.entities.AppEntity;
 import com.whysly.alimseolap1.views.Adapters.RecyclerViewAdapter;
-import com.whysly.alimseolap1.views.Adapters.SetNotiedApp_RecyclerViewAdapter;
+import com.whysly.alimseolap1.views.Adapters.SelectApp_RecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class SelectFragment extends Fragment {
+public class SelectAppFragment extends Fragment {
 
     ProgressBar progressBar;
     ArrayList<String> apps = new ArrayList<String>();
@@ -60,7 +60,7 @@ public class SelectFragment extends Fragment {
         return view;
     }
 
-    class AsyncTaskClass extends AsyncTask<Integer, Long, List<AppInfomation>> {
+    class AsyncTaskClass extends AsyncTask<Integer, Long, List<AppInformation>> {
 
         @Override
         protected void onPreExecute() {
@@ -70,11 +70,11 @@ public class SelectFragment extends Fragment {
         }
 
         @Override
-        protected List<AppInfomation> doInBackground(Integer... integers) {
+        protected List<AppInformation> doInBackground(Integer... integers) {
 
             PackageManager pkgMgr = getActivity().getPackageManager();
             List<ResolveInfo> mApps;
-            List<AppInfomation> appInfos = new ArrayList<AppInfomation>();
+            List<AppInformation> appInfos = new ArrayList<AppInformation>();
             ad = AppDatabase.getAppDatabase(getContext());
 
 
@@ -111,9 +111,9 @@ public class SelectFragment extends Fragment {
                 Log.d(TAG, "앱 디비 생성됨");
                 Log.d(TAG, appEntity.app_name);
                 isCrawled = appEntity.isCrawled;
-                System.out.println(isCrawled);
-                //isCrawled = mApps.get(i).activityInfo.
-                AppInfomation appInfo = new AppInfomation(app_name, app_pkg_name, isCrawled);
+                System.out.println(isCrawled);//
+                //                //isCrawled = mApps.get(i).activityInfo.
+                AppInformation appInfo = new AppInformation(app_name, app_pkg_name, isCrawled);
 
                 appInfos.add(appInfo);
             }
@@ -127,7 +127,7 @@ public class SelectFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(List<AppInfomation> appInfos) {
+        protected void onPostExecute(List<AppInformation> appInfos) {
             super.onPostExecute(appInfos);
             progressBar.setVisibility(View.GONE);
 
@@ -135,8 +135,7 @@ public class SelectFragment extends Fragment {
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(),
                     LinearLayoutManager.VERTICAL, false);
             recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setAdapter(new SetNotiedApp_RecyclerViewAdapter(appInfos, getContext()));
-
+            recyclerView.setAdapter(new SelectApp_RecyclerViewAdapter(appInfos, getContext()));
 
 
         }

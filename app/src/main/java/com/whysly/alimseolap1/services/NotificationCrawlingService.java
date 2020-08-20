@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
@@ -15,6 +16,7 @@ import android.util.Log;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.google.gson.JsonObject;
 import com.whysly.alimseolap1.Server.APIInterface;
 import com.whysly.alimseolap1.models.NotiData;
 import com.whysly.alimseolap1.models.databases.AppDatabase;
@@ -23,7 +25,6 @@ import com.whysly.alimseolap1.models.databases.WordDatabase;
 import com.whysly.alimseolap1.models.entities.NotificationEntity;
 import com.whysly.alimseolap1.views.Adapters.RecyclerViewAdapter;
 import com.whysly.alimseolap1.views.Fragment.AllFragment;
-import com.google.gson.JsonObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -69,172 +70,9 @@ public class NotificationCrawlingService extends NotificationListenerService {
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
         super.onNotificationPosted(sbn);
-        Log.d("준영", "onNotificationPosted: 동작");
-        context = getApplicationContext();
-        appDatabase = AppDatabase.getAppDatabase(context);
-        wordDatabase = WordDatabase.getWordDatabase(context);
-        notificationDatabase = NotificationDatabase.getNotificationDatabase(context);
-        pm = context.getPackageManager();
-        notification = sbn.getNotification();
-        Bundle extras = notification.extras;
-        String pakage_name = sbn.getPackageName();
-        Log.d("준영", "pakage_name is " + pakage_name);
-        String app_name = findApp_name(pakage_name);
-        System.out.println(getApplicationInfo().toString());
-        System.out.println( sbn.getNotification().getChannelId() + "그리고" + sbn.toString());
-        //제목과 내용중 하나가 null이면 걸러집니다.
-        PendingIntent pendingIntent = notification.contentIntent;
-        //Intent intent = null;
+        AsyncTaskClass async = new AsyncTaskClass(sbn);
+        async.execute();
 
-/*
-        try {
-            Method getIntent = PendingIntent.class.getDeclaredMethod("getIntent");
-            intent = (Intent) getIntent.invoke(pendingIntent);
-        } catch (Exception e) {
-            Log.d("현우", "펜딩인텐트");
-            // Log line
-        }
-
- */
-/*
-
-        try {
-
-            pendingIntent.send();
-
-            //pendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_ONE_SHOT).send();
-
-        } catch (PendingIntent.CanceledException e){
-
-        }
-
- */
-
-        //아래의 카테고리에 속하는 알림은 크롤링하지 않습니다.
-        ArrayList<String> not_crawled_category = new ArrayList<String>(Arrays.asList(
-                "alarm",
-                "call",
-                "transport",
-                "progress",
-                "sys",
-                "msg",
-                "progress",
-                "navigation",
-                "call",
-                "status",
-                "service",
-                "reminder",
-                "error",
-                "event"
-        ));
-
-        //아래의 앱의 알림은 크롤링하지 않습니다.
-        /*
-        ArrayList<String> not_crawled_app_name = new ArrayList<String>(Arrays.asList(
-                "카카오톡"
-
-        ));
-
-         */
-
-        //아래의 앱 채널 아이디의 알림은 크롤링하지 않습니다.
-        ArrayList<String> not_crawled_channelId = new ArrayList<String>(Arrays.asList(
-                "quiet_new_message"
-        ));
-
-
-
-
-
-
-        if(extras.getString(notification.EXTRA_TITLE) == null || extras.getString(notification.EXTRA_TEXT) == null){
-            Log.d("준영", "제목과 내용중 하나가 null이면 걸러집니다. ");
-            return;
-        }
-
-
-
-
-
-        else if(not_crawled_category.contains(notification.category)){
-            Log.d("준영", "알림의 카테고리가 " + notification.category + "면 걸러집니다.");
-            return;
-        }
-
-        else if(not_crawled_channelId.contains(sbn.getNotification().getChannelId())){
-            Log.d("준영", "알림의 채널아이디가 " + notification.getChannelId() + "면 걸러집니다.");
-
-            return;
-        }
-
-        //크롤링되지 않기로 한 앱 리스트 테이블에서 해당 알림 앱의 패키지명으로 검색하여,
-        //검색 결과가 1이면 검색이 되었단 말이므로, 서비스를 종료합니다.
-        //room 함수를 메인쓰레드에서 작동시키는 것은 권고되지 않는 방법이나,
-        //사용자의 앱 사용 환경과 관련없는 처리일 경우, 메인쓰레드에서 함수를 가동시켜도 좋습니다.
-        else if (appDatabase.appDao().searchNotApp(pakage_name) != 0){
-            Log.d("NotiCrawlingService", "이 앱은 선택해제 되어 있으므로 걸러집니다.");
-            return;
-        }
-
-        else {
-            Log.d("temp", "진입됨1");
-            SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date time = new Date();
-            String time_string = format1.format(time);
-            ne = new NotificationEntity();
-            ne.app_name = app_name;
-            ne.pakage_name = pakage_name;
-            ne.title = extras.getString(notification.EXTRA_TITLE);
-            ne.content = extras.getString(notification.EXTRA_TEXT);
-            System.out.println(ne.content);
-
-
-
-            try {
-                //ne.cls_intent = getIntent(sbn.getNotification().contentIntent).toString();
-                    //ne.cls_intent =getIntent(notification.contentIntent).resolveActivity(pm).getClassName();
-                    ne.cls_intent = pendingIntent.toString();
-                    //ne.cls_intent = getIntent(notification.contentIntent).resolveActivity(pm).getClassName();
-                    //ne.cls_intent = getIntent(notification.contentIntent).resolveActivity(pm).getClassName();
-                } catch (IllegalStateException e) {
-                    ne.cls_intent = "No Intent";
-            }
-
-
-            SharedPreferences pref = getSharedPreferences("user", MODE_PRIVATE);
-            ne.user_id = pref.getInt("user_id", 0);
-            ne.arrive_time = time;
-            //notification이 사진을 포함하고 있을 경우, 이미지또한 저장합니다.
-            String file_path;
-
-            if (extras.containsKey(Notification.EXTRA_PICTURE)) {
-                file_path = createBitmapFileName(time_string, app_name);
-                saveBitmapAsFile((Bitmap) extras.get(Notification.EXTRA_PICTURE), file_path);
-            } else {
-                file_path = "No Bitmap";
-            }
-            ne.imageFile_path = file_path;
-
-            // 유저평가의 디폴트 값입니다. 이 값은 allfragment에서 유저의 스와이프평가가 있을시 값이  1 또는 -1로 바뀝니다.
-            ne.this_user_real_evaluation = 0;
-            System.out.println(ne.cls_intent);
-            System.out.println(sbn.getNotification().toString());
-            System.out.println(pendingIntent);
-
-
-            postNotificationToW2V();
-            NotificationDatabase db = NotificationDatabase.getNotificationDatabase(this);
-            db.notificationDao().insertNotification(ne);
-            Log.d("현우", "DB 저장완료");
-
-            //Intent intent = new Intent("노티 업데이트 브로드캐스트");
-            //LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-            notiData = new ArrayList<>();
-            Intent in = new Intent("Update");
-            LocalBroadcastManager.getInstance(context).sendBroadcast(in);
-            Log.d("NotiCrawlingService", "AllFragment의 updaterecyclerview()메서드 실행시킴");
-            Log.d("NotiCrawlingService", "Notification Saved on Database and will show on the Activity");
-        }
 
     }
 
@@ -374,10 +212,202 @@ public class NotificationCrawlingService extends NotificationListenerService {
         });
     }
 
+    class AsyncTaskClass extends AsyncTask<StatusBarNotification, Long, List<NotiData>> {
+        StatusBarNotification sbn;
+        public AsyncTaskClass(StatusBarNotification sbn)
+        {
+            this.sbn = sbn;
+        }
+
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+        }
+
+        @Override
+        protected List<NotiData> doInBackground(StatusBarNotification... sbns) {
+
+            Log.d("준영", "onNotificationPosted: 동작");
+            context = getApplicationContext();
+            appDatabase = AppDatabase.getAppDatabase(context);
+            wordDatabase = WordDatabase.getWordDatabase(context);
+            notificationDatabase = NotificationDatabase.getNotificationDatabase(context);
+            pm = context.getPackageManager();
+            notification = sbn.getNotification();
+            Bundle extras = notification.extras;
+            String pakage_name = sbn.getPackageName();
+            Log.d("준영", "pakage_name is " + pakage_name);
+            String app_name = findApp_name(pakage_name);
+            System.out.println(getApplicationInfo().toString());
+            System.out.println( sbn.getNotification().getChannelId() + "그리고" + sbn.toString());
+            //제목과 내용중 하나가 null이면 걸러집니다.
+            PendingIntent pendingIntent = notification.contentIntent;
+            //Intent intent = null;
+
+/*
+        try {
+            Method getIntent = PendingIntent.class.getDeclaredMethod("getIntent");
+            intent = (Intent) getIntent.invoke(pendingIntent);
+        } catch (Exception e) {
+            Log.d("현우", "펜딩인텐트");
+            // Log line
+        }
+
+ */
+/*
+
+        try {
+
+            pendingIntent.send();
+
+            //pendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_ONE_SHOT).send();
+
+        } catch (PendingIntent.CanceledException e){
+
+        }
+
+ */
+
+            //아래의 카테고리에 속하는 알림은 크롤링하지 않습니다.
+            ArrayList<String> not_crawled_category = new ArrayList<String>(Arrays.asList(
+                    "alarm",
+                    "call",
+                    "transport",
+                    "progress",
+                    "sys",
+                    "progress",
+                    "navigation",
+                    "call",
+                    "status",
+                    "service",
+                    "reminder",
+                    "error",
+                    "event"
+            ));
+
+            //아래의 앱의 알림은 크롤링하지 않습니다.
+        /*
+        ArrayList<String> not_crawled_app_name = new ArrayList<String>(Arrays.asList(
+                "카카오톡"
+        ));
+         */
+            //아래의 앱 채널 아이디의 알림은 크롤링하지 않습니다.
+            ArrayList<String> not_crawled_channelId = new ArrayList<String>(Arrays.asList(
+                    "quiet_new_message"
+            ));
+
+            if(extras.getString(notification.EXTRA_TITLE) == null || extras.getString(notification.EXTRA_TEXT) == null){
+                Log.d("준영", "제목과 내용중 하나가 null이면 걸러집니다. ");
+                return null;
+            }
+
+
+
+
+
+            else if(not_crawled_category.contains(notification.category)){
+                Log.d("준영", "알림의 카테고리가 " + notification.category + "면 걸러집니다.");
+                return null;
+            }
+
+            else if(not_crawled_channelId.contains(sbn.getNotification().getChannelId())){
+                Log.d("준영", "알림의 채널아이디가 " + notification.getChannelId() + "면 걸러집니다.");
+
+                return null;
+            }
+
+            //크롤링되지 않기로 한 앱 리스트 테이블에서 해당 알림 앱의 패키지명으로 검색하여,
+            //검색 결과가 1이면 검색이 되었단 말이므로, 서비스를 종료합니다.
+            //room 함수를 메인쓰레드에서 작동시키는 것은 권고되지 않는 방법이나,
+            //사용자의 앱 사용 환경과 관련없는 처리일 경우, 메인쓰레드에서 함수를 가동시켜도 좋습니다.
+            else if (appDatabase.appDao().searchNotApp(pakage_name) != 0){
+                Log.d("NotiCrawlingService", "이 앱은 선택해제 되어 있으므로 걸러집니다.");
+                return null;
+            }
+
+            else {
+                Log.d("temp", "진입됨1");
+                SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date time = new Date();
+                String time_string = format1.format(time);
+                ne = new NotificationEntity();
+                ne.app_name = app_name;
+                ne.pakage_name = pakage_name;
+                ne.title = extras.getString(notification.EXTRA_TITLE);
+                ne.content = extras.getString(notification.EXTRA_TEXT);
+                System.out.println(ne.content);
+
+
+
+                try {
+                    //ne.cls_intent = getIntent(sbn.getNotification().contentIntent).toString();
+                    //ne.cls_intent =getIntent(notification.contentIntent).resolveActivity(pm).getClassName();
+                    ne.cls_intent = pendingIntent.toString();
+                    //ne.cls_intent = getIntent(notification.contentIntent).resolveActivity(pm).getClassName();
+                    //ne.cls_intent = getIntent(notification.contentIntent).resolveActivity(pm).getClassName();
+                } catch (IllegalStateException e) {
+                    ne.cls_intent = "No Intent";
+                }
+
+
+                SharedPreferences pref = getSharedPreferences("user", MODE_PRIVATE);
+                ne.user_id = pref.getInt("user_id", 0);
+                ne.arrive_time = time;
+                //notification이 사진을 포함하고 있을 경우, 이미지또한 저장합니다.
+                String file_path;
+
+                if (extras.containsKey(Notification.EXTRA_PICTURE)) {
+                    file_path = createBitmapFileName(time_string, app_name);
+                    saveBitmapAsFile((Bitmap) extras.get(Notification.EXTRA_PICTURE), file_path);
+                } else {
+                    file_path = "No Bitmap";
+                }
+                ne.imageFile_path = file_path;
+
+                // 유저평가의 디폴트 값입니다. 이 값은 allfragment에서 유저의 스와이프평가가 있을시 값이  1 또는 -1로 바뀝니다.
+                ne.this_user_real_evaluation = 0;
+                System.out.println(ne.cls_intent);
+                System.out.println(sbn.getNotification().toString());
+                System.out.println(pendingIntent);
+
+
+                postNotificationToW2V();
+                NotificationDatabase db = NotificationDatabase.getNotificationDatabase(context);
+                db.notificationDao().insertNotification(ne);
+                Log.d("현우", "DB 저장완료");
+
+                //Intent intent = new Intent("노티 업데이트 브로드캐스트");
+                //LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+                notiData = new ArrayList<>();
+                Intent in = new Intent("Update");
+                LocalBroadcastManager.getInstance(context).sendBroadcast(in);
+                Log.d("NotiCrawlingService", "AllFragment의 updaterecyclerview()메서드 실행시킴");
+                Log.d("NotiCrawlingService", "Notification Saved on Database and will show on the Activity");
+                return notiData;
+            }
+
+
+        }
+
+        @Override
+        protected void onProgressUpdate(Long... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected void onPostExecute(List<NotiData> notiData) {
+            super.onPostExecute(notiData);
+
+
+        }
+    }
+
     public double vector2Like(String vector){
         //벡터 스트링을 받아 DeepLearning4J 신경망에 인풋하여
         //확률을 의미하는 0과 1사이의 실수를 반환합니다.
         double result = 0.781;
         return result;
     }
+
+
 }
