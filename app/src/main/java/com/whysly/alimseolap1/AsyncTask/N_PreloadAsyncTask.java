@@ -89,10 +89,10 @@ public class N_PreloadAsyncTask extends AsyncTask<Integer, Long, List<NotiData>>
     protected void onPostExecute(List<NotiData> notiData) {
         super.onPostExecute(notiData);
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mActivity.getApplicationContext(),
-                LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setAdapter(new RecyclerViewAdapter( mActivity, notiData));
+        //RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mActivity.getApplicationContext(),
+               // LinearLayoutManager.VERTICAL, true);
+        //mRecyclerView.setLayoutManager(layoutManager);
+        //mRecyclerView.setAdapter(new RecyclerViewAdapter( mActivity, notiData));
     }
 
 

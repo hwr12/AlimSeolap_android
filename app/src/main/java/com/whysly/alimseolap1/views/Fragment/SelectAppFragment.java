@@ -101,7 +101,6 @@ public class SelectAppFragment extends Fragment {
             for (int i = 0; i < mApps.size(); i++)
 
             {
-
                 String app_name = mApps.get(i).activityInfo.loadLabel(pkgMgr).toString();
                 String app_pkg_name = mApps.get(i).activityInfo.packageName;
                 ad = AppDatabase.getAppDatabase(getActivity());

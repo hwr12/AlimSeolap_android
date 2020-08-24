@@ -29,7 +29,7 @@ import com.whysly.alimseolap1.models.NotiData;
 import com.whysly.alimseolap1.services.NotificationCrawlingService;
 import com.whysly.alimseolap1.views.Adapters.ContentsPagerAdapter;
 import com.whysly.alimseolap1.views.Adapters.RecyclerViewAdapter;
-import com.whysly.alimseolap1.views.Fragment.AllFragment;
+import com.whysly.alimseolap1.views.Fragment.MainFragment;
 import com.whysly.alimseolap1.views.Fragment.SelectAppFragment;
 import com.whysly.alimseolap1.views.Fragment.SettingsFragment;
 import com.whysly.alimseolap1.views.Fragment.SortFragment;
@@ -76,8 +76,8 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
         //getSupportFragmentManager로 프래그먼트 참조가능
         ContentsPagerAdapter adapter = new ContentsPagerAdapter(getSupportFragmentManager());
 
-        AllFragment allFragment = new AllFragment();
-        adapter.addItem(allFragment);
+        MainFragment mainFragment = new MainFragment();
+        adapter.addItem(mainFragment);
 
         SortFragment sortFragment = new SortFragment();
         adapter.addItem(sortFragment);
@@ -135,13 +135,14 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
         if (!isPermissionGranted()) {
             // 접근 혀용이 되어있지 않다면 1. 메시지 발생 / 2, 설정으로 이동시킴
             Toast.makeText(getApplicationContext(), getString(R.string.app_name) + " 앱의 알림 권한을 허용해주세요.", Toast.LENGTH_LONG).show();
-            startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
             WindowManager.LayoutParams windowManagerParams = new WindowManager.LayoutParams(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN, PixelFormat.TRANSLUCENT);
             wm = (WindowManager) getSystemService(WINDOW_SERVICE);
             LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
             v =  inflater.inflate(R.layout.floating_guide, null);
+            startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
             wm.addView(v, windowManagerParams);
+
         }
 
     }

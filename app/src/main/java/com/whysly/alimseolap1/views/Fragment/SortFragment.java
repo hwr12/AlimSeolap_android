@@ -5,6 +5,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,10 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-
+import com.google.android.material.tabs.TabLayout;
 import com.whysly.alimseolap1.R;
 import com.whysly.alimseolap1.models.NotiData;
-
 import com.whysly.alimseolap1.views.Activity.MainActivity;
 import com.whysly.alimseolap1.views.Adapters.CategoryPagerAdapter;
 import com.whysly.alimseolap1.views.Adapters.RecyclerViewAdapter;
@@ -28,7 +28,6 @@ import com.whysly.alimseolap1.views.Fragment.SortFragment_Sub_Category_Fragment.
 import com.whysly.alimseolap1.views.Fragment.SortFragment_Sub_Category_Fragment.CategoryGame;
 import com.whysly.alimseolap1.views.Fragment.SortFragment_Sub_Category_Fragment.CategoryOthers;
 import com.whysly.alimseolap1.views.Fragment.SortFragment_Sub_Category_Fragment.CategoryShopping;
-import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
 
@@ -41,6 +40,7 @@ public class SortFragment extends Fragment  {
     LinearLayoutManager linearLayoutManager;
     Toolbar toolbar;
     TabLayout tab_layout;
+    EditText editsearch;
 
     public void Oncreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +51,7 @@ public class SortFragment extends Fragment  {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.sort_fragment, null);
+
 
 
 
@@ -108,6 +109,8 @@ public class SortFragment extends Fragment  {
 
         //뷰페이저와 탭레이아웃 연동
         tab_layout.setupWithViewPager(pager);
+
+
 
 
 

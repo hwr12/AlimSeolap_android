@@ -23,6 +23,8 @@ import java.util.Date;
 @Entity
 public class NotificationEntity {
 
+
+
         @PrimaryKey(autoGenerate = true)
         public long id;
 
@@ -54,4 +56,8 @@ public class NotificationEntity {
     @ColumnInfo()
     public int this_user_real_evaluation;
     public Date evaluation_time;
+
+
+
+
 }

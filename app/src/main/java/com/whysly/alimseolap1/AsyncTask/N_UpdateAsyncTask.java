@@ -91,8 +91,8 @@ public class N_UpdateAsyncTask extends AsyncTask<Integer, Long, List<NotiData>> 
         super.onPostExecute(notiData);
         //RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mActivity.getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         //mRecyclerView.setLayoutManager(layoutManager);
-        recyclerViewAdapter = new RecyclerViewAdapter(mActivity, notiData);
-        //recyclerViewAdapter.updateList(notiData);
+        recyclerViewAdapter = new RecyclerViewAdapter();
+        //        //recyclerViewAdapter.updateList(notiData);
         Log.d("AllFragment", "RecyclerviewAdapter의 updateList()메서드 실행시킴");
         recyclerViewAdapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(recyclerViewAdapter);

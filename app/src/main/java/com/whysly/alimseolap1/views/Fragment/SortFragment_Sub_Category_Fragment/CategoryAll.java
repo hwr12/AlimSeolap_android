@@ -47,6 +47,8 @@ public class CategoryAll extends Fragment {
     String pendingIntent;
     Intent intent1;
     String arrived_time;
+
+
     private final CompositeDisposable mDisposable = new CompositeDisposable();
     public void Oncreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,19 +64,19 @@ public class CategoryAll extends Fragment {
 
 
         recyclerView = view.findViewById(R.id.recycler_all);
+
         LocalBroadcastManager.getInstance(this.getContext()).registerReceiver(mBroadcastReceiver_update,
                 new IntentFilter("Update"));
-
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
-        linearLayoutManager.setReverseLayout(true);
-        linearLayoutManager.setStackFromEnd(true);
 
         notiData = new ArrayList<>();
         N_PreloadAsyncTask NPreloadAsyncTask = new N_PreloadAsyncTask(getActivity(), recyclerView, notiData);
         NPreloadAsyncTask.execute();
-
-
+        linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        //recyclerViewAdapter = new RecyclerViewAdapter( getActivity(), notiData);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(recyclerViewAdapter);
 
 
 
@@ -100,6 +102,9 @@ public class CategoryAll extends Fragment {
         N_UpdateAsyncTask NUpdateAsyncTask = new N_UpdateAsyncTask(getActivity(), recyclerView, notiData);
         NUpdateAsyncTask.execute();
     }
+
+
+
 
 
 }

@@ -92,6 +92,6 @@ public class LoadDbAsyncTask extends AsyncTask<Integer, Long, List<NotiData>> {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mActivity.getApplicationContext(),
                 LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setAdapter(new RecyclerViewAdapter((Activity) mActivity, notiData));
+        //mRecyclerView.setAdapter(new RecyclerViewAdapter((Activity) mActivity, notiData));
     }
 }

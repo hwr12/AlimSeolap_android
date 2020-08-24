@@ -59,16 +59,16 @@ public class CategoryContents extends Fragment {
                 new IntentFilter("Update"));
 
 
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
-        linearLayoutManager.setReverseLayout(true);
-        linearLayoutManager.setStackFromEnd(true);
-        notiData = new ArrayList<>();
 
 
         notiData = new ArrayList<>();
         N_PreloadAsyncTask NPreloadAsyncTask = new N_PreloadAsyncTask(getActivity(), recyclerView, notiData);
         NPreloadAsyncTask.execute();
+        linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        //recyclerView.setAdapter(new RecyclerViewAdapter( getActivity(), notiData));
 
 
 

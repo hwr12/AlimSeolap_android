@@ -19,13 +19,14 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.JsonObject;
-import com.whysly.alimseolap1.AsyncTask.N_PreloadAsyncTask;
 import com.whysly.alimseolap1.AsyncTask.N_UpdateAsyncTask;
 import com.whysly.alimseolap1.R;
 import com.whysly.alimseolap1.interfaces.MyService;
@@ -33,12 +34,11 @@ import com.whysly.alimseolap1.models.NotiData;
 import com.whysly.alimseolap1.models.databases.NotificationDatabase;
 import com.whysly.alimseolap1.models.entities.NotificationEntity;
 import com.whysly.alimseolap1.views.Activity.MainActivity;
+import com.whysly.alimseolap1.views.Activity.MainViewModel;
 import com.whysly.alimseolap1.views.Adapters.RecyclerViewAdapter;
 
 import java.net.URISyntaxException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -47,30 +47,20 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class AllFragment extends Fragment {
+public class MainFragment extends Fragment {
 
     RecyclerViewAdapter recyclerViewAdapter;
-    RecyclerViewAdapter rva;
     RecyclerView recyclerView;
     List<NotiData> notiData;
-    List<NotiData> notidata;
     LinearLayoutManager linearLayoutManager;
     int user_id;
     String notititle;
-    NotificationEntity noti;
-    NotificationDatabase db;
-    SimpleDateFormat format1;
-    Date time;
     Intent intent_redirect;
     String pendingIntent;
     Intent intent1;
-    String arrived_time;
+    NotificationDatabase db;
+    MainViewModel model;
 
-
-
-    public void Oncreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Nullable
     @Override
@@ -102,19 +92,22 @@ public class AllFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recycler1);
 
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
-        linearLayoutManager.setReverseLayout(true);
-        linearLayoutManager.setStackFromEnd(true);
+
 
         notiData = new ArrayList<>();
-        N_PreloadAsyncTask NPreloadAsyncTask = new N_PreloadAsyncTask(getActivity(), recyclerView, notiData);
-        NPreloadAsyncTask.execute();
+        linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
-
-        //recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), notiData);
-        //recyclerView.setAdapter(recyclerViewAdapter);
-        // Swipe on recyclerview activated
+        // TODO
+        model = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        model.getAllNotification().observe(this, new Observer<List<NotificationEntity>>() {
+            @Override
+            public void onChanged(List<NotificationEntity> entities) {
+                recyclerViewAdapter.setEntities(entities);
+            }
+        });
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
 
         return view;
@@ -190,6 +183,8 @@ public class AllFragment extends Fragment {
 
 
     }
+
+
     /*
 
     class PreloadAsyncTask extends AsyncTask<Integer, Long, List<NotiData>> {
@@ -269,7 +264,6 @@ public class AllFragment extends Fragment {
 
             System.out.println(noti_id_string);
 
-
             int noti_id = 0;
             try {
                 noti_id = Integer.parseInt(noti_id_string);
@@ -308,7 +302,6 @@ public class AllFragment extends Fragment {
             Log.d("준영", "noti_idx1: " + viewHolder.getAdapterPosition());
 
             Log.d("준영", "noti_idx2: " + noti_position);
-
             recyclerViewAdapter.removeItemView(noti_position);
             System.out.println(noti_position);
             String notitext = "foo";

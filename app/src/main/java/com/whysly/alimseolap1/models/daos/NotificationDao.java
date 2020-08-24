@@ -1,5 +1,6 @@
 package com.whysly.alimseolap1.models.daos;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -37,7 +38,6 @@ public interface NotificationDao {
     @Query("UPDATE NotificationEntity SET this_user_real_evaluation = :this_user_real_evaluation WHERE id = :id")
     public void updateNotification(long id, long this_user_real_evaluation);
 
-
     @Query("SELECT COUNT(*) FROM notificationentity ")
     public int number_of_notification();
 
@@ -50,6 +50,9 @@ public interface NotificationDao {
     @Query("SELECT * FROM notificationentity " +
             "WHERE id = :id")
     public NotificationEntity loadNotification(long id);
+
+    @Query("SELECT * FROM notificationentity ")
+    LiveData<List<NotificationEntity>> loadAllNotificationLiveData();
 
 
 //    @Query("SELECT * FROM NotificationEntity ORDER BY id DESC LIMIT 1")
