@@ -38,6 +38,7 @@ public class NotificationEntity {
         public int user_id;
         public Date arrive_time;
         public String pendingIntent;
+        public String category;
 
         //첫번째 서버 통신 후 저장하는 값입니다.
         public long server_id;

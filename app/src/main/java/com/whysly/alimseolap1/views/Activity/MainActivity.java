@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -50,6 +51,7 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
     private Context mContext;
     WindowManager wm;
     android.view.View v;
+    MainViewModel model;
 
 
 
@@ -60,7 +62,6 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
 
         mContext = getApplicationContext();
         tab_layout = (TabLayout) findViewById(R.id.tab_layout);
-
 
         //뷰페이저 설정
         ViewPager pager = findViewById(R.id.pager);
@@ -149,6 +150,21 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
 
     public void onButtonClick(android.view.View view) {
         wm.removeView(v);
+    }
+
+    public void onSettingClick(View view) {
+        switch (view.getId()) {
+            case R.id.edit_profile :
+                Intent intent = new Intent(this, EditMyProfile.class);
+                startActivity(intent);
+                break ;
+            //case R.id.buttonGreen :
+
+            //break ;
+            //case R.id.buttonBlue :
+
+            //break ;
+        }
     }
 
 

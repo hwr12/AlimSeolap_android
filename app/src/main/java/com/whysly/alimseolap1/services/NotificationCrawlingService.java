@@ -10,15 +10,11 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
-
-import androidx.lifecycle.ViewModel;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.gson.JsonObject;
 import com.whysly.alimseolap1.Server.APIInterface;
@@ -28,7 +24,6 @@ import com.whysly.alimseolap1.models.databases.NotificationDatabase;
 import com.whysly.alimseolap1.models.databases.WordDatabase;
 import com.whysly.alimseolap1.models.entities.NotificationEntity;
 import com.whysly.alimseolap1.views.Activity.MainActivity;
-import com.whysly.alimseolap1.views.Activity.MainViewModel;
 import com.whysly.alimseolap1.views.Adapters.RecyclerViewAdapter;
 import com.whysly.alimseolap1.views.Fragment.MainFragment;
 
@@ -159,13 +154,12 @@ public class NotificationCrawlingService extends NotificationListenerService {
                 "transport",
                 "progress",
                 "sys",
-                "progress",
                 "navigation",
-                "call",
                 "status",
                 "service",
                 "reminder",
                 "error",
+                "msg",
                 "event"
         ));
 
@@ -252,22 +246,18 @@ public class NotificationCrawlingService extends NotificationListenerService {
             System.out.println(ne.cls_intent);
             System.out.println(sbn.getNotification().toString());
             System.out.println(pendingIntent);
-
+            ne.category = sbn.getNotification().category + sbn.describeContents();
 
             postNotificationToW2V();
             NotificationDatabase db = NotificationDatabase.getNotificationDatabase(context);
             db.notificationDao().insertNotification(ne);
             Log.d("현우", "DB 저장완료");
 
+            //MainViewModel model = new ViewModelProvider(getApplication(), new ViewModelProvider.AndroidViewModelFactory(requireActivity.getApplication())).get(MainViewModel.class);
+
             //Intent intent = new Intent("노티 업데이트 브로드캐스트");
             //LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
             notiData = new ArrayList<>();
-            Intent in = new Intent("Update");
-            LocalBroadcastManager.getInstance(context).sendBroadcast(in);
-            Log.d("NotiCrawlingService", "AllFragment의 updaterecyclerview()메서드 실행시킴");
-            Log.d("NotiCrawlingService", "Notification Saved on Database and will show on the Activity");
-
-
 
         }
 

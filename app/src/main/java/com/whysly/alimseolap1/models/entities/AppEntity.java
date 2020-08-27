@@ -20,4 +20,7 @@ public class AppEntity {
     public void setIsCrawled(int check){
         this.isCrawled = check;
     }
+    public int getIsCrawled() {
+        return  isCrawled;
+    }
 }

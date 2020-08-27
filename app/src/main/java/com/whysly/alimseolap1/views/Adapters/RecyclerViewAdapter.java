@@ -1,7 +1,7 @@
 package com.whysly.alimseolap1.views.Adapters;
 
-
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -15,13 +15,12 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.whysly.alimseolap1.R;
-import com.whysly.alimseolap1.models.NotiData;
+import com.whysly.alimseolap1.Util.OpenApp;
 import com.whysly.alimseolap1.models.databases.NotificationDatabase;
 import com.whysly.alimseolap1.models.entities.NotificationEntity;
 
@@ -29,11 +28,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+    Activity activity;
+    Context context;
 
-    private Activity activity;
-    private List<NotiData> notiData ;
     int lastPosition;
     private List<NotificationEntity> entities = new ArrayList<>();
+
+    public RecyclerViewAdapter(Context context) {
+        this.context = context;
+        this.activity = (Activity) context;
+    }
 
     @Override
     public int getItemCount() {
@@ -52,7 +56,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void setEntities(List<NotificationEntity> entities) {
         this.entities = entities;
         notifyDataSetChanged();
+        notifyItemInserted(entities.size());
+
     }
+
+
 
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_item, parent, false);
@@ -67,6 +75,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             Log.d("준영", "앱 리스트의 사이즈가 0입니다.");
             return;
         }
+        //entities.get(position).this_user_real_evaluation
 
         Log.d("준영", "앱 리스트의 사이즈는 " + getItemCount() + "입니다.");
         //NotiData data = notiData.get(position);
@@ -118,6 +127,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.app_name.setText(applicationName);
 //        holder.package_name.setText(data.getPkg_name());
         holder.noti_id.setText(Integer.toString((int) data.id));
+        holder.notiTitle.setText(data.title);
+        holder.noti_category.setText(data.category);
 
     }
 
@@ -162,11 +173,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 //        TextView group_name;
 //        TextView app_string;
         TextView noti_date;
+        TextView noti_category;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
-//            notiTitle = (TextView) itemView.findViewById(R.id.notititle);
+            notiTitle = (TextView) itemView.findViewById(R.id.notititle);
             notiText = (TextView) itemView.findViewById(R.id.notitext);
             icon = (ImageView) itemView.findViewById(R.id.app_icon);
             app_name = (TextView) itemView.findViewById(R.id.app_name);
@@ -181,6 +193,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 //            group_name = (TextView) itemView.findViewById(R.id.group_name);
 //            app_string = (TextView) itemView.findViewById(R.id.app_string);
             noti_date = (TextView) itemView.findViewById(R.id.noti_date);
+            noti_category = (TextView) itemView.findViewById(R.id.noti_category);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -189,8 +202,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     //Intent intent = new Intent("intent_redirect");
                     //intent.putExtra("adapterposition", getAdapterPosition());
                     //LocalBroadcastManager.getInstance(activity).sendBroadcast(intent);
-                    Toast.makeText(activity, "click " + getAdapterPosition() +
-                            notiData.get(getAdapterPosition()).getNotiTitle(), Toast.LENGTH_SHORT).show();
+                    String packageName = entities.get(getAdapterPosition()).pakage_name;
+                    OpenApp.openApp(context, packageName);
+
                 }
             });
 
@@ -198,13 +212,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    Toast.makeText(activity, "remove " +
-                            notiData.get(getAdapterPosition()).getNotiTitle(), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent("remove");
                     intent.putExtra("position", getAdapterPosition());
                     System.out.println("getAdpaterPosition은 " + getAdapterPosition());
                     LocalBroadcastManager.getInstance(activity).sendBroadcast(intent);
                     return true;
+
                 }
             });
         }

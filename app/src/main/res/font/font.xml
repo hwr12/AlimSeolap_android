@@ -4,4 +4,16 @@
         android:fontStyle = "normal"
         android:fontWeight = "400"
         android:font = "@font/nexon_font"/>
+
+    <font
+        android:fontStyle = "normal"
+        android:fontWeight = "400"
+        android:font = "@font/notosanskr_medium"/>
+
+    <font
+        android:fontStyle = "normal"
+        android:fontWeight = "400"
+        android:font = "@font/notosanskr_regular"/>
+
+
 </font-family>

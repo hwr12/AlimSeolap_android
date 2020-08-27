@@ -28,6 +28,7 @@
         </activity>
 
         <activity android:name="com.whysly.alimseolap1.views.Activity.NofticationListenerSettings"/>
+        <activity android:name="com.whysly.alimseolap1.views.Activity.EditMyProfile"/>
         <service
             android:name="com.whysly.alimseolap1.services.NotificationCrawlingService"
             android:enabled="true"

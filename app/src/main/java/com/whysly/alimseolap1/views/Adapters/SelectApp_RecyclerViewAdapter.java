@@ -67,15 +67,15 @@ public class SelectApp_RecyclerViewAdapter extends RecyclerView.Adapter<SelectAp
         String sql = "select * from NoCrawling where app_name = '" + holder.pkg_name + "'";
         Cursor c = ReadDb.rawQuery(sql, null);
  */
-
+        ad = AppDatabase.getAppDatabase(context);
         //패키지네임으로 앱데이터베이스에 접속해서 1(크롤할경우) true로 바꿔줍니다.
-
-        if(appInformation.getIsCrawled() == 0){
-            holder.aSwitch.setChecked(false);
-            System.out.println("isCrawled 값은 0이므로 swithc false로 바꿈");
-        }else{
+        int isCrawled = ad.appDao().loadapp(appInformation.getApp_pkg_name()).getIsCrawled();
+        if(isCrawled == 1){
             holder.aSwitch.setChecked(true);
-            System.out.println("isCrawled 값은 1이므로 swithc true로 바꿈");
+            System.out.println("isCrawled 값은 0이므로 switch false로 바꿈");
+        }else {
+            holder.aSwitch.setChecked(false);
+            System.out.println("isCrawled 값은 1이므로 switch true로 바꿈");
         }
 
 
@@ -101,6 +101,25 @@ public class SelectApp_RecyclerViewAdapter extends RecyclerView.Adapter<SelectAp
 //        }else{
 //            holder.aSwitch.setChecked(true);
 //        }
+
+
+
+
+    }
+
+    private void changeNoCrawlingApp(String pkg_name, Switch aSwitch) {
+        System.out.println(pkg_name);
+        if(aSwitch.isChecked()){
+            //aSwitch.setChecked(true);
+            A_UpdateAsyncTask a_updateAsyncTask = new A_UpdateAsyncTask((Activity) context, pkg_name, 1);
+            a_updateAsyncTask.execute();
+            System.out.println("true- 알림 받아옴 - isCrawled 1로 바뀜 ");
+        }else{
+            //aSwitch.setChecked(false);
+            A_UpdateAsyncTask a_updateAsyncTask = new A_UpdateAsyncTask((Activity) context, pkg_name, 0);
+            a_updateAsyncTask.execute();
+            System.out.println("false - 알림 안받아옴 - isCrawled 0으로 바뀜 ");
+        }
     }
 
     @Override
@@ -130,24 +149,16 @@ public class SelectApp_RecyclerViewAdapter extends RecyclerView.Adapter<SelectAp
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     Log.d("준영", "체크 이벤트가 감지되었습니다. ");
-                    changeNoCrawlingApp(pkg_name.getText().toString());
+                    changeNoCrawlingApp(pkg_name.getText().toString(), aSwitch);
+
                     System.out.println(pkg_name.getText().toString());
                 }
             });
+
+
         }
 
-        private void changeNoCrawlingApp(String pkg_name) {
-            System.out.println(pkg_name);
-            if(aSwitch.isChecked() == true){
-                aSwitch.setChecked(true);
-                A_UpdateAsyncTask a_updateAsyncTask = new A_UpdateAsyncTask((Activity) context, pkg_name, 1);
-                a_updateAsyncTask.execute();
-            }else if(aSwitch.isChecked() == false){
-                aSwitch.setChecked(false);
-                A_UpdateAsyncTask a_updateAsyncTask = new A_UpdateAsyncTask((Activity) context, pkg_name, 0);
-                a_updateAsyncTask.execute();
-            }
-        }
+
 
     }
 }

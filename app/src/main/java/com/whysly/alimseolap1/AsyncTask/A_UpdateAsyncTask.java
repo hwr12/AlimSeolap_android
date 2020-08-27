@@ -47,7 +47,6 @@ public class A_UpdateAsyncTask extends AsyncTask<Integer, Long, List<AppInformat
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-
     }
 
     @Override

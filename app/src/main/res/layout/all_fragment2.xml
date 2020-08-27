@@ -26,6 +26,13 @@
             android:orientation="vertical"
             android:elevation="0dp">
 
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/anmation_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:lottie_autoPlay="true"
+                app:lottie_rawRes="@raw/mainLottie"/>
+
             <Switch
                 android:id="@+id/switch1"
                 android:layout_width="wrap_content"

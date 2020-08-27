@@ -27,21 +27,39 @@
             tools:srcCompat="@tools:sample/avatars[0]" />
 
         <TextView
-            android:textSize="11.3dp"
-            android:fontFamily="sans-serif-medium"
             android:id="@+id/app_name"
-            android:text="appname"
-            android:layout_marginTop="17.29dp"
-            android:layout_marginLeft="6.13dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6.13dp"
+            android:layout_marginTop="17.29dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="appname"
+            android:textSize="11.3dp" />
+
+        <TextView
+            android:id="@+id/notititle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginLeft="6.13dp"
+            android:layout_marginTop="17.29dp"
+            android:textSize="11.3dp"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/noti_category"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginLeft="6.13dp"
+            android:layout_marginTop="17.29dp"
+            android:textSize="11.3dp"
+            android:text="TextView" />
 
         <TextView
             android:id="@+id/noti_id"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="2dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"/>
+            android:layout_marginLeft="5dp" />
 
 
     </LinearLayout>
