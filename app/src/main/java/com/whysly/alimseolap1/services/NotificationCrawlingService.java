@@ -195,9 +195,7 @@ public class NotificationCrawlingService extends NotificationListenerService {
         }
 
         //크롤링되지 않기로 한 앱 리스트 테이블에서 해당 알림 앱의 패키지명으로 검색하여,
-        //검색 결과가 1이면 검색이 되었단 말이므로, 서비스를 종료합니다.
-        //room 함수를 메인쓰레드에서 작동시키는 것은 권고되지 않는 방법이나,
-        //사용자의 앱 사용 환경과 관련없는 처리일 경우, 메인쓰레드에서 함수를 가동시켜도 좋습니다.
+
         else if (appDatabase.appDao().searchNotApp(pakage_name) != 0){
             Log.d("NotiCrawlingService", "이 앱은 선택해제 되어 있으므로 걸러집니다.");
             return ;

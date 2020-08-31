@@ -71,6 +71,8 @@
         </LinearLayout>
 
         <LinearLayout
+            android:onClick="onSettingClick"
+            android:id="@+id/suggest"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="center_vertical"
@@ -102,6 +104,8 @@
         </LinearLayout>
 
         <LinearLayout
+            android:onClick="onSettingClick"
+            android:id="@+id/introduce"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="horizontal"

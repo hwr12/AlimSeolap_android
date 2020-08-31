@@ -2,19 +2,20 @@
 <androidx.appcompat.widget.Toolbar
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/colorTransparent">
+    android:layout_height="177dp"
+    android:background="@color/colorTransparent"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center_horizontal">
 
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="199dp"
-        android:layout_height="167dp"
-        android:layout_marginTop="10dp"
-        app:srcCompat="@drawable/wordcloudsample"
-        android:layout_gravity="center_horizontal"
-        />
+        <WebView
+            android:id="@+id/webViewmain"
+            android:layout_width="300dp"
+            android:layout_height="167dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="5dp">
+        </WebView>
 
 </androidx.appcompat.widget.Toolbar>

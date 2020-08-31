@@ -9,8 +9,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -58,6 +61,7 @@ public class MainFragment extends Fragment {
     NotificationDatabase db;
     MainViewModel model;
     List<NotificationEntity> entities;
+    WebView webview;
 
 
     @Nullable
@@ -66,15 +70,33 @@ public class MainFragment extends Fragment {
 
 
 
+
         View view = inflater.inflate(R.layout.all_fragment2, null);
 
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.wordcloud_toolbar);
+
+
+
         ActionBar actionBar = ((MainActivity)getActivity()).getSupportActionBar();
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayShowCustomEnabled(true);
         View viewToolbar = getActivity().getLayoutInflater().inflate(R.layout.custom_toolbar_all, null);
         activity.getSupportActionBar().setCustomView(viewToolbar, new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER));
+
+        webview = (WebView) view.findViewById(R.id.webViewmain);
+        WebSettings settings = webview.getSettings();
+        settings.setJavaScriptEnabled(true);
+        webview.loadUrl("file:///android_asset/index.html");
+        webview.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return (event.getAction() == MotionEvent.ACTION_MOVE);
+            }
+        });
+        webview.setVerticalScrollBarEnabled(false);
+        webview.setHorizontalScrollBarEnabled(false);
+
 
         LocalBroadcastManager.getInstance(this.getContext()).registerReceiver(mBroadcastReceiver_remove,
                 new IntentFilter("remove"));

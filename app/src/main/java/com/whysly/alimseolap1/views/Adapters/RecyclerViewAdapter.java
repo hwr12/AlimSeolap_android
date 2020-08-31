@@ -16,6 +16,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -63,8 +64,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);        return viewHolder;
+
+  /*    else if(false) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_date_item, parent, false);
+            DateViewHolder dateViewHolder = new DateViewHolder(view);        return dateViewHolder;
+        }*/
+    }
+
+    public class DateViewHolder extends RecyclerView.ViewHolder {
+        TextView date;
+
+        public DateViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+
+        }
     }
 
     // 재활용 되는 View가 호출, Adapter가 해당 position에 해당하는 데이터를 결합

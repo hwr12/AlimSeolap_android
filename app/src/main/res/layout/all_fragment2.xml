@@ -20,19 +20,21 @@
             android:layout_width="match_parent"
             android:layout_height="170dp"
             app:layout_scrollFlags="scroll|snap"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:elevation="0dp">
+            android:elevation="0dp"
+            android:orientation="vertical">
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/anmation_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:lottie_autoPlay="true"
-                app:lottie_rawRes="@raw/mainLottie"/>
-
+                android:layout_width="150dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal"
+                app:lottie_autoPlay="false"
+                app:lottie_rawRes="@raw/mainlottie" />
+            <!--
             <Switch
                 android:id="@+id/switch1"
                 android:layout_width="wrap_content"
@@ -47,6 +49,7 @@
                 android:textOn="관심"
                 android:thumb="@drawable/switch_thumb_selector"
                 android:track="@drawable/switch_trac_selector" />
+-->
 
         </LinearLayout>
 

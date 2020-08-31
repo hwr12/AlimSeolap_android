@@ -1,12 +1,15 @@
 package com.whysly.alimseolap1.views.Activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,6 +33,7 @@ import com.whysly.alimseolap1.models.NotiData;
 import com.whysly.alimseolap1.services.NotificationCrawlingService;
 import com.whysly.alimseolap1.views.Adapters.ContentsPagerAdapter;
 import com.whysly.alimseolap1.views.Adapters.RecyclerViewAdapter;
+import com.whysly.alimseolap1.views.Adapters.demo_e_basic.ExpandableExampleActivity;
 import com.whysly.alimseolap1.views.Fragment.MainFragment;
 import com.whysly.alimseolap1.views.Fragment.SelectAppFragment;
 import com.whysly.alimseolap1.views.Fragment.SettingsFragment;
@@ -59,6 +63,9 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
 
         mContext = getApplicationContext();
         tab_layout = (TabLayout) findViewById(R.id.tab_layout);
@@ -117,6 +124,8 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
         //initToolbar();
 
 
+        checkStoragePermission();
+
 
         Intent service_intent = new Intent(this, NotificationCrawlingService.class);
 
@@ -146,6 +155,8 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
 
         }
 
+
+
     }
 
     public void onButtonClick(android.view.View view) {
@@ -158,12 +169,14 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
                 Intent intent = new Intent(this, EditMyProfile.class);
                 startActivity(intent);
                 break ;
-            //case R.id.buttonGreen :
-
-            //break ;
-            //case R.id.buttonBlue :
-
-            //break ;
+            case R.id.suggest :
+                Intent intent2 = new Intent(this, ExpandableExampleActivity.class);
+                startActivity(intent2);
+            break ;
+            case R.id.introduce :
+                Intent intent3 = new Intent(this, WebViewActivity.class);
+                startActivity(intent3);
+            break ;
         }
     }
 
@@ -181,6 +194,27 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
         Log.d("준영_서비스", "NotiCrawlingService가 안돌아가고 있습니다 ");
         return false;
     }
+
+    public void checkStoragePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { // 마시멜로우 버전과 같거나 이상이라면
+            if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                    || checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if(shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    Toast.makeText(this, "외부 저장소 사용을 위해 읽기/쓰기 필요", Toast.LENGTH_SHORT).show();
+                }
+
+                requestPermissions(new String[]
+                                {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE},
+                        2);  //마지막 인자는 체크해야될 권한 갯수
+
+            } else {
+                //Toast.makeText(this, "권한 승인되었음", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
+
 
 
 
