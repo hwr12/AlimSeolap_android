@@ -50,10 +50,14 @@ public abstract class WordDao {
             "WHERE id = (:ids)")
     public abstract WordEntity[] loadWords(long[] ids);
 
+//    @Query("SELECT * FROM WordEntity " +
+//            "WHERE id = (:id)")
+//    public abstract WordEntity loadWord(long id);
+
+
     @Query("SELECT * FROM WordEntity " +
             "WHERE id = (:id)")
     public abstract WordEntity loadWord(long id);
-
     //단어 모델을 단어로 검색하여 id를 가져옵니다.
     @Query("SELECT id FROM WordEntity " +
             "WHERE word = :word")
@@ -89,10 +93,10 @@ public abstract class WordDao {
         for(String word : words){
             long temp_id = searchWord(word);
             if( temp_id == 0 ){
-                Log.d("준영", word +"는 없는 단어라서 추가합니다.");
-                //searchWord 함수가 0을 반환하면, 해당 단어가 없다는 것입니다.
-                WordEntity wordEntity = new WordEntity();
-                wordEntity.word = word;
+                    Log.d("준영", word +"는 없는 단어라서 추가합니다.");
+                    //searchWord 함수가 0을 반환하면, 해당 단어가 없다는 것입니다.
+                    WordEntity wordEntity = new WordEntity();
+                    wordEntity.word = word;
                 ids[index] = insertWord(wordEntity);
                 index++;
             }else{

@@ -40,14 +40,16 @@ import com.whysly.alimseolap1.views.Adapters.common.widget.ExpandableItemIndicat
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-class ExpandableExampleAdapter
+public class ExpandableExampleAdapter
         extends AbstractExpandableItemAdapter<ExpandableExampleAdapter.MyGroupViewHolder, ExpandableExampleAdapter.MyChildViewHolder> {
     private static final String TAG = "MyExpandableItemAdapter";
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
+    SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("dd일 hh시 mm분");
 
     // NOTE: Make accessible with short name
     private List<NotificationEntity> entities = new ArrayList<>();
@@ -63,6 +65,13 @@ class ExpandableExampleAdapter
             mContainer = v.findViewById(R.id.container);
             mTextView = v.findViewById(android.R.id.text1);
         }
+    }
+
+    public void setEntities(List<NotificationEntity> entities) {
+        this.entities = entities;
+        notifyDataSetChanged();
+        notifyItemInserted(entities.size());
+
     }
 
     public static class MyGroupViewHolder extends MyBaseViewHolder {
@@ -173,6 +182,7 @@ class ExpandableExampleAdapter
     public void onBindGroupViewHolder(@NonNull MyGroupViewHolder holder, int groupPosition, int viewType) {
         String title = entities.stream()
                 .map(e -> simpleDateFormat.format(e.arrive_time))
+                .sorted(Comparator.reverseOrder())
                 .distinct()
                 .collect(Collectors.toList())
                 .get(groupPosition);
@@ -251,12 +261,14 @@ class ExpandableExampleAdapter
 
         String date = entities.stream()
                 .map(e -> simpleDateFormat.format(e.arrive_time))
+                .sorted(Comparator.reverseOrder())
                 .distinct()
                 .collect(Collectors.toList()).get(groupPosition);
 
         NotificationEntity data = entities.stream()
                 .filter(e -> simpleDateFormat.format(e.arrive_time).equals(date))
                 .collect(Collectors.toList()).get(childPosition);
+
 
 
         // 데이터 결합
@@ -281,7 +293,7 @@ class ExpandableExampleAdapter
 //        holder.app_string.setText("app_string : " + data.getApp_string());
 //        Log.d("준영", position + " 번째 알림의 app_string은 " + data.getApp_string() + " 입니다.");
 
-        holder.noti_date.setText(simpleDateFormat.format(data.arrive_time));
+        holder.noti_date.setText(simpleDateFormat2.format(data.arrive_time));
         Log.d("준영", childPosition + " 번째 알림의 noti_date은 " + data.arrive_time.toString() + " 입니다.");
 
         try{

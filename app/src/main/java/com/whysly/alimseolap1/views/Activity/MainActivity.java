@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.whysly.alimseolap1.R;
 import com.whysly.alimseolap1.interfaces.MainInterface;
 import com.whysly.alimseolap1.models.NotiData;
@@ -56,12 +57,14 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
     WindowManager wm;
     android.view.View v;
     MainViewModel model;
+    private FirebaseAuth mAuth;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_main);
 
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();

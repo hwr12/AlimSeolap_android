@@ -1,5 +1,6 @@
 package com.whysly.alimseolap1.views.Fragment;
 
+import android.animation.Animator;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +29,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.gson.JsonObject;
 import com.whysly.alimseolap1.R;
 import com.whysly.alimseolap1.interfaces.MyService;
@@ -36,6 +38,9 @@ import com.whysly.alimseolap1.models.entities.NotificationEntity;
 import com.whysly.alimseolap1.views.Activity.MainActivity;
 import com.whysly.alimseolap1.views.Activity.MainViewModel;
 import com.whysly.alimseolap1.views.Adapters.RecyclerViewAdapter;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
@@ -62,6 +67,8 @@ public class MainFragment extends Fragment {
     MainViewModel model;
     List<NotificationEntity> entities;
     WebView webview;
+    LottieAnimationView animationView;
+    LottieAnimationView animationView2;
 
 
     @Nullable
@@ -86,8 +93,12 @@ public class MainFragment extends Fragment {
 
         webview = (WebView) view.findViewById(R.id.webViewmain);
         WebSettings settings = webview.getSettings();
+
+
+        settings.setLoadsImagesAutomatically(true);
         settings.setJavaScriptEnabled(true);
-        webview.loadUrl("file:///android_asset/index.html");
+        webview.loadUrl("file:///android_asset/wordcloud.html");
+
         webview.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -96,6 +107,42 @@ public class MainFragment extends Fragment {
         });
         webview.setVerticalScrollBarEnabled(false);
         webview.setHorizontalScrollBarEnabled(false);
+
+
+
+
+        animationView = (LottieAnimationView) view.findViewById(R.id.animation_view);
+
+
+        animationView.setOnClickListener(this::onLottieClick);
+
+
+        animationView.addAnimatorListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+
+
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
 
 
         LocalBroadcastManager.getInstance(this.getContext()).registerReceiver(mBroadcastReceiver_remove,
@@ -122,7 +169,29 @@ public class MainFragment extends Fragment {
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
 
         return view;
-}
+    }
+
+    int i = 0;
+
+    public void onLottieClick(android.view.View view) {
+
+        if( i == 0 ) {
+            animationView.setSpeed((float) 1.5);
+            animationView.playAnimation();
+            i = 1;
+        }
+        else if (i == 1){
+            animationView.setSpeed((float) -1.5);
+            animationView.playAnimation();
+            i = 0;
+
+        }
+
+    }
+
+    public void onLottieClick2(android.view.View view) {
+
+    }
 
     @Override
     public void onDestroy() {
@@ -172,6 +241,27 @@ public class MainFragment extends Fragment {
 
             startActivity(intent1);
             // intent ..
+
+
+            try {
+                // Create a new instance of a JSONObject
+                final JSONObject object = new JSONObject();
+
+                // With put you can add a name/value pair to the JSONObject
+                object.put("name", "test");
+                object.put("content", "Hello World!!!1");
+                object.put("year", 2016);
+                object.put("value", 3.23);
+                object.put("member", true);
+                object.put("null_value", JSONObject.NULL);
+
+                // Calling toString() on the JSONObject returns the JSON in string format.
+                final String json = object.toString();
+
+            } catch (
+                    JSONException e) {
+                Log.e("TAG", "Failed to create JSONObject", e);
+            }
         }
 
     };
@@ -231,6 +321,9 @@ public class MainFragment extends Fragment {
     }
 
      */
+
+
+
 
 
 

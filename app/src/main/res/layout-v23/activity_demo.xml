@@ -15,7 +15,7 @@
        limitations under the License.
 -->
 <RelativeLayout
-    android:id="@+id/container"
+    android:id="@+id/container1"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />

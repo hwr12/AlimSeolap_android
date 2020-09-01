@@ -159,7 +159,7 @@ public class NotificationCrawlingService extends NotificationListenerService {
                 "service",
                 "reminder",
                 "error",
-                "msg",
+
                 "event"
         ));
 

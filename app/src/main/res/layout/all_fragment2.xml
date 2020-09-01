@@ -27,13 +27,19 @@
             android:elevation="0dp"
             android:orientation="vertical">
 
+
+
             <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/anmation_view"
-                android:layout_width="150dp"
-                android:layout_height="70dp"
+                android:id="@+id/animation_view"
+                android:layout_width="125dp"
+                android:layout_height="62.5dp"
                 android:layout_gravity="center_horizontal"
+                android:background="@color/mdtp_white"
                 app:lottie_autoPlay="false"
-                app:lottie_rawRes="@raw/mainlottie" />
+                app:lottie_rawRes="@raw/mainlottie"
+                android:visibility="visible"/>
+
+
             <!--
             <Switch
                 android:id="@+id/switch1"

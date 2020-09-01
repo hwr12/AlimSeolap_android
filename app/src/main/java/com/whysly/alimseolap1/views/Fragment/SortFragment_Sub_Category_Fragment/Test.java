@@ -44,7 +44,7 @@ import com.whysly.alimseolap1.views.Adapters.common.data.AbstractExpandableDataP
 import com.whysly.alimseolap1.views.Adapters.demo_e_basic.ExpandableExampleActivity;
 import com.whysly.alimseolap1.views.Adapters.demo_e_basic.ExpandableExampleAdapter;
 
-public class CategoryGame
+public class Test
         extends Fragment
         implements RecyclerViewExpandableItemManager.OnGroupCollapseListener,
         RecyclerViewExpandableItemManager.OnGroupExpandListener {
@@ -57,13 +57,13 @@ public class CategoryGame
 
     private MainViewModel viewModel;
 
-    public CategoryGame() {
+    public Test() {
         super();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_category_game, container, false);
+        return inflater.inflate(R.layout.fragment_category_all, container, false);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class CategoryGame
         viewModel = new ViewModelProvider(requireActivity(), new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication())).get(MainViewModel.class);
 
         //noinspection ConstantConditions
-        mRecyclerView = getView().findViewById(R.id.recycler_game);
+        mRecyclerView = getView().findViewById(R.id.recycler_all);
         mLayoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
 
 
@@ -81,7 +81,7 @@ public class CategoryGame
         mRecyclerViewExpandableItemManager = new RecyclerViewExpandableItemManager(eimSavedState);
         mRecyclerViewExpandableItemManager.setOnGroupExpandListener(this);
         mRecyclerViewExpandableItemManager.setOnGroupCollapseListener(this);
-        mRecyclerViewExpandableItemManager.setDefaultGroupsExpandedState(true);
+
         //adapter
         ExpandableExampleAdapter myItemAdapter = new ExpandableExampleAdapter();
 

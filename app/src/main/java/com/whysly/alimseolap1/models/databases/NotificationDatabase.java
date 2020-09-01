@@ -1,16 +1,16 @@
 package com.whysly.alimseolap1.models.databases;
 
-import android.content.Context;
+        import android.content.Context;
 
-import androidx.room.Database;
-import androidx.room.Room;
-import androidx.room.RoomDatabase;
-import androidx.room.TypeConverters;
+        import androidx.room.Database;
+        import androidx.room.Room;
+        import androidx.room.RoomDatabase;
+        import androidx.room.TypeConverters;
 
-import com.whysly.alimseolap1.DataTransformer;
-import com.whysly.alimseolap1.models.daos.NotificationDao;
-import com.whysly.alimseolap1.models.entities.NotificationEntity;
-import com.whysly.alimseolap1.models.entities.WordEntity;
+        import com.whysly.alimseolap1.DataTransformer;
+        import com.whysly.alimseolap1.models.daos.NotificationDao;
+        import com.whysly.alimseolap1.models.entities.NotificationEntity;
+        import com.whysly.alimseolap1.models.entities.WordEntity;
 
 @Database(entities = {NotificationEntity.class, WordEntity.class}, version = 1)
 @TypeConverters({DataTransformer.class})

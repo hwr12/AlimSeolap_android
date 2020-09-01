@@ -90,6 +90,9 @@ public class SortFragment extends Fragment  {
         //getSupportFragmentManager로 프래그먼트 참조가능
         CategoryPagerAdapter adapter = new CategoryPagerAdapter(getFragmentManager());
 
+//        CategoryAll categoryAll = new CategoryAll();
+//        adapter.addItem(categoryAll);
+
         CategoryAll categoryAll = new CategoryAll();
         adapter.addItem(categoryAll);
 
