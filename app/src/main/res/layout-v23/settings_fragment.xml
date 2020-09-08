@@ -20,7 +20,7 @@
             app:srcCompat="@drawable/alimi_sample" />
 
         <TextView
-        android:id="@+id/textView"
+        android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -269,6 +269,8 @@
         </LinearLayout>
 
         <LinearLayout
+            android:onClick="onSettingClick"
+            android:id="@+id/log_out"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="horizontal"

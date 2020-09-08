@@ -57,8 +57,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void setEntities(List<NotificationEntity> entities) {
         this.entities = entities;
         notifyDataSetChanged();
-        notifyItemInserted(entities.size());
-
+        notifyItemInserted(entities.size() - 1);
     }
 
 
@@ -160,6 +159,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
 
+
     public void removeItemView(int position) {
         //db에서도 값을 지웁니다.
         Log.d("지웁니다", "noti_idx2: "+position);
@@ -169,7 +169,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, entities.size()); // 지워진 만큼 다시 채워넣기.
     }
-
 
 
 

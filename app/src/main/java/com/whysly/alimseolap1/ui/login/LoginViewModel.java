@@ -1,15 +1,18 @@
 package com.whysly.alimseolap1.ui.login;
 
+import android.util.Patterns;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import android.util.Patterns;
-
+import com.whysly.alimseolap1.R;
 import com.whysly.alimseolap1.data.LoginRepository;
 import com.whysly.alimseolap1.data.Result;
 import com.whysly.alimseolap1.data.model.LoggedInUser;
-import com.whysly.alimseolap1.R;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LoginViewModel extends ViewModel {
 
@@ -65,6 +68,28 @@ public class LoginViewModel extends ViewModel {
 
     // A placeholder password validation check
     private boolean isPasswordValid(String password) {
-        return password != null && password.trim().length() > 5;
+
+        String regex = "^(?=.*[0-9])"
+                + "(?=.*[a-z])"
+                + "(?=\\S+$).{8,20}$";
+
+        // Compile the ReGex
+        Pattern p = Pattern.compile(regex);
+
+        // If the password is empty
+        // return false
+        if (password == null) {
+            return false;
+        }
+
+        // Pattern class contains matcher() method
+        // to find matching between given password
+        // and regular expression.
+        Matcher m = p.matcher(password);
+
+        // Return if the password
+        // matched the ReGex
+        return m.matches();
+
     }
 }

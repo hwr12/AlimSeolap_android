@@ -1,5 +1,7 @@
 package com.whysly.alimseolap1.ui.login;
 
+import com.google.firebase.auth.FirebaseUser;
+
 /**
  * Class exposing authenticated user details to the UI.
  */
@@ -10,6 +12,10 @@ class LoggedInUserView {
     LoggedInUserView(String displayName) {
         this.displayName = displayName;
     }
+    LoggedInUserView(FirebaseUser user) {
+        this.displayName = user.getDisplayName();
+    }
+
 
     String getDisplayName() {
         return displayName;

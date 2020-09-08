@@ -39,10 +39,16 @@ import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDec
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
 import com.h6ah4i.android.widget.advrecyclerview.utils.WrapperAdapterUtils;
 import com.whysly.alimseolap1.R;
+import com.whysly.alimseolap1.models.entities.NotificationEntity;
 import com.whysly.alimseolap1.views.Activity.MainViewModel;
 import com.whysly.alimseolap1.views.Adapters.common.data.AbstractExpandableDataProvider;
 import com.whysly.alimseolap1.views.Adapters.demo_e_basic.ExpandableExampleActivity;
 import com.whysly.alimseolap1.views.Adapters.demo_e_basic.ExpandableExampleAdapter;
+import com.whysly.alimseolap1.views.Fragment.SortViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CategoryAll
         extends Fragment
@@ -57,6 +63,8 @@ public class CategoryAll
 
     private MainViewModel viewModel;
 
+    private List<NotificationEntity> notificationEntities = new ArrayList<>();
+
     public CategoryAll() {
         super();
     }
@@ -69,6 +77,8 @@ public class CategoryAll
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        SortViewModel sortViewModel = new ViewModelProvider(requireActivity()).get(SortViewModel.class);
+
 
         viewModel = new ViewModelProvider(requireActivity(), new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication())).get(MainViewModel.class);
 
@@ -113,12 +123,33 @@ public class CategoryAll
 
         mRecyclerViewExpandableItemManager.attachRecyclerView(mRecyclerView);
 
-
-        viewModel.getNotificationDao().loadAllNotificationLiveData().observe(this, notificationEntities -> {
+        viewModel.getNotificationDao().loadAllNotificationLiveData().observe(getViewLifecycleOwner(), notificationEntities -> {
+            this.notificationEntities = notificationEntities;
             myItemAdapter.setEntities(notificationEntities);
-
         });
 
+        sortViewModel.queryText.observe(getViewLifecycleOwner(), query -> {
+            if (query.isEmpty()) {
+                myItemAdapter.setEntities(this.notificationEntities);
+            } else {
+                List<NotificationEntity> filtered = this.notificationEntities.stream()
+                        .filter(e -> {
+                            return e.app_name.toLowerCase().contains(query.toLowerCase()) ||
+                                    e.content.toLowerCase().contains(query.toLowerCase());
+                        }).collect(Collectors.toList());
+                myItemAdapter.setEntities(filtered);
+            }
+        });
+
+
+//        MediatorLiveData<List<NotificationEntity>> mediatorLiveData = new MediatorLiveData<>();
+//        mediatorLiveData.addSource(sortViewModel.queryText, query -> {
+//
+//        });
+//
+//        mediatorLiveData.addSource(viewModel.getNotificationDao().loadAllNotificationLiveData(), notificationEntities -> {
+//
+//        });
 
     }
 

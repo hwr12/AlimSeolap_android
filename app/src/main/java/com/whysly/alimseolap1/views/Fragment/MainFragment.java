@@ -5,12 +5,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
@@ -37,11 +39,15 @@ import com.whysly.alimseolap1.models.databases.NotificationDatabase;
 import com.whysly.alimseolap1.models.entities.NotificationEntity;
 import com.whysly.alimseolap1.views.Activity.MainActivity;
 import com.whysly.alimseolap1.views.Activity.MainViewModel;
+import com.whysly.alimseolap1.views.Activity.WebViewActivity;
 import com.whysly.alimseolap1.views.Adapters.RecyclerViewAdapter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -66,9 +72,14 @@ public class MainFragment extends Fragment {
     NotificationDatabase db;
     MainViewModel model;
     List<NotificationEntity> entities;
-    WebView webview;
+
     LottieAnimationView animationView;
     LottieAnimationView animationView2;
+    Handler handler;
+    String string;
+    WebView webview;
+    WebSettings settings;
+
 
 
     @Nullable
@@ -76,14 +87,9 @@ public class MainFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
 
-
-
         View view = inflater.inflate(R.layout.all_fragment2, null);
 
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.wordcloud_toolbar);
-
-
-
         ActionBar actionBar = ((MainActivity)getActivity()).getSupportActionBar();
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
@@ -92,21 +98,46 @@ public class MainFragment extends Fragment {
         activity.getSupportActionBar().setCustomView(viewToolbar, new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER));
 
         webview = (WebView) view.findViewById(R.id.webViewmain);
-        WebSettings settings = webview.getSettings();
+        settings = webview.getSettings();
 
-
-        settings.setLoadsImagesAutomatically(true);
+        //settings.setLoadsImagesAutomatically(true);
         settings.setJavaScriptEnabled(true);
-        webview.loadUrl("file:///android_asset/wordcloud.html");
+        //webview.setWebViewClient(new WebViewClient());
+      //webview.loadUrl("file:///android_asset/wordcloud.html");
+//        File file = new File("/data/data/packagename/foldername/");
+//        webView.loadUrl("file:///" + file);
 
-        webview.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return (event.getAction() == MotionEvent.ACTION_MOVE);
-            }
-        });
+        //webview.clearHistory();
+       //settings.setAppCacheEnabled(false);
+        //settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+
+        //settings.setAppCacheEnabled(false);
+        //settings.setLoadsImagesAutomatically(false);
+
+       webview.loadUrl("file:///android_asset/wordcloud.html");
+
+       webview.setOnLongClickListener(new View.OnLongClickListener() {
+           @Override
+           public boolean onLongClick(View view) {
+               Intent toWebViewActivity = new Intent(getContext(), WebViewActivity.class);
+               startActivity(toWebViewActivity);
+               return false;
+           }
+       });
+
+
+//        webview.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                return (event.getAction() == MotionEvent.ACTION_MOVE);
+//            }
+//        });
+//
+//        //string = "{'청머리오리':5,'검은목논병아리':8}";
         webview.setVerticalScrollBarEnabled(false);
         webview.setHorizontalScrollBarEnabled(false);
+        //webview.addJavascriptInterface(new AndroidBridge(), "MyTestApp");
+       // webview.loadUrl("javascript:function draw(words)");
 
 
 
@@ -169,7 +200,13 @@ public class MainFragment extends Fragment {
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
 
         return view;
+
     }
+
+
+
+
+
 
     int i = 0;
 
@@ -184,7 +221,6 @@ public class MainFragment extends Fragment {
             animationView.setSpeed((float) -1.5);
             animationView.playAnimation();
             i = 0;
-
         }
 
     }
@@ -196,9 +232,10 @@ public class MainFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        webview.destroy();
+        webview = null;
 
     }
-
 
     private BroadcastReceiver mBroadcastReceiver_remove = new BroadcastReceiver() {
         @Override

@@ -1,6 +1,8 @@
 package com.whysly.alimseolap1.views.Fragment;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -31,7 +34,7 @@ import com.whysly.alimseolap1.views.Fragment.SortFragment_Sub_Category_Fragment.
 
 import java.util.List;
 
-public class SortFragment extends Fragment  {
+public class SortFragment extends Fragment {
     ViewPager viewPager;
 
     RecyclerViewAdapter recyclerViewAdapter;
@@ -50,6 +53,8 @@ public class SortFragment extends Fragment  {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        SortViewModel viewModel = new ViewModelProvider(requireActivity()).get(SortViewModel.class);
+
         View view = inflater.inflate(R.layout.sort_fragment, null);
 
 
@@ -65,13 +70,30 @@ public class SortFragment extends Fragment  {
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayShowCustomEnabled(true);
         View viewToolbar = getActivity().getLayoutInflater().inflate(R.layout.custom_toolbar, null);
+        EditText searchEditText = viewToolbar.findViewById(R.id.search);
+
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                viewModel.queryText.setValue(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         activity.getSupportActionBar().setCustomView(viewToolbar, new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER));
 
 
 
         tab_layout = (TabLayout) view.findViewById(R.id.tab_layout_category);
-
-
         tab_layout.getTabAt(0).setText("전체");
         tab_layout.getTabAt(1).setText("쇼핑");
         tab_layout.getTabAt(2).setText("게임");

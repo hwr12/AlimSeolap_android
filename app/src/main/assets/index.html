@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>워드클라우드 테스트</title>
+    <meta charset="utf-8">
+    <meta name="description" content="워드클라우드 만들어보기">
+    <meta name="keywords" content="">
+    <script src="./script/jquery-3.4.1.min.js" charset="utf-8" type="text/javascript"></script>
+    <script src="./script/jqcloud.min.js" charset="utf-8" type="text/javascript"></script>
+    <link rel="stylesheet" href="./styles/reset.css" type="text/css">
+<link rel="stylesheet" href="./styles/jqcloud.min.css" type="text/css">
+</head>
+
+<body>
+    <div id="test_wrap">
+       <div id="jqcloud" style="height: 167dp; width: 300dp; border: 1px solid #ccc;">
+           안녕
+       </div>
+       
+    </div>
+<script type="text/javascript">
+function wordcloud(){
+    var origin_text = '{"청머리오리":5,"검은목논병아리":8}';
+    alert(string + "도착")
+
+
+        var words_array = [];
+        JSON.parse(origin_text, (key, value) => {
+            
+            var words_json = new Object();
+            words_json.text = key;
+            words_json.weight = value;
+            words_array.push(words_json);
+        });
+        words_array = words_array.splice(0,words_array.length -2);
+        
+        $('#jqcloud').jQCloud(words_array,{
+            autoResize: true,
+            shape: 'circle'
+        });     
+}
+wordcloud();
+</script>
+</body>
+
+
+</html>

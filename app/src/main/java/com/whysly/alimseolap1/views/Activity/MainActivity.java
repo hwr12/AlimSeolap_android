@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -26,12 +27,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.nhn.android.naverlogin.OAuthLogin;
+import com.nhn.android.naverlogin.data.OAuthLoginState;
 import com.whysly.alimseolap1.R;
+import com.whysly.alimseolap1.Util.GoogleSignInOptionSingleTone;
+import com.whysly.alimseolap1.Util.LoginMethod;
 import com.whysly.alimseolap1.interfaces.MainInterface;
 import com.whysly.alimseolap1.models.NotiData;
 import com.whysly.alimseolap1.services.NotificationCrawlingService;
+import com.whysly.alimseolap1.ui.login.LoginActivity;
 import com.whysly.alimseolap1.views.Adapters.ContentsPagerAdapter;
 import com.whysly.alimseolap1.views.Adapters.RecyclerViewAdapter;
 import com.whysly.alimseolap1.views.Adapters.demo_e_basic.ExpandableExampleActivity;
@@ -58,13 +69,39 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
     android.view.View v;
     MainViewModel model;
     private FirebaseAuth mAuth;
+    GoogleSignInClient mGoogleSignInClient;
+    LoginMethod method = new LoginMethod();
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAuth = FirebaseAuth.getInstance();
+
+        // 이미 구글 파이어베이스 로그인 되어있을 경우
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+
+        }
+
+        // 이미 네이버 로그인 되어있을 경우
+        else if (OAuthLogin.getInstance().getState(getApplicationContext()) != OAuthLoginState.NEED_LOGIN) {
+            method.setLoginMethod("naver");
+            if (OAuthLogin.getInstance().getState(getApplicationContext()) == OAuthLoginState.NEED_REFRESH_TOKEN) {
+                OAuthLogin.getInstance().refreshAccessToken(getApplicationContext());
+            }
+        }
+
+        else {
+            Intent loginIntent = new Intent(this, LoginActivity.class);
+            startActivity(loginIntent);
+        }
+
+//        CsvTry csvTry = new CsvTry(getApplicationContext());
+        //csvTry.generateCsvFile();
+
+
+
         setContentView(R.layout.activity_main);
 
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
@@ -180,6 +217,21 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
                 Intent intent3 = new Intent(this, WebViewActivity.class);
                 startActivity(intent3);
             break ;
+
+            case R.id.log_out :
+                method.getLoginMethod();
+                if (method.getLoginMethod().equals("naver")){
+                    signOutNaver(getApplicationContext());
+                    Toast.makeText(this, "네이버, 정상적으로 로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+                else if (method.getLoginMethod().equals("google")) {
+                    signOutGoogle(getApplicationContext());
+                    Toast.makeText(this, "구글, 정상적으로 로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+                Intent intent4 = new Intent(this, LoginActivity.class);
+                startActivity(intent4);
+     //           Toast.makeText(this, "정상적으로 로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
+                break ;
         }
     }
 
@@ -217,7 +269,37 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
     }
 
 
+    private void signOutGoogle(Context context) {
+        GoogleSignInOptionSingleTone gso = new GoogleSignInOptionSingleTone();
+        mGoogleSignInClient = GoogleSignIn.getClient(this,gso.getInstance(getApplicationContext()));
+        mGoogleSignInClient.signOut()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
 
+
+                        // ...
+                    }
+                });
+        FirebaseAuth.getInstance().signOut();
+        Toast.makeText(context, "구글 로그아웃", Toast.LENGTH_LONG).show();
+
+
+
+
+    }
+
+
+    public static void signOutNaver(Context context) {
+        OAuthLogin mOAuthLoginInstance = OAuthLogin.getInstance();
+        String loginState = mOAuthLoginInstance.getState(context).toString();
+        if (!loginState.equals("NEED_LOGIN")) {
+            mOAuthLoginInstance.logout(context);
+            Toast.makeText(context, "네이버 로그아웃", Toast.LENGTH_LONG).show();
+        } else {
+        }
+
+    }
 
 
 

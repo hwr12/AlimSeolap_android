@@ -39,10 +39,16 @@ import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDec
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
 import com.h6ah4i.android.widget.advrecyclerview.utils.WrapperAdapterUtils;
 import com.whysly.alimseolap1.R;
+import com.whysly.alimseolap1.models.entities.NotificationEntity;
 import com.whysly.alimseolap1.views.Activity.MainViewModel;
 import com.whysly.alimseolap1.views.Adapters.common.data.AbstractExpandableDataProvider;
 import com.whysly.alimseolap1.views.Adapters.demo_e_basic.ExpandableExampleActivity;
 import com.whysly.alimseolap1.views.Adapters.demo_e_basic.ExpandableExampleAdapter;
+import com.whysly.alimseolap1.views.Fragment.SortViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CategoryContents
         extends Fragment
@@ -54,7 +60,7 @@ public class CategoryContents
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter mWrappedAdapter;
     private RecyclerViewExpandableItemManager mRecyclerViewExpandableItemManager;
-
+    private List<NotificationEntity> notificationEntities = new ArrayList<>();
     private MainViewModel viewModel;
 
     public CategoryContents() {
@@ -69,7 +75,7 @@ public class CategoryContents
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        SortViewModel sortViewModel = new ViewModelProvider(requireActivity()).get(SortViewModel.class);
         viewModel = new ViewModelProvider(requireActivity(), new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication())).get(MainViewModel.class);
 
         //noinspection ConstantConditions
@@ -111,8 +117,24 @@ public class CategoryContents
 
 
         viewModel.getNotificationDao().loadAllNotificationLiveData().observe(this, notificationEntities -> {
+            this.notificationEntities = notificationEntities;
             myItemAdapter.setEntities(notificationEntities);
 
+        });
+
+
+        sortViewModel.queryText.observe(getViewLifecycleOwner(), query -> {
+            if (query.isEmpty()) {
+                myItemAdapter.setEntities(this.notificationEntities);
+            } else {
+                List<NotificationEntity> filtered = this.notificationEntities.stream()
+                        .filter(e -> {
+                            return e.app_name.toLowerCase().contains(query.toLowerCase()) ||
+                                    e.content.toLowerCase().contains(query.toLowerCase()) &&
+                                            e.category.contains(query.toLowerCase());
+                        }).collect(Collectors.toList());
+                myItemAdapter.setEntities(filtered);
+            }
         });
     }
 
