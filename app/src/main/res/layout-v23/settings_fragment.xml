@@ -12,12 +12,13 @@
         android:layout_height="match_parent">
 
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="93.92dp"
-            android:layout_height="93.92dp"
-            android:layout_gravity="center_horizontal"
-            app:srcCompat="@drawable/alimi_sample" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_pic2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"/>
 
         <TextView
         android:id="@+id/username"
@@ -25,7 +26,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:textColor="@color/overlay_dark_90"
-        android:text="알림이"
         android:textStyle="bold"
         android:textSize="20dp"/>
 
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
-                android:fontFamily="@font/nexon_font"
+                android:fontFamily="@font/notosanskr_medium"
                 android:text="내 정보 수정하기"
                 android:textSize="12dp"
                 android:textColor="@color/overlay_dark_90"
@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
-                android:fontFamily="@font/nexon_font"
+                android:fontFamily="@font/notosanskr_medium"
 
                 android:text="제안하기"
                 android:textColor="@color/overlay_dark_90"
@@ -119,7 +119,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
-                android:fontFamily="@font/nexon_font"
+                android:fontFamily="@font/notosanskr_medium"
                 android:text="알림서랍 팀 소개"
                 android:textSize="12dp"
                 android:textColor="@color/overlay_dark_90"
@@ -148,7 +148,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
-                android:fontFamily="@font/nexon_font"
+                android:fontFamily="@font/notosanskr_medium"
 
                 android:text="푸시알림 수신"
                 android:textSize="12dp"
@@ -181,7 +181,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
-                android:fontFamily="@font/nexon_font"
+                android:fontFamily="@font/notosanskr_medium"
 
                 android:text="서비스 이용약관"
                 android:textSize="12dp"
@@ -212,7 +212,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
-            android:fontFamily="@font/nexon_font"
+            android:fontFamily="@font/notosanskr_medium"
 
                 android:text="개인정보 처리방침"
                 android:textSize="12dp"
@@ -245,7 +245,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="1"
-                android:fontFamily="@font/nexon_font"
+                android:fontFamily="@font/notosanskr_medium"
                 android:text="버전정보"
                 android:textColor="@color/overlay_dark_90"
                 android:textSize="12dp"
@@ -283,7 +283,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
-                android:fontFamily="@font/nexon_font"
+                android:fontFamily="@font/notosanskr_medium"
 
                 android:text="로그아웃"
                 android:textSize="12dp"

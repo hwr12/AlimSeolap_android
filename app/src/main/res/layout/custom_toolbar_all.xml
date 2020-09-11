@@ -5,17 +5,36 @@
     android:layout_width="match_parent"
     android:layout_height="177dp"
     android:background="@color/colorTransparent"
-    android:orientation="vertical"
     android:layout_gravity="center_horizontal"
     android:gravity="center_horizontal">
 
-        <WebView
-            android:id="@+id/webViewmain"
-            android:layout_width="300dp"
-            android:layout_height="167dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="5dp">
-        </WebView>
+
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_x="154dp"
+                    android:layout_y="92dp">
+                        <WebView
+                            android:id="@+id/webViewmain"
+                            android:layout_width="300dp"
+                            android:layout_height="167dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="5dp">
+                        </WebView>
+
+
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/webview_loading"
+                            android:layout_width="125dp"
+                            android:layout_height="62.5dp"
+                            android:layout_gravity="center"
+                            android:background="@color/mdtp_white"
+                            app:lottie_autoPlay="true"
+                            app:lottie_rawRes="@raw/loading" />
+
+                </FrameLayout>
+
 
 </androidx.appcompat.widget.Toolbar>

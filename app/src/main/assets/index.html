@@ -1,48 +1,91 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>워드클라우드 테스트</title>
-    <meta charset="utf-8">
-    <meta name="description" content="워드클라우드 만들어보기">
-    <meta name="keywords" content="">
-    <script src="./script/jquery-3.4.1.min.js" charset="utf-8" type="text/javascript"></script>
-    <script src="./script/jqcloud.min.js" charset="utf-8" type="text/javascript"></script>
-    <link rel="stylesheet" href="./styles/reset.css" type="text/css">
-<link rel="stylesheet" href="./styles/jqcloud.min.css" type="text/css">
+  <style>
+    text:hover {
+        stroke: black;
+    }
+  </style>
+  <script src="./libs/d3.v3.min.js" charset="utf-8"></script>
+  <script src="./libs/d3.layout.cloud.js"></script>
 </head>
-
 <body>
-    <div id="test_wrap">
-       <div id="jqcloud" style="height: 167dp; width: 300dp; border: 1px solid #ccc;">
-           안녕
-       </div>
-       
-    </div>
-<script type="text/javascript">
-function wordcloud(){
-    var origin_text = '{"청머리오리":5,"검은목논병아리":8}';
-    alert(string + "도착")
+  <div id="cloud"></div>
+  <script type="text/javascript">
+  function makeWordCloud(string){
+    var string_text = string;
+
+    var string_array = [];
+    var a = "";
+    JSON.parse(string_text, (key, value) => {
+        /*스트링을 행렬로 변환 [{text: "key", weight: value},{...}]*/
+        var words_json = new Object();
+        words_json.text = key;
+        words_json.weight = value;
+        string_array.push(words_json);
+    });
+    console.log(string_array)
 
 
-        var words_array = [];
-        JSON.parse(origin_text, (key, value) => {
-            
-            var words_json = new Object();
-            words_json.text = key;
-            words_json.weight = value;
-            words_array.push(words_json);
-        });
-        words_array = words_array.splice(0,words_array.length -2);
-        
-        $('#jqcloud').jQCloud(words_array,{
-            autoResize: true,
-            shape: 'circle'
-        });     
-}
-wordcloud();
-</script>
+
+    /*행렬을 csv로 변환*/
+    // csv 파일로 저장할 때 열은 콤마(,)로 구분하고 행은 '\r\n'을 이용하여 구분한다.
+
+
+    for (var i = 0; i < string_array.length - 1; i++) {
+        a += string_array[i].text + "," + string_array[i].weight + "\r\n";
+    }
+
+    var blob = new Blob([a], {
+        type: "text/csv;charset=utf-8",
+        name:"words.csv"
+    });
+    var url = URL.createObjectURL(blob);
+
+
+    var weight = 3,   // change me
+        width = 300,
+        height = 167;
+
+    var fill = d3.scale.category20();
+    d3.csv(url, function(d) {
+      console.log(d.word + "word는 이것");
+        return {
+          text: d.word,
+          size: +d.freq*weight
+        }
+      },
+      function(data) {
+        d3.layout.cloud().size([width, height]).words(data)
+          //.rotate(function() { return ~~(Math.random() * 2) * 90; })
+          .rotate(0)
+          .font("Impact")
+          .fontSize(function(d) { return d.size; })
+          .on("end", draw)
+          .start();
+
+        function draw(words) {
+          d3.select("#cloud").append("svg")
+              .attr("width", width)
+              .attr("height", height)
+            .append("g")
+              .attr("transform", "translate(" + width/2 + "," + height/2 + ")")
+            .selectAll("text")
+              .data(words)
+            .enter().append("text")
+              .style("font-size", function(d) { return d.size + "px"; })
+              .style("font-family", "Impact")
+              .style("fill", function(d, i) { return fill(i); })
+              .attr("text-anchor", "middle")
+              .attr("transform", function(d) {
+                return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+              })
+            .text(function(d) { return d.text; });
+        }
+      });
+    }
+
+  
+  </script>
 </body>
-
-
 </html>

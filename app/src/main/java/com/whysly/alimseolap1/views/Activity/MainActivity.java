@@ -6,12 +6,10 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +25,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.facebook.AccessToken;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,6 +36,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.kakao.auth.Session;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.nhn.android.naverlogin.OAuthLogin;
 import com.nhn.android.naverlogin.data.OAuthLoginState;
 import com.whysly.alimseolap1.R;
@@ -64,13 +69,21 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
     RecyclerView recyclerView;
     List<NotiData> notiData;
     LinearLayoutManager linearLayoutManager;
-    private Context mContext;
+    public static Context mContext;
     WindowManager wm;
     android.view.View v;
     MainViewModel model;
     private FirebaseAuth mAuth;
     GoogleSignInClient mGoogleSignInClient;
-    LoginMethod method = new LoginMethod();
+
+
+    public static Context getContextOfApplication(){
+        return mContext;
+    }
+
+
+
+
 
 
 
@@ -78,19 +91,41 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(getApplication());
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+
+
+
+
         // 이미 구글 파이어베이스 로그인 되어있을 경우
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
+            LoginMethod.setLoginMethod("google");
 
         }
 
-        // 이미 네이버 로그인 되어있을 경우
-        else if (OAuthLogin.getInstance().getState(getApplicationContext()) != OAuthLoginState.NEED_LOGIN) {
-            method.setLoginMethod("naver");
+         //이미 네이버 로그인 되어있을 경우
+        else if (OAuthLogin.getInstance().getState(getApplicationContext()) == OAuthLoginState.OK) {
+            LoginMethod.setLoginMethod("naver");
+
             if (OAuthLogin.getInstance().getState(getApplicationContext()) == OAuthLoginState.NEED_REFRESH_TOKEN) {
                 OAuthLogin.getInstance().refreshAccessToken(getApplicationContext());
             }
         }
+
+        else if ( Session.getCurrentSession().isOpened()) {
+            LoginMethod.setLoginMethod("kakao");
+        }
+
+
+
+
+        else if (accessToken != null && !accessToken.isExpired()) {
+            LoginMethod.setLoginMethod("facebook");
+        }
+
 
         else {
             Intent loginIntent = new Intent(this, LoginActivity.class);
@@ -185,14 +220,13 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
         if (!isPermissionGranted()) {
             // 접근 혀용이 되어있지 않다면 1. 메시지 발생 / 2, 설정으로 이동시킴
             Toast.makeText(getApplicationContext(), getString(R.string.app_name) + " 앱의 알림 권한을 허용해주세요.", Toast.LENGTH_LONG).show();
-            WindowManager.LayoutParams windowManagerParams = new WindowManager.LayoutParams(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN, PixelFormat.TRANSLUCENT);
-            wm = (WindowManager) getSystemService(WINDOW_SERVICE);
-            LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-            v =  inflater.inflate(R.layout.floating_guide, null);
+//            WindowManager.LayoutParams windowManagerParams = new WindowManager.LayoutParams(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+//                    WindowManager.LayoutParams.FLAG_FULLSCREEN, PixelFormat.TRANSLUCENT);
+//            wm = (WindowManager) getSystemService(WINDOW_SERVICE);
+//            LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+//            v =  inflater.inflate(R.layout.floating_guide, null);
             startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
-            wm.addView(v, windowManagerParams);
-
+//            wm.addView(v, windowManagerParams);
         }
 
 
@@ -204,6 +238,7 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
     }
 
     public void onSettingClick(View view) {
+
         switch (view.getId()) {
             case R.id.edit_profile :
                 Intent intent = new Intent(this, EditMyProfile.class);
@@ -219,17 +254,41 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
             break ;
 
             case R.id.log_out :
-                method.getLoginMethod();
-                if (method.getLoginMethod().equals("naver")){
+                if (LoginMethod.getLoginMethod().equals("naver")){
                     signOutNaver(getApplicationContext());
-                    Toast.makeText(this, "네이버, 정상적으로 로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "네이버1, 정상적으로 로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
+                    Intent intent4 = new Intent(this, LoginActivity.class);
+                    startActivity(intent4);
+                    this.finish();
                 }
-                else if (method.getLoginMethod().equals("google")) {
+                else if (LoginMethod.getLoginMethod().equals("google")) {
                     signOutGoogle(getApplicationContext());
                     Toast.makeText(this, "구글, 정상적으로 로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
+                    Intent intent4 = new Intent(this, LoginActivity.class);
+                    startActivity(intent4);
+                    this.finish();
                 }
-                Intent intent4 = new Intent(this, LoginActivity.class);
-                startActivity(intent4);
+                else if (LoginMethod.getLoginMethod().equals("kakao")) {
+                    UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
+                        @Override
+                        public void onCompleteLogout() {
+
+                            Intent intent_logout = new Intent(MainActivity.this, LoginActivity.class);
+                            intent_logout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent_logout);
+                        }
+                    });
+                    Toast.makeText(this, "카카오, 정상적으로 로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
+//                    this.finish();
+                }
+                else if (LoginMethod.getLoginMethod().equals("facebook")) {
+                    LoginManager.getInstance().logOut();
+                    Intent intent_logout = new Intent(MainActivity.this, LoginActivity.class);
+                    intent_logout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent_logout);
+                    Toast.makeText(this, "페이스북, 정상적으로 로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+
      //           Toast.makeText(this, "정상적으로 로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
                 break ;
         }
@@ -283,21 +342,19 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
                 });
         FirebaseAuth.getInstance().signOut();
         Toast.makeText(context, "구글 로그아웃", Toast.LENGTH_LONG).show();
-
-
-
-
     }
-
 
     public static void signOutNaver(Context context) {
         OAuthLogin mOAuthLoginInstance = OAuthLogin.getInstance();
-        String loginState = mOAuthLoginInstance.getState(context).toString();
-        if (!loginState.equals("NEED_LOGIN")) {
-            mOAuthLoginInstance.logout(context);
-            Toast.makeText(context, "네이버 로그아웃", Toast.LENGTH_LONG).show();
-        } else {
-        }
+        mOAuthLoginInstance.logoutAndDeleteToken(context);
+//        String loginState = mOAuthLoginInstance.getState(context).toString();
+
+//        if (!loginState.equals("NEED_LOGIN")) {
+//            mOAuthLoginInstance.logout(context);
+//            Toast.makeText(context, "네이버 로그아웃", Toast.LENGTH_LONG).show();
+//        } else {
+//            mOAuthLoginInstance.logoutAndDeleteToken(context);
+//        }
 
     }
 

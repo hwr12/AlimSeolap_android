@@ -171,6 +171,7 @@
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <ImageButton
+        android:onClick="onLoginClick"
         android:id="@+id/facebook_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -181,6 +182,14 @@
         app:layout_constraintVertical_bias="0.9"
         app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/fake_facebook"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"
+        tools:ignore="MissingConstraints" />
 
     <ImageButton
         android:onClick="onLoginClick"
@@ -196,6 +205,7 @@
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <ImageButton
+        android:onClick="onLoginClick"
         android:id="@+id/kakao_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -206,6 +216,16 @@
         app:layout_constraintVertical_bias="0.9"
         app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+    <com.kakao.usermgmt.LoginButton
+        android:id="@+id/btn_kakao_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="532dp"
+        android:visibility="gone"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:onClick="onLoginClick"

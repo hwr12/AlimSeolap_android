@@ -79,6 +79,7 @@ public class MainFragment extends Fragment {
     String string;
     WebView webview;
     WebSettings settings;
+    final public Handler handler1 = new Handler();
 
 
 
@@ -96,7 +97,7 @@ public class MainFragment extends Fragment {
         activity.getSupportActionBar().setDisplayShowCustomEnabled(true);
         View viewToolbar = getActivity().getLayoutInflater().inflate(R.layout.custom_toolbar_all, null);
         activity.getSupportActionBar().setCustomView(viewToolbar, new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER));
-
+        LottieAnimationView lottieAnimationView = view.findViewById(R.id.webview_loading);
         webview = (WebView) view.findViewById(R.id.webViewmain);
         settings = webview.getSettings();
 
@@ -114,7 +115,17 @@ public class MainFragment extends Fragment {
         //settings.setAppCacheEnabled(false);
         //settings.setLoadsImagesAutomatically(false);
 
-       webview.loadUrl("file:///android_asset/wordcloud.html");
+
+       webview.loadUrl("file:///android_asset/index.html");
+       handler1.post(new Runnable() {
+           @Override
+           public void run() {
+               webview.loadUrl("javascript:makeWordCloud('{\"word\":\"freq\",\"알림서랍\":8,\"시각디자인\":8,\"CDO\":12,\"슬기로움\":6,\"안드로이드\":9,\"강민구\":10,\"디자이너\":6}')");
+               lottieAnimationView.setVisibility(View.GONE);
+           }
+       });
+
+
 
        webview.setOnLongClickListener(new View.OnLongClickListener() {
            @Override

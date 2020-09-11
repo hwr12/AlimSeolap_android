@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.Profile;
+import com.facebook.login.LoginManager;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -37,8 +44,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.auth.UserInfo;
 import com.kakao.auth.ApiErrorCode;
+import com.kakao.auth.AuthType;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.network.ErrorResult;
@@ -60,6 +67,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
 
 public class LoginActivity extends AppCompatActivity   {
 
@@ -72,35 +80,13 @@ public class LoginActivity extends AppCompatActivity   {
     FirebaseUser currentUser;
     OAuthLogin mOAuthLoginModule;
     Context context;
-    private RequestApiTask.SessionCallback sessionCallback;
+    private SessionCallback sessionCallback;
+    FrameLayout  btn_kakao_test;
+    CallbackManager callbackManager;
+    LoginButton signInButtonFacebook;
 
 
 
-//    private void updateUI(FirebaseUser user) {
-//        //hideProgressBar();
-//        if (user != null) {
-//            mBinding.status.setText(getString(R.string.emailpassword_status_fmt,
-//                    user.getEmail(), user.isEmailVerified()));
-//            mBinding.detail.setText(getString(R.string.firebase_status_fmt, user.getUid()));
-//
-//            mBinding.emailPasswordButtons.setVisibility(View.GONE);
-//            mBinding.emailPasswordFields.setVisibility(View.GONE);
-//            mBinding.signedInButtons.setVisibility(View.VISIBLE);
-//
-//            if (user.isEmailVerified()) {
-//                mBinding.verifyEmailButton.setVisibility(View.GONE);
-//            } else {
-//                mBinding.verifyEmailButton.setVisibility(View.VISIBLE);
-//            }
-//        } else {
-//            mBinding.status.setText(R.string.signed_out);
-//            mBinding.detail.setText(null);
-//
-//            mBinding.emailPasswordButtons.setVisibility(View.VISIBLE);
-//            mBinding.emailPasswordFields.setVisibility(View.VISIBLE);
-//            mBinding.signedInButtons.setVisibility(View.GONE);
-//        }
-//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -115,6 +101,7 @@ public class LoginActivity extends AppCompatActivity   {
                 //,OAUTH_CALLBACK_INTENT
                 // SDK 4.1.4 버전부터는 OAUTH_CALLBACK_INTENT변수를 사용하지 않습니다.
         );
+//        getHashKey();
 
         mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_login);
@@ -126,9 +113,36 @@ public class LoginActivity extends AppCompatActivity   {
         final Button loginButton = findViewById(R.id.login);
         //final ProgressBar loadingProgressBar = findViewById(R.id.loading);
         ImageButton signInButtonGoogle = findViewById(R.id.google_login);
-        ImageButton signInButtonFacebook = findViewById(R.id.facebook_login);
         ImageButton signInButtonNaver = findViewById(R.id.naver_login);
         ImageButton signInButtonKakao = findViewById(R.id.kakao_login);
+        btn_kakao_test = findViewById(R.id.btn_kakao_test);
+        signInButtonFacebook =findViewById(R.id.fake_facebook);
+        signInButtonFacebook.setReadPermissions("email");
+        callbackManager = CallbackManager.Factory.create();
+        signInButtonFacebook.registerCallback(callbackManager, new FacebookCallback<com.facebook.login.LoginResult>() {
+           @Override
+           public void onSuccess(com.facebook.login.LoginResult loginResult) {
+               LoginMethod.setLoginMethod("facebook");
+               String.valueOf(loginResult.getAccessToken());
+               String.valueOf(Profile.getCurrentProfile().getName());
+               LoginMethod.setProfilePicUrl(String.valueOf(Profile.getCurrentProfile().getProfilePictureUri(100,100)));
+               LoginMethod.setUserName(String.valueOf(Profile.getCurrentProfile().getName()));
+               updateUiWithUser(new LoggedInUserView(String.valueOf(Profile.getCurrentProfile().getName())));
+
+           }
+
+           @Override
+           public void onCancel() {
+
+           }
+
+           @Override
+           public void onError(FacebookException error) {
+
+           }
+       });
+
+
 
         GoogleSignInOptionSingleTone gso = new GoogleSignInOptionSingleTone();
 
@@ -217,9 +231,15 @@ public class LoginActivity extends AppCompatActivity   {
             }
         });
 
-        sessionCallback = new RequestApiTask.SessionCallback();
-        Session.getCurrentSession().addCallback(sessionCallback);
-        Session.getCurrentSession().checkAndImplicitOpen();
+//        sessionCallback = new SessionCallback();
+//
+//        Session.getCurrentSession().addCallback(sessionCallback);
+//        Session.getCurrentSession().checkAndImplicitOpen();
+
+
+
+
+
 
 
 
@@ -304,6 +324,7 @@ public class LoginActivity extends AppCompatActivity   {
             Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
             Intent login_success = new Intent(this, MainActivity.class);
             startActivity(login_success);
+            this.finish();
         }
 
     }
@@ -328,6 +349,20 @@ public class LoginActivity extends AppCompatActivity   {
             case R.id.naver_login :
                 mOAuthLoginModule.startOauthLoginActivity((Activity)context, mOAuthLoginHandler);
                 break ;
+
+            case R.id.kakao_login :
+                if (sessionCallback == null) {
+                    sessionCallback = new SessionCallback();
+                    Session.getCurrentSession().addCallback(sessionCallback);
+                }
+                Session.getCurrentSession().open(AuthType.KAKAO_LOGIN_ALL, this);
+                //btn_kakao_test.performClick();
+
+                break;
+
+            case R.id.facebook_login :
+                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
+
         }
     }
 
@@ -359,12 +394,11 @@ public class LoginActivity extends AppCompatActivity   {
 //                mOauthExpires.setText(String.valueOf(expiresAt));
 //                mOauthTokenType.setText(tokenType);
 //                mOAuthState.setText(mOAuthLoginModule.getState(getApplicationContext()).toString());
+
                 new RequestApiTask(context).execute();
 
-                LoginMethod method = new LoginMethod();
-                method.setLoginMethod("naver");
 
-                updateUiWithUser(new LoggedInUserView(method.getUserName()));
+
             } else {
                 String errorCode = mOAuthLoginModule.getLastErrorCode(context).getCode();
                 String errorDesc = mOAuthLoginModule.getLastErrorDesc(context);
@@ -379,6 +413,7 @@ public class LoginActivity extends AppCompatActivity   {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
 
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
@@ -397,6 +432,11 @@ public class LoginActivity extends AppCompatActivity   {
             }
 
         }
+        if(Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
+            super.onActivityResult(requestCode, resultCode, data);
+            return;
+        }
+
 
 
     }
@@ -418,9 +458,9 @@ public class LoginActivity extends AppCompatActivity   {
                             Log.d("로그인 성공", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUiWithUser(new LoggedInUserView(user));
-                            LoginMethod method = new LoginMethod();
-                            method.setLoginMethod("google");
-                            method.setUserName(mAuth.getCurrentUser().getDisplayName());
+                            LoginMethod.setProfilePicUrl(user.getPhotoUrl().toString());
+                            LoginMethod.setLoginMethod("google");
+                            LoginMethod.setUserName(mAuth.getCurrentUser().getDisplayName());
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("로그인 실패", "signInWithCredential:failure", task.getException());
@@ -434,37 +474,39 @@ public class LoginActivity extends AppCompatActivity   {
                 });
     }
 
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            if (user != null) {
-                for (UserInfo profile : user.getProviderData()) {
-                    // Id of the provider (ex: google.com)
-                    String providerId = profile.getProviderId();
 
-                    // UID specific to the provider
-                    String uid = profile.getUid();
+    private void createAccount(String email, String password) {
 
-                    // Name, email address, and profile photo Url
-                    String name = profile.getDisplayName();
-                    String email = profile.getEmail();
-                    Uri photoUrl = profile.getPhotoUrl();
-                }
-            }
-            // Signed in successfully, show authenticated UI.
-            updateUiWithUser(new LoggedInUserView(account.getDisplayName()));
-        } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.d("로그인 Activity", "signInResult:failed code=" + e.getStatusCode());
-           showLoginFailed(e.getStatusCode());
-        }
+        // [START create_user_with_email]
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d("회원가입 성공(파이베이스)", "createUserWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Toast.makeText(LoginActivity.this, "최초로그인시 파이어베이스에 등록됨",
+                                    Toast.LENGTH_SHORT).show();
+                            updateUiWithUser(new LoggedInUserView(user));
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w("회원가입 실패", "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "파이어베이스에 등록 안됨",
+                                    Toast.LENGTH_SHORT).show();
+                            updateUiWithUser(null);
+                        }
+
+                        // [END_EXCLUDE]
+                    }
+                });
+        // [END create_user_with_email]
     }
+
     /////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    private static class RequestApiTask extends AsyncTask<Void, Void, StringBuffer> {
+    private class RequestApiTask extends AsyncTask<Void, Void, StringBuffer> {
         private String token;
         Context mContext;
 
@@ -502,7 +544,9 @@ public class LoginActivity extends AppCompatActivity   {
                 }
 
                 br.close();
+                System.out.println(response.toString() + "981217" );
                 return response;
+
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -519,10 +563,16 @@ public class LoginActivity extends AppCompatActivity   {
 
                 String id = response.getString("id");
                 String name = response.getString("name");
-                String age = response.getString("age");
+                //String age = response.getString("age");
                 String gender = response.getString("gender");
                 String email;
+
+                System.out.println(name + "981217");
+
+
                 LoginMethod.setUserName(response.getString("name"));
+                LoginMethod.setProfilePicUrl(response.getString("profile_image"));
+                //upDateUserInfo(name);
 
 
 
@@ -539,57 +589,83 @@ public class LoginActivity extends AppCompatActivity   {
 
             } catch (Exception e) {
                 e.printStackTrace();
+                System.out.println("981217"  +  e.toString());
             }
+
+            LoginMethod.setLoginMethod("naver");
+
+            updateUiWithUser(new LoggedInUserView(LoginMethod.getUserName()));
+
+
+
+
         }
+
+
 
         /////////////////////////////////////////////////////////////////////////////////////////////
 
+    }
 
-        private static class SessionCallback implements ISessionCallback {
-            @Override
-            public void onSessionOpened() {
-                UserManagement.getInstance().me(new MeV2ResponseCallback() {
-                    @Override
-                    public void onFailure(ErrorResult errorResult) {
-                        int result = errorResult.getErrorCode();
+    private void upDateUserInfo(String name) {
+        System.out.println(name + "98121712");
+        LoginMethod.setUserName(name);
+    }
 
-                        if(result == ApiErrorCode.CLIENT_ERROR_CODE) {
-                            Toast.makeText(getApplicationContext(), "네트워크 연결이 불안정합니다. 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
-                            finish();
-                        } else {
-                            Toast.makeText(getApplicationContext(),"로그인 도중 오류가 발생했습니다: "+errorResult.getErrorMessage(),Toast.LENGTH_SHORT).show();
-                        }
-                    }
 
-                    @Override
-                    public void onSessionClosed(ErrorResult errorResult) {
-                        Toast.makeText(getApplicationContext(),"세션이 닫혔습니다. 다시 시도해 주세요: "+errorResult.getErrorMessage(),Toast.LENGTH_SHORT).show();
-                    }
 
-                    @Override
-                    public void onSuccess(MeV2Response result) {
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        intent.putExtra("name", result.getNickname());
-                        intent.putExtra("profile", result.getProfileImagePath());
-                        startActivity(intent);
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Session.getCurrentSession().removeCallback(sessionCallback);
+    }
+
+
+    private class SessionCallback implements ISessionCallback {
+        @Override
+        public void onSessionOpened() {
+            UserManagement.getInstance().me(new MeV2ResponseCallback() {
+                @Override
+                public void onFailure(ErrorResult errorResult) {
+                    int result = errorResult.getErrorCode();
+
+                    if(result == ApiErrorCode.CLIENT_ERROR_CODE) {
+                        Toast.makeText(getApplicationContext(), "네트워크 연결이 불안정합니다. 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
                         finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(),"로그인 도중 오류가 발생했습니다: "+errorResult.getErrorMessage(),Toast.LENGTH_SHORT).show();
                     }
-                });
-            }
+                }
 
-            @Override
-            public void onSessionOpenFailed(KakaoException e) {
-                Toast.makeText(getApplicationContext(), "로그인 도중 오류가 발생했습니다. 인터넷 연결을 확인해주세요: "+e.toString(), Toast.LENGTH_SHORT).show();
-            }
+                @Override
+                public void onSessionClosed(ErrorResult errorResult) {
+                    Toast.makeText(getApplicationContext(),"세션이 닫혔습니다. 다시 시도해 주세요: "+errorResult.getErrorMessage(),Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onSuccess(MeV2Response result) {
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.putExtra("name", result.getNickname());
+                    intent.putExtra("profile", result.getProfileImagePath());
+
+
+                    LoginMethod.setLoginMethod("kakao");
+                    LoginMethod.setUserName(result.getKakaoAccount().getProfile().getNickname());
+                    LoginMethod.setProfilePicUrl(result.getKakaoAccount().getProfile().getProfileImageUrl());
+                    startActivity(intent);
+                    finish();
+                    Toast.makeText(getApplicationContext(),"카카오톡 로그인에 성공하였습니다. ",Toast.LENGTH_SHORT).show();
+
+                }
+            });
         }
 
-
-
-
-
-
-
+        @Override
+        public void onSessionOpenFailed(KakaoException e) {
+            Toast.makeText(getApplicationContext(), "로그인 도중 오류가 발생했습니다. 인터넷 연결을 확인해주세요: "+e.toString(), Toast.LENGTH_SHORT).show();
+        }
     }
+
 
 
 //    private class RequestApiTask2 extends AsyncTask<Void, Void, String> {
