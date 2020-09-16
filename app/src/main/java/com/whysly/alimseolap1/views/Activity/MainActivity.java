@@ -3,13 +3,19 @@ package com.whysly.alimseolap1.views.Activity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +27,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -36,6 +43,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.kakao.auth.Session;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
@@ -50,11 +58,11 @@ import com.whysly.alimseolap1.services.NotificationCrawlingService;
 import com.whysly.alimseolap1.ui.login.LoginActivity;
 import com.whysly.alimseolap1.views.Adapters.ContentsPagerAdapter;
 import com.whysly.alimseolap1.views.Adapters.RecyclerViewAdapter;
-import com.whysly.alimseolap1.views.Adapters.demo_e_basic.ExpandableExampleActivity;
 import com.whysly.alimseolap1.views.Fragment.MainFragment;
 import com.whysly.alimseolap1.views.Fragment.SelectAppFragment;
 import com.whysly.alimseolap1.views.Fragment.SettingsFragment;
 import com.whysly.alimseolap1.views.Fragment.SortFragment;
+import com.whysly.alimseolap1.views.Games.MainGame;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +83,16 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
     MainViewModel model;
     private FirebaseAuth mAuth;
     GoogleSignInClient mGoogleSignInClient;
+    FirebaseRemoteConfig firebaseRemoteConfig;
+    private static final String LATEST_VERSION_KEY = "latest_version";
+    public String latest_version;
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            recreate();
+        }
+    };
+
 
 
     public static Context getContextOfApplication(){
@@ -82,19 +100,40 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
     }
 
 
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+
+                Intent intent1 = new Intent(MainActivity.this, MainGame.class);
+                startActivity(intent1);
+                finish();
+
+                SharedPreferences pref = getSharedPreferences("data", Activity.MODE_PRIVATE);
+                boolean checkFirst = pref.getBoolean("checkFirst", false);
+//                if(checkFirst == false) {
+//
+//                    SharedPreferences.Editor editor = pref.edit();
+//                    editor.putBoolean("checkFirst", true);
+//
+//                    Intent intent = new Intent(MainActivity.this, Introduce.class);
+//                    startActivity(intent);
+//                    finish();
+//
+//
+//        }else {
+//
+//
+//        }
+
+                // 브로드캐스트 리시버. 방송보내면 여기서 액티비티를 recreate()해줌.
+                LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver,
+                        new IntentFilter("refresh"));
 
 
 
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(getApplication());
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+                FacebookSdk.sdkInitialize(getApplicationContext());
+                AppEventsLogger.activateApp(getApplication());
+                AccessToken accessToken = AccessToken.getCurrentAccessToken();
 
 
 
@@ -233,6 +272,21 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
 
     }
 
+
+
+
+
+
+    public void getDp() {
+        Display display = getWindowManager().getDefaultDisplay();
+        DisplayMetrics outMetrics = new DisplayMetrics ();
+        display.getMetrics(outMetrics);
+
+        float density  = getResources().getDisplayMetrics().density;
+        float dpHeight = outMetrics.heightPixels / density;
+        float dpWidth  = outMetrics.widthPixels / density;
+    }
+
     public void onButtonClick(android.view.View view) {
         wm.removeView(v);
     }
@@ -241,17 +295,21 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
 
         switch (view.getId()) {
             case R.id.edit_profile :
-                Intent intent = new Intent(this, EditMyProfile.class);
+                Intent intent = new Intent(this, MainGame.class);
                 startActivity(intent);
                 break ;
             case R.id.suggest :
-                Intent intent2 = new Intent(this, ExpandableExampleActivity.class);
-                startActivity(intent2);
+                send();
             break ;
             case R.id.introduce :
-                Intent intent3 = new Intent(this, WebViewActivity.class);
+                Intent intent3 = new Intent(Intent.ACTION_VIEW, Uri.parse("http://13.125.224.216/home/"));
                 startActivity(intent3);
             break ;
+
+            case R.id.dev_mode:
+                Intent intent_dev = new Intent(this, DeveloperMode.class);
+                startActivity(intent_dev);
+                break ;
 
             case R.id.log_out :
                 if (LoginMethod.getLoginMethod().equals("naver")){
@@ -459,6 +517,31 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
         //  Notify앱의 알림 접근 허용이 되어있는가?
         return sets != null && sets.contains(getPackageName());
     }
+
+
+    public void send() {
+
+        Intent email = new Intent(Intent.ACTION_SEND);
+        email.setPackage("com.google.android.gm");
+        email.setType("plain/Text");
+        email.putExtra(Intent.EXTRA_EMAIL, new String[]{"planet1217@naver.com"});
+        email.putExtra(Intent.EXTRA_SUBJECT, "<" + getString(R.string.app_name) + " " + "제안하기" + ">");
+        email.putExtra(Intent.EXTRA_TEXT, "유저아이디 (UserID):" + LoginMethod.getUserName() + "\n기기명 (Device):\n안드로이드 OS (Android OS):\n내용 (Content):\n");
+        email.setType("message/rfc822");
+        startActivity(email);
+
+
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
+    }
+
+
+
 
 
 }

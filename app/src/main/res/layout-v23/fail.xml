@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<LinearLayout
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="20dp"
+    android:orientation="vertical">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"/>
+
+    <LinearLayout
+        android:id="@+id/edit_profile"
+        android:onClick="onSettingClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/fail" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_marginTop="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/notosanskr_regular"
+            android:text="아쉽지만 실패하셨네요"
+            android:textColor="#141414"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="12dp"
+            android:textColor="#141414"
+            android:layout_marginTop="13dp"
+            android:fontFamily="@font/notosanskr_regular"
+
+            android:text="확실히 나 자신을 아는 건 쉬운 일이 아닌 거 같아요.\n
+    \n
+  그래도 괜찮아요.\n
+  당신은 이미 1분도 안되는 짧은 시간 사이에\n
+  당신의 넓은 취향 세계를 조망해 보았으니까요. \n
+    \n
+  저희도 당신을 이해할 수 있는 좋은 기회였어요.\n
+    \n
+  이제부터 저희는 당신의 취향을 분석해서 알맞게 분류해줄게요.\n
+    \n
+  그리고 당신은 저희가 분류한 알림에도\n
+  좌우로 밀어서 평가를 내릴 수 있어요.\n
+    \n
+  그럼 저희는 계속해서 당신의 취향을 공부하고 적응해 나갈게요." />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:onClick="onSettingClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="120dp"
+        android:gravity="center_horizontal"/>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:id="@+id/edit_profile_submit_btn"
+            android:layout_width="320dp"
+            android:layout_height="54dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/submit_btn"
+            android:fontFamily="@font/notosanskr_regular"
+            android:onClick="onEditClick"
+            android:text="알림서랍 시작하기"
+            android:textColor="@color/mdtp_white"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+
+</LinearLayout>
+
+</ScrollView>

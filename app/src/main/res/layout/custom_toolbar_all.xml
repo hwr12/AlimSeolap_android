@@ -25,15 +25,6 @@
                         </WebView>
 
 
-                        <com.airbnb.lottie.LottieAnimationView
-                            android:id="@+id/webview_loading"
-                            android:layout_width="125dp"
-                            android:layout_height="62.5dp"
-                            android:layout_gravity="center"
-                            android:background="@color/mdtp_white"
-                            app:lottie_autoPlay="true"
-                            app:lottie_rawRes="@raw/loading" />
-
                 </FrameLayout>
 
 

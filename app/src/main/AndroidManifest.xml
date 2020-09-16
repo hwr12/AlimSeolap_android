@@ -45,10 +45,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".views.Games.MainGame" />
+        <activity android:name=".views.Games.Introduce" />
         <activity android:name=".views.Activity.NofticationListenerSettings" />
         <activity android:name=".views.Activity.EditMyProfile" />
         <activity android:name=".views.Adapters.demo_e_basic.ExpandableExampleActivity" />
         <activity android:name=".views.Activity.WebViewActivity" />
+        <activity android:name=".views.Activity.DeveloperMode" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"

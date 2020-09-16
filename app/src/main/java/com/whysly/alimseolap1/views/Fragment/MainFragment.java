@@ -5,10 +5,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
@@ -36,7 +35,6 @@ import com.google.gson.JsonObject;
 import com.whysly.alimseolap1.R;
 import com.whysly.alimseolap1.interfaces.MyService;
 import com.whysly.alimseolap1.models.databases.NotificationDatabase;
-import com.whysly.alimseolap1.models.entities.NotificationEntity;
 import com.whysly.alimseolap1.views.Activity.MainActivity;
 import com.whysly.alimseolap1.views.Activity.MainViewModel;
 import com.whysly.alimseolap1.views.Activity.WebViewActivity;
@@ -45,13 +43,9 @@ import com.whysly.alimseolap1.views.Adapters.RecyclerViewAdapter;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -71,7 +65,7 @@ public class MainFragment extends Fragment {
     Intent intent1;
     NotificationDatabase db;
     MainViewModel model;
-    List<NotificationEntity> entities;
+
 
     LottieAnimationView animationView;
     LottieAnimationView animationView2;
@@ -80,7 +74,6 @@ public class MainFragment extends Fragment {
     WebView webview;
     WebSettings settings;
     final public Handler handler1 = new Handler();
-
 
 
     @Nullable
@@ -97,7 +90,6 @@ public class MainFragment extends Fragment {
         activity.getSupportActionBar().setDisplayShowCustomEnabled(true);
         View viewToolbar = getActivity().getLayoutInflater().inflate(R.layout.custom_toolbar_all, null);
         activity.getSupportActionBar().setCustomView(viewToolbar, new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER));
-        LottieAnimationView lottieAnimationView = view.findViewById(R.id.webview_loading);
         webview = (WebView) view.findViewById(R.id.webViewmain);
         settings = webview.getSettings();
 
@@ -115,15 +107,7 @@ public class MainFragment extends Fragment {
         //settings.setAppCacheEnabled(false);
         //settings.setLoadsImagesAutomatically(false);
 
-
-       webview.loadUrl("file:///android_asset/index.html");
-       handler1.post(new Runnable() {
-           @Override
-           public void run() {
-               webview.loadUrl("javascript:makeWordCloud('{\"word\":\"freq\",\"알림서랍\":8,\"시각디자인\":8,\"CDO\":12,\"슬기로움\":6,\"안드로이드\":9,\"강민구\":10,\"디자이너\":6}')");
-               lottieAnimationView.setVisibility(View.GONE);
-           }
-       });
+        webview.loadUrl("file:///android_asset/index.html");
 
 
 
@@ -135,6 +119,8 @@ public class MainFragment extends Fragment {
                return false;
            }
        });
+
+
 
 
 //        webview.setOnTouchListener(new View.OnTouchListener() {
@@ -215,9 +201,32 @@ public class MainFragment extends Fragment {
     }
 
 
+    public void reCreate(){
+        reCreate();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
 
 
+        handler1.post(new Runnable() {
+            @Override
+            public void run() {
 
+                SharedPreferences pref = getContext().getSharedPreferences("developer_mode", Context.MODE_PRIVATE);
+                String defpass = "\"word\":\"freq\",\"알림서랍\":8,\"시각디자인\":8,\"CDO\":12,\"슬기로움\":6,\"안드로이드\":9,\"강민구\":10,\"디자이너\":6";
+                String pass = pref.getString("wordcloud_contents", "");
+                System.out.println("981217" + pass);
+                webview.loadUrl("javascript:makeWordCloud('{" + pass + "}')");
+                //webview.loadUrl("javascript:makeWordCloud('{\"word\":\"freq\",\"알림서랍\":8,\"시각디자인\":8,\"CDO\":12,\"슬기로움\":6,\"안드로이드\":9,\"강민구\":10,\"디자이너\":6}')");
+
+            }
+        });
+
+        //webview.reload();
+
+    }
 
     int i = 0;
 

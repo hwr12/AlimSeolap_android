@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<LinearLayout
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:onClick="onEditClick"
+            android:id="@+id/back_arrow"
+            android:layout_width="18.48dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/search_arrow"
+            android:rotation="180"
+            android:scaleType="fitXY"
+            android:layout_marginLeft="21dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="192dp"
+            android:layout_height="wrap_content"
+            android:text="당신에게 귀찮은 것이 무엇인지 알기 위해서 게임을 하나 준비했어요"
+            android:textSize="12dp"
+            android:textColor="#141414"
+            android:textAlignment="center"
+            android:fontFamily="@font/notosanskr_regular"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:src="@drawable/stevejobs"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="25dp"
+
+        android:layout_gravity="center_horizontal"/>
+
+    <LinearLayout
+        android:id="@+id/edit_profile"
+        android:onClick="onSettingClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <LinearLayout
+            android:layout_marginTop="14dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <TextView
+            android:textColor="#141414"
+            android:id="@id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/notosanskr_regular"
+            android:text="“ 사람들은 원하는걸 보기 전까지 "
+            android:textSize="14dp" />
+        <TextView android:textColor="#141414"
+        android:id="@id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/notosanskr_regular"
+        android:text=" 자신이 무엇을 원하는지 모른다 ”"
+        android:textSize="14dp" />
+
+
+
+        <TextView
+            android:id="@id/username"
+            android:layout_gravity="right"
+            android:textColor="#141414"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/notosanskr_regular"
+            android:text="-스티브 잡스-"
+            android:textSize="10dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:src="@drawable/socrates"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="11dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <LinearLayout
+        android:onClick="onSettingClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:textColor="#141414"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/notosanskr_regular"
+                android:text="“너 자신을 알라”"
+                android:textSize="14dp" />
+
+
+            <TextView
+                android:textColor="#141414"
+                android:layout_gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/notosanskr_regular"
+                android:text="-소크라테스-"
+                android:textSize="10dp" />
+
+            <TextView
+                android:id="@id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/notosanskr_regular"
+                android:text=" 자신이 무엇을 원하는지 모른다 ”"
+                android:textSize="15dp"
+                android:visibility="invisible"/>
+
+            <TextView
+                android:id="@id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/notosanskr_regular"
+                android:text="이렇듯 자신이 무엇을 좋아하는지 명확히 아는 것은 정말 어려운 일입니다. \n  \n다음 페이지에는 평소에 흔히 볼 수 있는 알림 메시지 30개가 준비되어 있습니다.  \n \n알림이 마음에 들면 오른쪽으로 밀어서 없애버리고, 마음에 들지 않거나 무관심하면 왼쪽으로 밀어서 없애버리세요."
+                android:textAlignment="center"
+                android:textColor="#141414"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@id/text"
+                android:layout_marginBottom="58dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/notosanskr_regular"
+                android:text="시간은 ‘60초’ 드릴게요."
+                android:textAlignment="center"
+                android:textColor="#141414"
+                android:textSize="12dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="40dp">
+
+        <Button
+            android:id="@+id/edit_profile_submit_btn"
+            android:layout_width="320dp"
+            android:layout_height="54dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="44dp"
+            android:background="@drawable/submit_btn"
+            android:fontFamily="@font/notosanskr_regular"
+            android:onClick="onEditClick"
+            android:text="알림서랍 시작하기"
+            android:textColor="@color/mdtp_white"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+
+</LinearLayout>
+
+</ScrollView>

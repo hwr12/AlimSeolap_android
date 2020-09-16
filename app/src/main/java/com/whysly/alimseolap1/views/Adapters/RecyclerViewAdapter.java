@@ -33,11 +33,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     Context context;
 
     int lastPosition;
-    private List<NotificationEntity> entities = new ArrayList<>();
+        private List<NotificationEntity> entities = new ArrayList<>();
 
     public RecyclerViewAdapter(Context context) {
-        this.context = context;
-        this.activity = (Activity) context;
+            this.context = context;
+            this.activity =  (Activity)context;
     }
 
     @Override
@@ -58,6 +58,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         this.entities = entities;
         notifyDataSetChanged();
         notifyItemInserted(entities.size() - 1);
+    }
+
+    public void setSampleEntities(List<NotificationEntity> entities) {
+        this.entities = entities;
+        notifyDataSetChanged();
     }
 
 
@@ -86,7 +91,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     // 재활용 되는 View가 호출, Adapter가 해당 position에 해당하는 데이터를 결합
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        setAnimation(holder.itemView, position);
+        //setAnimation(holder.itemView, position);
         if(getItemCount() == 0){
             Log.d("준영", "앱 리스트의 사이즈가 0입니다.");
             return;
@@ -100,8 +105,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // 데이터 결합
 //      holder.notiTitle.setText(data.getNotiTitle());
         Log.d("준영", position + " 번째 알림의 extra_Title은 " + data.title + " 입니다.");
-        holder.notiText.setText(data.content);
-        Log.d("준영", position + " 번째 알림의 extra_text은 " + data.pakage_name + " 입니다.");
+            holder.notiText.setText(data.content);
+            Log.d("준영", position + " 번째 알림의 extra_text은 " + data.pakage_name + " 입니다.");
 //        holder.extra_info_text.setText("extra_info_text : " + data.getExtra_info_text());
 //        Log.d("준영", position + " 번째 알림의 extra_info_text은 " + data.getExtra_info_text() + " 입니다.");
 //        holder.extra_people_list.setText("extra_people_text : " + data.getExtra_people_list());
@@ -119,10 +124,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 //        holder.app_string.setText("app_string : " + data.getApp_string());
 //        Log.d("준영", position + " 번째 알림의 app_string은 " + data.getApp_string() + " 입니다.");
 
-        holder.noti_date.setText(data.arrive_time.toString());
-        Log.d("준영", position + " 번째 알림의 noti_date은 " + data.arrive_time.toString() + " 입니다.");
+            holder.noti_date.setText(data.arrive_time.toString());
+            Log.d("준영", position + " 번째 알림의 noti_date은 " + data.arrive_time.toString() + " 입니다.");
 
-        try{
+            try{
             Drawable icon = activity.getPackageManager().getApplicationIcon(data.pakage_name);
             holder.icon.setImageDrawable(icon);
 

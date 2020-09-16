@@ -23,7 +23,18 @@ import java.util.Date;
 @Entity
 public class NotificationEntity {
 
+        public NotificationEntity(String pakage_name, String app_name, String title, String content, Date arrive_time) {
+                this.pakage_name = pakage_name;
+                this.app_name = app_name;
+                this.title = title;
+                this.content = content;
+                this.arrive_time = arrive_time;
 
+        }
+
+        public NotificationEntity() {
+
+        }
 
         @PrimaryKey(autoGenerate = true)
         public long id;
@@ -57,8 +68,5 @@ public class NotificationEntity {
     @ColumnInfo()
     public int this_user_real_evaluation;
     public Date evaluation_time;
-
-
-
 
 }

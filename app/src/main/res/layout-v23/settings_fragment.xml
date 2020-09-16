@@ -67,7 +67,7 @@
                 android:layout_marginRight="77.88dp"
                 android:background="@color/transparent"
                 android:scaleType="fitXY"
-                app:srcCompat="@drawable/arrow"/>
+                app:srcCompat="@drawable/ic_arrow"/>
         </LinearLayout>
 
         <LinearLayout
@@ -99,7 +99,7 @@
                 android:layout_marginEnd="77.88dp"
                 android:background="@color/transparent"
                 android:scaleType="fitXY"
-                app:srcCompat="@drawable/arrow" />
+                app:srcCompat="@drawable/ic_arrow" />
 
         </LinearLayout>
 
@@ -132,7 +132,7 @@
                 android:layout_marginEnd="77.88dp"
                 android:background="@color/transparent"
                 android:scaleType="fitXY"
-                app:srcCompat="@drawable/arrow"/>
+                app:srcCompat="@drawable/ic_arrow"/>
 
         </LinearLayout>
 
@@ -195,7 +195,7 @@
                 android:layout_marginEnd="77.88dp"
                 android:background="@color/transparent"
                 android:scaleType="fitXY"
-                app:srcCompat="@drawable/arrow"/>
+                app:srcCompat="@drawable/ic_arrow"/>
 
         </LinearLayout>
         <LinearLayout
@@ -226,14 +226,20 @@
                 android:layout_marginEnd="77.88dp"
                 android:background="@color/transparent"
                 android:scaleType="fitXY"
-                app:srcCompat="@drawable/arrow" />
+                app:srcCompat="@drawable/ic_arrow" />
 
         </LinearLayout>
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:orientation="horizontal"
             android:layout_gravity="center_vertical"
             android:background="?attr/selectableItemBackground">
@@ -251,9 +257,14 @@
                 android:textSize="12dp"
                 android:textStyle="bold" />
 
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
             <Button
-                android:id="@+id/button"
-                android:layout_width="122dp"
+                android:id="@+id/update_button"
+                android:layout_width="100dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="20dp"
@@ -263,8 +274,39 @@
                 android:scaleY="1"
                 android:text="업데이트"
                 android:textColor="#707070"
+                android:visibility="gone"
                 android:textSize="15dp"
                 android:textStyle="bold" />
+
+
+            <Button
+                android:id="@+id/version_check"
+                android:layout_width="100dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/update_btn_shape"
+                android:scaleX="1"
+                android:scaleY="1"
+                android:text="버전체크"
+                android:textColor="#707070"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+
+            </FrameLayout>
+
+
+        </LinearLayout>
+
+            <TextView
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/version_status"
+                android:layout_gravity="left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 
@@ -297,7 +339,40 @@
                 android:layout_marginRight="77.88dp"
                 android:background="@color/transparent"
                 android:scaleType="fitXY"
-                app:srcCompat="@drawable/arrow"/>
+                app:srcCompat="@drawable/ic_arrow"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:onClick="onSettingClick"
+            android:id="@+id/dev_mode"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                android:layout_width="255.42dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:fontFamily="@font/notosanskr_medium"
+
+                android:text="개발자모드"
+                android:textColor="@color/overlay_dark_90"
+                android:textSize="12dp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:layout_gravity="center_vertical"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginRight="77.88dp"
+                android:background="@color/transparent"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/ic_arrow"/>
 
         </LinearLayout>
 
