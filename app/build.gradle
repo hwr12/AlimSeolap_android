@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
-
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -102,11 +101,10 @@ dependencies {
     //implementation 'com.google.android.gms:play-services-maps:17.0.0'// range seek bar
 
 
-    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
     // Because RxAndroid releases are few and far between, it is recommended you also
     // explicitly depend on RxJava's latest version for bug fixes and new features.
     // (see https://github.com/ReactiveX/RxJava/releases for latest 3.x.x version)
-    implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
+
 
     implementation('com.naver.nid:naveridlogin-android-sdk:4.2.6')
 
@@ -132,6 +130,10 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+
+    implementation 'com.asksira.android:dropdownview:1.0.3'
+
+    compile 'com.andkulikov:transitionseverywhere:1.7.9'
 
 
 }

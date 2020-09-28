@@ -1,7 +1,8 @@
 package com.whysly.alimseolap1.views.Games;
 
+import androidx.room.PrimaryKey;
+
 public class GameNotiItem {
-    String package_name;
     String app_name;
     String notitext;
     String noti_date;
@@ -12,9 +13,10 @@ public class GameNotiItem {
         this.notititle = notititle;
         this.noti_date = noti_date;
         this.notitext = notitext;
-        this.package_name = package_name;
 
     }
+    @PrimaryKey(autoGenerate = true)
+    public long id;
 
     public String getApp_name() {
         return app_name;
@@ -38,14 +40,6 @@ public class GameNotiItem {
 
     public void setNotititle(String notititle) {
         this.notititle = notititle;
-    }
-
-    public String getPackage_name() {
-        return package_name;
-    }
-
-    public void setPackage_name(String package_name) {
-        this.package_name = package_name;
     }
 
     public String getName() {

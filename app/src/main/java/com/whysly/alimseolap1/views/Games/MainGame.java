@@ -13,20 +13,13 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.JsonObject;
 import com.whysly.alimseolap1.R;
-import com.whysly.alimseolap1.interfaces.MyService;
 import com.whysly.alimseolap1.models.entities.NotificationEntity;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainGame extends AppCompatActivity {
     TextView tvTimer;
@@ -43,23 +36,37 @@ public class MainGame extends AppCompatActivity {
         setContentView(R.layout.game_layout);
         tvTimer = (TextView) findViewById(R.id.timer);
 
-//        recyclerView = findViewById(R.id.recycler_for_game);
-////        linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, true);
-////        linearLayoutManager.setReverseLayout(true);
-////        linearLayoutManager.setStackFromEnd(true);
-////        recyclerView.setLayoutManager(linearLayoutManager);
-////
-////        ne = new ArrayList<>();
-////        recyclerViewAdapter = new GameRecyclerViewAdapter(mContext);
-////        recyclerView.setAdapter(recyclerViewAdapter);
-////        recyclerViewAdapter.addItem(new GameNotiItem("com.google.chrome", "알림티켓", "뮤지컬 티켓 할인", "라이온킹 티켓 70% 할인! 선착순 35명! 어서 서두르세요", "지금"));
+        recyclerView = findViewById(R.id.recycler_for_game);
+        linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, true);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
 
+
+        ne = new ArrayList<>();
+        recyclerViewAdapter = new GameRecyclerViewAdapter(mContext);
+        //recyclerViewAdapter.setHasStableIds(true);
+        recyclerViewAdapter.addItem(new GameNotiItem("com.google.chrome", "알림티켓", "뮤지컬 티켓 할인", "라이온킹 티켓 70% 할인! 선착순 35명! 어서 서두르세요", "지금"));
+        recyclerViewAdapter.addItem(new GameNotiItem("com.google.chrome", "알림티켓", "뮤지컬 티켓 할인", "라이온킹 티켓 70% 할인! 선착순 35명! 어서 서두르세요", "지금"));
+        recyclerViewAdapter.addItem(new GameNotiItem("com.google.chrome", "알림티켓", "뮤지컬 티켓 할인", "라이온킹 티켓 70% 할인! 선착순 35명! 어서 서두르세요", "지금"));
+        recyclerViewAdapter.addItem(new GameNotiItem("com.google.chrome", "알림티켓", "뮤지컬 티켓 할인", "라이온킹 티켓 70% 할인! 선착순 35명! 어서 서두르세요", "지금"));
+        recyclerViewAdapter.addItem(new GameNotiItem("com.google.chrome", "알림티켓", "뮤지컬 티켓 할인", "라이온킹 티켓 70% 할인! 선착순 35명! 어서 서두르세요", "지금"));
+        recyclerViewAdapter.addItem(new GameNotiItem("com.google.chrome", "알림티켓", "뮤지컬 티켓 할인", "라이온킹 티켓 70% 할인! 선착순 35명! 어서 서두르세요", "지금"));
+        recyclerViewAdapter.addItem(new GameNotiItem("com.google.chrome", "알림티켓", "뮤지컬 티켓 할인", "라이온킹 티켓 70% 할인! 선착순 35명! 어서 서두르세요", "지금"));
+        recyclerViewAdapter.addItem(new GameNotiItem("com.google.chrome", "알림티켓", "뮤지컬 티켓 할인", "라이온킹 티켓 70% 할인! 선착순 35명! 어서 서두르세요", "지금"));
+        recyclerView.setAdapter(recyclerViewAdapter);
+
+
+//        RecyclerView.ItemAnimator animator = recyclerView.getItemAnimator();
+//        if (animator instanceof SimpleItemAnimator) {
+//            ((SimpleItemAnimator) animator).setSupportsChangeAnimations(false);
+//        }
 
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
         CountDownTimer countDownTimer = new CountDownTimer(60000, 10) {
             public void onTick(long millisUntilFinished) {
-                tvTimer.setText("Seconds Remaining: " + millisUntilFinished / 1000 +"."+millisUntilFinished / 10 % 100);
+                tvTimer.setText("Seconds Remaining: " + millisUntilFinished / 1000);
             }
 
             public void onFinish() {
@@ -117,8 +124,6 @@ public class MainGame extends AppCompatActivity {
 //            String noti_sub_text = ((TextView) recyclerView.findViewHolderForAdapterPosition(viewHolder.getAdapterPosition()).itemView.findViewById(R.id.extra_sub_text)).getText().toString();
             String app_name = ((TextView) recyclerView.findViewHolderForAdapterPosition(viewHolder.getAdapterPosition()).itemView.findViewById(R.id.app_name)).getText().toString();
 //            String package_name = ((TextView) recyclerView.findViewHolderForAdapterPosition(viewHolder.getAdapterPosition()).itemView.findViewById(R.id.packge_name)).getText().toString();
-            String category = ((TextView) recyclerView.findViewHolderForAdapterPosition(viewHolder.getAdapterPosition()).itemView.findViewById(R.id.noti_category)).getText().toString();
-
             System.out.println(app_name);
             System.out.println(notitext);
 
@@ -129,53 +134,8 @@ public class MainGame extends AppCompatActivity {
             String noti_date2 = format1.format(time);
             System.out.println(noti_position);
 
-            //notititle = model.getNotificationDao().loadNotification(noti_position + 1).title;
-            //String category = model.getNotificationDao().loadNotification(noti_position).category;
-
-            final Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://13.125.130.16/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-            Log.d("현우", "Retrofit 빌드 성공");
-
-//            NotificationDatabase db = NotificationDatabase.getNotificationDatabase(getContext());
-//            user_id = db.notificationDao().loadNotification(noti_id).user_id;
-//            notititle = db.notificationDao().loadNotification(noti_id).title;
-
-            MyService service = retrofit.create(MyService.class);
-            //json 객체 생성하여 값을 넣어줌
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("app_name", app_name);
-            jsonObject.addProperty("package_name", "X");
-            jsonObject.addProperty("title", notititle);
-            jsonObject.addProperty("content", notitext);
-            jsonObject.addProperty("subContent", category);
-            jsonObject.addProperty("noti_date", noti_date2);
-            jsonObject.addProperty("user_value", evaluate);
 
 
-
-
-
-            Call<JsonObject> call = service.createPost(jsonObject);
-            call.enqueue(new Callback<JsonObject>() {
-                @Override
-                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                    System.out.println("알림데이터 전송성공");
-                    Log.d("현우", response.toString());
-                    Log.d("현우", retrofit.toString());
-
-
-                }
-
-                @Override
-                public void onFailure(Call<JsonObject> call, Throwable t) {
-                    System.out.println("알림데이터 전송실패");
-                    Log.d("현우", t.toString());
-
-
-                }
-            });
         }
     };
 }

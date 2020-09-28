@@ -79,6 +79,13 @@
         android:textSize="15dp"
         android:background="@drawable/edt_underline" />
 
+    <Button
+        android:id="@+id/letsplaygame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="게임하기" />
+
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -117,6 +124,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
+
 
 
 </LinearLayout>

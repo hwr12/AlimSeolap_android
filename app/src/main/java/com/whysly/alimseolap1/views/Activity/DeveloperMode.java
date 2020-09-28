@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.whysly.alimseolap1.R;
+import com.whysly.alimseolap1.views.Games.Introduce;
 
 public class DeveloperMode extends AppCompatActivity {
 
@@ -24,6 +25,14 @@ public class DeveloperMode extends AppCompatActivity {
 
         EditText wordcloud_input = findViewById(R.id.editTextWordCloud);
         Button saveBtn = findViewById(R.id.dev_save_btn);
+        Button gamebtn = findViewById(R.id.letsplaygame);
+        gamebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), Introduce.class);
+                startActivity(intent);
+            }
+        });
 
         SharedPreferences pref = getSharedPreferences("developer_mode", MODE_PRIVATE);
         String defpass = "\"word\":\"freq\",\"알림서랍\":8,\"시각디자인\":8,\"CDO\":12,\"슬기로움\":6,\"안드로이드\":9,\"강민구\":10,\"디자이너\":6";

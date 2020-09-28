@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center_vertical"
+    android:paddingLeft="13dp"
+    android:paddingRight="13dp"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/spinnerText"
+        android:textSize="15sp"
+        android:textColor="#000000"
+        android:paddingLeft="13dp"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!-- margin을 통해 텍스트와 이미지 사이의 간격 조절가능 -->
+    <ImageView
+        android:layout_marginLeft="5dp"
+        android:src="@drawable/ic_arrow"
+        android:rotation="90"
+        android:layout_width="20dp"
+        android:layout_height="25dp" />
+
+</LinearLayout>

@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.whysly.alimseolap1.R;
 import com.whysly.alimseolap1.Util.OpenApp;
+import com.whysly.alimseolap1.models.daos.NotificationDao;
 import com.whysly.alimseolap1.models.databases.NotificationDatabase;
 import com.whysly.alimseolap1.models.entities.NotificationEntity;
 
@@ -31,7 +32,8 @@ import java.util.List;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     Activity activity;
     Context context;
-
+    NotificationDatabase ndb;
+    private NotificationDao notiDao;
     int lastPosition;
         private List<NotificationEntity> entities = new ArrayList<>();
 
@@ -173,6 +175,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         entities.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, entities.size()); // 지워진 만큼 다시 채워넣기.
+
     }
 
 

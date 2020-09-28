@@ -27,6 +27,11 @@ allprojects {
 
 
     }
+    configurations.all() {
+        // to make sure SNAPSHOTS are fetched again each time
+        resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
+        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    }
 }
 
 task clean(type: Delete) {

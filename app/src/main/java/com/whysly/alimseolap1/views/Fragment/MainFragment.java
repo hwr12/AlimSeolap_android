@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.gson.JsonObject;
@@ -54,7 +56,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainFragment extends Fragment {
-
     RecyclerViewAdapter recyclerViewAdapter;
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
@@ -66,7 +67,6 @@ public class MainFragment extends Fragment {
     NotificationDatabase db;
     MainViewModel model;
 
-
     LottieAnimationView animationView;
     LottieAnimationView animationView2;
     Handler handler;
@@ -75,14 +75,10 @@ public class MainFragment extends Fragment {
     WebSettings settings;
     final public Handler handler1 = new Handler();
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-
         View view = inflater.inflate(R.layout.all_fragment2, null);
-
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.wordcloud_toolbar);
         ActionBar actionBar = ((MainActivity)getActivity()).getSupportActionBar();
         AppCompatActivity activity = (AppCompatActivity) getActivity();
@@ -92,25 +88,18 @@ public class MainFragment extends Fragment {
         activity.getSupportActionBar().setCustomView(viewToolbar, new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER));
         webview = (WebView) view.findViewById(R.id.webViewmain);
         settings = webview.getSettings();
-
         //settings.setLoadsImagesAutomatically(true);
         settings.setJavaScriptEnabled(true);
         //webview.setWebViewClient(new WebViewClient());
       //webview.loadUrl("file:///android_asset/wordcloud.html");
 //        File file = new File("/data/data/packagename/foldername/");
 //        webView.loadUrl("file:///" + file);
-
         //webview.clearHistory();
        //settings.setAppCacheEnabled(false);
         //settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-
         //settings.setAppCacheEnabled(false);
         //settings.setLoadsImagesAutomatically(false);
-
         webview.loadUrl("file:///android_asset/index.html");
-
-
-
        webview.setOnLongClickListener(new View.OnLongClickListener() {
            @Override
            public boolean onLongClick(View view) {
@@ -173,14 +162,14 @@ public class MainFragment extends Fragment {
 
 
 
-        LocalBroadcastManager.getInstance(this.getContext()).registerReceiver(mBroadcastReceiver_remove,
-                new IntentFilter("remove"));
+     //   LocalBroadcastManager.getInstance(this.getContext()).registerReceiver(mBroadcastReceiver_remove,
+//                new IntentFilter("remove"));
 
         LocalBroadcastManager.getInstance(this.getContext()).registerReceiver(mBroadcastReceiver_intent,
                 new IntentFilter("intent_redirect"));
 
         recyclerView = view.findViewById(R.id.recycler1);
-        linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true);
+        linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -188,9 +177,17 @@ public class MainFragment extends Fragment {
         recyclerViewAdapter = new RecyclerViewAdapter(getContext());
         recyclerView.setAdapter(recyclerViewAdapter);
 
+
+
+
+        RecyclerView.ItemAnimator animator = recyclerView.getItemAnimator();
+        if (animator instanceof SimpleItemAnimator) {
+            ((SimpleItemAnimator) animator).setSupportsChangeAnimations(false);
+        }
+
         model = new ViewModelProvider(requireActivity(), new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication())).get(MainViewModel.class);
-        model.getDefaultNotifications().observe(this, entities -> recyclerViewAdapter.setEntities(entities));
-        model.getDefaultNotifications().observe(this, entities -> recyclerView.smoothScrollToPosition(recyclerViewAdapter.getItemCount()));
+        model.getDefaultNotifications().observe(getViewLifecycleOwner(), entities -> recyclerViewAdapter.setEntities(entities));
+        model.getDefaultNotifications().observe(getViewLifecycleOwner(), entities -> recyclerView.smoothScrollToPosition(recyclerViewAdapter.getItemCount()));
 
         Log.d("MainFragment", "뷰생성됩.");
 
@@ -201,9 +198,6 @@ public class MainFragment extends Fragment {
     }
 
 
-    public void reCreate(){
-        reCreate();
-    }
 
     @Override
     public void onResume() {
@@ -257,25 +251,25 @@ public class MainFragment extends Fragment {
 
     }
 
-    private BroadcastReceiver mBroadcastReceiver_remove = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Log.d("AllFragment", "브로드캐스트 수신");
-            String noti_id_string = ((TextView) recyclerView.findViewHolderForAdapterPosition(intent.getIntExtra("position", 0)).itemView.findViewById(R.id.noti_id)).getText().toString();
-            int noti_id = 0;
-            try {
-                noti_id = Integer.parseInt(noti_id_string);
-            }
-            catch(NumberFormatException nfe) {
-                System.out.println("Could not parse " + nfe);
-            }
-            model.updateRealEvaluation(noti_id, 5);
-            System.out.println("브로드케스트고 받은 어댑터포지션 값은 " + intent.getIntExtra("position", 0));
-            recyclerViewAdapter.removeItemView(intent.getIntExtra("position", 0));
-            //  notidata.get(intent.getIntExtra("position", 0));
-            // intent ..
-        }
-    };
+//    private BroadcastReceiver mBroadcastReceiver_remove = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            Log.d("AllFragment", "브로드캐스트 수신");
+//            String noti_id_string = ((TextView) recyclerView.findViewHolderForAdapterPosition(intent.getIntExtra("position", 0)).itemView.findViewById(R.id.noti_id)).getText().toString();
+//            int noti_id = 0;
+//            try {
+//                noti_id = Integer.parseInt(noti_id_string);
+//            }
+//            catch(NumberFormatException nfe) {
+//                System.out.println("Could not parse " + nfe);
+//            }
+//            model.updateRealEvaluation(noti_id, 5);
+//            System.out.println("브로드케스트고 받은 어댑터포지션 값은 " + intent.getIntExtra("position", 0));
+//            recyclerViewAdapter.removeItemView(intent.getIntExtra("position", 0));
+//            //  notidata.get(intent.getIntExtra("position", 0));
+//            // intent ..
+//        }
+//    };
 
     private BroadcastReceiver mBroadcastReceiver_intent = new BroadcastReceiver() {
         @Override
@@ -326,65 +320,6 @@ public class MainFragment extends Fragment {
 
 
 
-    /*
-
-    class PreloadAsyncTask extends AsyncTask<Integer, Long, List<NotiData>> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-        }
-
-        @Override
-        protected List<NotiData> doInBackground(Integer... integers) {
-
-            db = NotificationDatabase.getNotificationDatabase(getActivity());
-            Log.i("현우", "노티총개수는" + db.notificationDao().number_of_notification() + "입니다");
-            System.out.println(db.notificationDao().number_of_notification());
-            notiData = new ArrayList<>();
-            time = new Date();
-            format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-
-            for (int i = 1 ; i <= db.notificationDao().number_of_notification() ; i++ ){
-                //사용자 실제평가(real user evaluation)이 안내려진 경우에만 리사이클러로 넣어줍니다.
-                noti = db.notificationDao().loadNotification(i);
-                arrived_time = format1.format(noti.arrive_time);
-                if (noti.this_user_real_evaluation == 0) {
-
-                    notiData.add(new NotiData((int) noti.id, noti.pakage_name, noti.title, noti.content, "null", "null", "null", "null", "null", "null", "null", noti.app_name, arrived_time));
-                }
-                else {
-
-                }
-            }
-
-            return notiData;
-        }
-
-        @Override
-        protected void onProgressUpdate(Long... values) {
-            super.onProgressUpdate(values);
-        }
-
-        @Override
-        protected void onPostExecute(List<NotiData> notiData) {
-            super.onPostExecute(notiData);
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(),
-                    LinearLayoutManager.VERTICAL, false);
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setAdapter(new RecyclerViewAdapter(getActivity(), notiData));
-        }
-    }
-
-     */
-
-
-
-
-
-
-
 
 
     final ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
@@ -419,26 +354,54 @@ public class MainFragment extends Fragment {
             System.out.println(noti_id);
                 String evaluate = "none";
 
-                //스와이프 방향에 따라 DB에서  this_user_real_evaluation 값을 지정해줌줌
+            //스와이프 방향에 따라 DB에서  this_user_real_evaluation 값을 지정해줌줌
 
                 if (direction == 8) {
                     Log.d("향", "onSwiped: 오른쪽");
                     viewHolder.getItemId();
                     evaluate = "true";
-                    model.updateRealEvaluation(noti_id , 1);
+                    int user_eval = 1;
+                    final int id = noti_id;
+
+
+                    recyclerViewAdapter.removeItemView(noti_position);
+
+                    final Handler handler = new Handler(Looper.getMainLooper());
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            model.updateRealEvaluation(id,1);
+                            //Do something after 100ms
+                            System.out.println("981217" + id);
+                        }
+                    }, 1000);
 
                 } else if (direction == 4) {
                     Log.d("방향", "onSwiped: 왼쪽");
                     viewHolder.getItemId();
                     evaluate = "false";
-                    model.updateRealEvaluation(noti_id , -1);
+                    int user_eval = -1;
+                    //model.updateRealEvaluation(noti_id , -1);
+                    recyclerViewAdapter.removeItemView(noti_position);
+                    final int id = noti_id;
+
+                    final Handler handler = new Handler(Looper.getMainLooper());
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            model.updateRealEvaluation(id,-1);
+                            System.out.println("981217" + id);
+                            //Do something after 100ms
+                        }
+                    }, 1000);
                 }
 
 
             // 스와이프 하여 제거하면 밑의 코드가 실행되면서 스와이프 된 뷰홀더의 위치 값을 통해 어댑터에서 아이템이 지워졌다고 노티파이 해줌.
             Log.d("준영", "noti_idx1: " + viewHolder.getAdapterPosition());
             Log.d("준영", "noti_idx2: " + noti_position);
-            recyclerViewAdapter.removeItemView(noti_position);
+
             System.out.println(noti_position);
             String notitext = "foo";
 

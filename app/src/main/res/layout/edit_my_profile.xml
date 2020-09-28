@@ -11,7 +11,8 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white_transparency">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -62,6 +63,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_horizontal">
+
         <TextView
             android:id="@id/username"
             android:layout_width="wrap_content"
@@ -69,48 +71,51 @@
             android:fontFamily="@font/notosanskr_regular"
             android:text="알림이"
             android:textSize="15dp" />
+
+
     </LinearLayout>
 
     <TextView
         android:id="@+id/textView9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="닉네임"
+        android:text="아이디"
         android:layout_marginLeft="20dp"
         android:fontFamily="@font/notosanskr_light"
         android:layout_marginTop="40dp"/>
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/editTextEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="20dp"
-        android:inputType="textPersonName"
-        android:maxLength="10"
+        android:inputType="textEmailAddress"
+        android:maxLength="30"
         android:allowUndo="true"
         android:textSize="15dp"
-        android:background="@drawable/edt_underline"
-        android:text="Name" />
+        android:background="@drawable/edt_underline"/>
 
     <TextView
         android:id="@+id/textView10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="생년월일"
+        android:text="비밀번호"
         android:layout_marginLeft="20dp"
         android:fontFamily="@font/notosanskr_light"
         android:layout_marginTop="23dp"/>
 
     <EditText
-        android:id="@+id/editTextDate"
+        android:id="@+id/editTextPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="20dp"
+        android:inputType="textPassword"
+        android:maxLength="20"
+        android:allowUndo="true"
         android:textSize="15dp"
-        android:ems="10"
-        android:inputType="date" />
+        android:background="@drawable/edt_underline"/>
 
     <TextView
         android:id="@+id/textView11"
@@ -121,10 +126,249 @@
         android:fontFamily="@font/notosanskr_light"
         android:layout_marginTop="23dp"/>
 
-    <SearchView
+    <LinearLayout
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+        android:id="@+id/male"
+        android:fontFamily="@font/notosanskr_medium"
+        android:textSize="12dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"/>
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:text="남자"
+        android:padding="3dp"
+        style="?android:attr/borderlessButtonStyle"
+        android:textColor="#F2B41B"
+        android:background="@drawable/regularbtn_selector"/>
+
+        <Button
+            android:id="@+id/female"
+            android:fontFamily="@font/notosanskr_medium"
+            android:textSize="12dp"
+            android:padding="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="여자"
+            style="?android:attr/borderlessButtonStyle"
+            android:textColor="#F2B41B"
+            android:background="@drawable/regularbtn_selector"/>
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="연령대"
+        android:layout_marginLeft="20dp"
+        android:fontFamily="@font/notosanskr_light"
+        android:layout_marginTop="23dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:orientation="horizontal"
+        android:background="@drawable/edt_underline"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/agerange1"
+            android:textSize="15dp"
+            android:textColor="#707070"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/notosanskr_medium" />
+
+        <TextView
+            android:id="@+id/agerange2"
+            android:textSize="15dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="#707070"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/notosanskr_medium" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginLeft="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <com.asksira.dropdownview.DropDownView
+            android:id="@+id/agerange1dropdown"
+            app:filter_height="30dp"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            app:arrow_drawable="@drawable/dropdownarrow"
+            app:arrow_rotate="true"
+            app:arrow_width="18dp"
+            app:dropDownItem_height="35dp"
+            app:top_decorator_color="@color/colorTheme"
+            app:top_decorator_height="1dp"
+            app:bottom_decorator_color="@color/colorTheme"
+            app:bottom_decorator_height="2dp"
+            app:divider_color="@color/colorTheme"
+            app:dropDownItem_text_color_selected="@color/colorTheme"
+            app:dropDownItem_text_size_selected="12dp"
+            app:dropdownItem_text_gravity="center_horizontal"
+            app:expansion_style="reveal"
+            app:expand_dim_background="false"
+            app:dropDownItem_text_size="12dp"
+            app:filter_bar_background_color="@color/white_transparency"
+            app:filter_text_color="@color/colorTheme"
+            app:filter_text_size="12dp"
+            app:last_item_has_divider="true"
+            app:placeholder_text="대분류" />
+
+        <com.asksira.dropdownview.DropDownView
+            android:visibility="invisible"
+            app:filter_height="30dp"
+            app:top_decorator_color="@color/colorTheme"
+            app:top_decorator_height="1dp"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/area2dropdown"
+            app:arrow_drawable="@drawable/dropdownarrow"
+            app:arrow_rotate="true"
+            app:arrow_width="18dp"
+            app:dropDownItem_height="35dp"
+            app:expand_dim_background="false"
+            app:dropDownItem_text_size="12dp"
+            android:layout_marginLeft="15dp"
+            app:bottom_decorator_color="@color/colorTheme"
+            app:bottom_decorator_height="2dp"
+            app:divider_color="@color/colorTheme"
+            app:dropDownItem_text_color_selected="@color/colorTheme"
+            app:dropDownItem_text_size_selected="12dp"
+            app:dropdownItem_text_gravity="center_horizontal"
+            app:expansion_style="reveal"
+            app:filter_bar_background_color="@color/white_transparency"
+            app:filter_text_color="@color/colorTheme"
+            app:filter_text_size="12dp"
+            app:last_item_has_divider="true"
+            app:placeholder_text="소분류"/>
+    </LinearLayout>
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="지역"
+        android:layout_marginLeft="20dp"
+        android:fontFamily="@font/notosanskr_light"
+        android:layout_marginTop="23dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:orientation="horizontal"
+        android:background="@drawable/edt_underline"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/area1"
+            android:textSize="15dp"
+            android:textColor="#707070"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/notosanskr_medium" />
+
+        <TextView
+            android:id="@+id/area2"
+            android:textSize="15dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="#707070"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/notosanskr_medium" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginLeft="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <com.asksira.dropdownview.DropDownView
+            android:id="@+id/area1dropdown"
+            app:filter_height="30dp"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            app:arrow_drawable="@drawable/dropdownarrow"
+            app:arrow_rotate="true"
+            app:arrow_width="18dp"
+            app:dropDownItem_height="35dp"
+            app:top_decorator_color="@color/colorTheme"
+            app:top_decorator_height="1dp"
+            app:bottom_decorator_color="@color/colorTheme"
+            app:bottom_decorator_height="2dp"
+            app:divider_color="@color/colorTheme"
+            app:dropDownItem_text_color_selected="@color/colorTheme"
+            app:dropDownItem_text_size_selected="12dp"
+            app:dropdownItem_text_gravity="center_horizontal"
+            app:expansion_style="reveal"
+            app:expand_dim_background="false"
+            app:dropDownItem_text_size="12dp"
+            app:filter_bar_background_color="@color/white_transparency"
+            app:filter_text_color="@color/colorTheme"
+            app:filter_text_size="12dp"
+            app:last_item_has_divider="true"
+            app:placeholder_text="대분류" />
+
+        <com.asksira.dropdownview.DropDownView
+            android:visibility="invisible"
+            app:filter_height="30dp"
+            app:top_decorator_color="@color/colorTheme"
+            app:top_decorator_height="1dp"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/agerange2dropdown"
+            app:arrow_drawable="@drawable/dropdownarrow"
+            app:arrow_rotate="true"
+            app:arrow_width="18dp"
+            app:dropDownItem_height="35dp"
+            app:expand_dim_background="false"
+            app:dropDownItem_text_size="12dp"
+            android:layout_marginLeft="15dp"
+            app:bottom_decorator_color="@color/colorTheme"
+            app:bottom_decorator_height="2dp"
+            app:divider_color="@color/colorTheme"
+            app:dropDownItem_text_color_selected="@color/colorTheme"
+            app:dropDownItem_text_size_selected="12dp"
+            app:dropdownItem_text_gravity="center_horizontal"
+            app:expansion_style="reveal"
+            app:filter_bar_background_color="@color/white_transparency"
+            app:filter_text_color="@color/colorTheme"
+            app:filter_text_size="12dp"
+            app:last_item_has_divider="true"
+            app:placeholder_text="소분류"/>
+    </LinearLayout>
+
+
+
+
+
+
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -133,6 +377,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="100dp">
+
+
+
 
         <Button
             android:id="@+id/edit_profile_submit_btn"
@@ -153,17 +400,20 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
 
 
 </LinearLayout>

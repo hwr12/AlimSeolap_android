@@ -181,6 +181,10 @@ public class NotificationCrawlingService extends NotificationListenerService {
             Log.d("준영", "제목과 내용중 하나가 null이면 걸러집니다. ");
             return ;
         }
+
+//        else if (notificationDatabase.notificationDao().loadNotification(notificationDatabase.notificationDao().number_of_notification()-1).content == extras.getString(notification.EXTRA_TEXT)) {
+//            return;
+//        }
         else if(not_crawled_category.contains(notification.category)){
             Log.d("준영", "알림의 카테고리가 " + notification.category + "면 걸러집니다.");
             return ;
@@ -200,6 +204,7 @@ public class NotificationCrawlingService extends NotificationListenerService {
             Log.d("NotiCrawlingService", "이 앱은 선택해제 되어 있으므로 걸러집니다.");
             return ;
         }
+
 
 
         else {

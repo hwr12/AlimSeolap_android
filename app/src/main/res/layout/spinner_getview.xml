@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/spinnerText"
+        android:textSize="16sp"
+        android:textColor="#000"
+        android:alpha="0.5"
+        android:paddingBottom="5dp"
+        android:layout_gravity="center_horizontal"
+        android:textAlignment="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edt_underline"/>
+    <!-- 스피너를 열었을대 보여지는 텍스트뷰 -->
+</LinearLayout>

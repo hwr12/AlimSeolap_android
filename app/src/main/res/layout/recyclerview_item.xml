@@ -39,14 +39,6 @@
             android:text="appname"
             android:textSize="11.3dp" />
 
-        <TextView
-            android:id="@+id/notititle"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginLeft="6.13dp"
-            android:layout_marginTop="17.29dp"
-            android:textSize="11.3dp"
-            android:text="TextView" />
 
         <TextView
             android:id="@+id/noti_category"
@@ -83,6 +75,19 @@
 
             -->
 
+
+        <TextView
+            android:id="@+id/notititle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="17.83dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginRight="17.46dp"
+            android:fontFamily="@font/notosanskr_medium"
+            android:text="TextView"
+            android:textColor="#3F4040"
+            android:textSize="14dp" />
+
         <TextView
             android:id="@+id/notitext"
             android:textSize="11.4dp"
@@ -90,14 +95,14 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="17.83dp"
             android:layout_marginRight="17.46dp"
-            android:layout_marginTop="14.02dp"
+            android:layout_marginTop="1dp"
             android:text="notitext"/>
 
         <TextView
         android:id="@+id/noti_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="11.83dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="10.86dp"
         android:textSize="9.35dp"
 

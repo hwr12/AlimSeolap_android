@@ -62,7 +62,6 @@ import com.whysly.alimseolap1.views.Fragment.MainFragment;
 import com.whysly.alimseolap1.views.Fragment.SelectAppFragment;
 import com.whysly.alimseolap1.views.Fragment.SettingsFragment;
 import com.whysly.alimseolap1.views.Fragment.SortFragment;
-import com.whysly.alimseolap1.views.Games.MainGame;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,9 +103,9 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
             protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
 
-                Intent intent1 = new Intent(MainActivity.this, MainGame.class);
-                startActivity(intent1);
-                finish();
+//                Intent intent1 = new Intent(MainActivity.this, MainGame.class);
+//                startActivity(intent1);
+//                finish();
 
                 SharedPreferences pref = getSharedPreferences("data", Activity.MODE_PRIVATE);
                 boolean checkFirst = pref.getBoolean("checkFirst", false);
@@ -158,13 +157,9 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
             LoginMethod.setLoginMethod("kakao");
         }
 
-
-
-
         else if (accessToken != null && !accessToken.isExpired()) {
             LoginMethod.setLoginMethod("facebook");
         }
-
 
         else {
             Intent loginIntent = new Intent(this, LoginActivity.class);
@@ -173,7 +168,6 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
 
 //        CsvTry csvTry = new CsvTry(getApplicationContext());
         //csvTry.generateCsvFile();
-
 
 
         setContentView(R.layout.activity_main);
@@ -295,7 +289,7 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
 
         switch (view.getId()) {
             case R.id.edit_profile :
-                Intent intent = new Intent(this, MainGame.class);
+                Intent intent = new Intent(this, EditMyProfile.class);
                 startActivity(intent);
                 break ;
             case R.id.suggest :
