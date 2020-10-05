@@ -172,7 +172,7 @@ public class NotificationCrawlingService extends NotificationListenerService {
 
         //아래의 앱 채널 아이디의 알림은 크롤링하지 않습니다.
         ArrayList<String> not_crawled_channelId = new ArrayList<String>(Arrays.asList(
-                "quiet_new_message"
+                //"quiet_new_message"
         ));
 
 

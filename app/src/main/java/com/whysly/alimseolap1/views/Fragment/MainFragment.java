@@ -41,6 +41,7 @@ import com.whysly.alimseolap1.views.Activity.MainActivity;
 import com.whysly.alimseolap1.views.Activity.MainViewModel;
 import com.whysly.alimseolap1.views.Activity.WebViewActivity;
 import com.whysly.alimseolap1.views.Adapters.RecyclerViewAdapter;
+import com.whysly.alimseolap1.views.Adapters.RecyclerViewEmptySupport;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,7 +58,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainFragment extends Fragment {
     RecyclerViewAdapter recyclerViewAdapter;
-    RecyclerView recyclerView;
+    RecyclerViewEmptySupport recyclerView;
     LinearLayoutManager linearLayoutManager;
     int user_id;
     String notititle;
@@ -74,6 +75,8 @@ public class MainFragment extends Fragment {
     WebView webview;
     WebSettings settings;
     final public Handler handler1 = new Handler();
+    final public Handler handler2 = new Handler();
+
 
     @Nullable
     @Override
@@ -90,6 +93,7 @@ public class MainFragment extends Fragment {
         settings = webview.getSettings();
         //settings.setLoadsImagesAutomatically(true);
         settings.setJavaScriptEnabled(true);
+
         //webview.setWebViewClient(new WebViewClient());
       //webview.loadUrl("file:///android_asset/wordcloud.html");
 //        File file = new File("/data/data/packagename/foldername/");
@@ -99,7 +103,14 @@ public class MainFragment extends Fragment {
         //settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         //settings.setAppCacheEnabled(false);
         //settings.setLoadsImagesAutomatically(false);
+        LottieAnimationView lottieAnimationView = view.findViewById(R.id.empty_noti);
+
+
+
+
         webview.loadUrl("file:///android_asset/index.html");
+
+
        webview.setOnLongClickListener(new View.OnLongClickListener() {
            @Override
            public boolean onLongClick(View view) {
@@ -168,15 +179,19 @@ public class MainFragment extends Fragment {
         LocalBroadcastManager.getInstance(this.getContext()).registerReceiver(mBroadcastReceiver_intent,
                 new IntentFilter("intent_redirect"));
 
+        //recyclerView = view.findViewById(R.id.recycler1);
         recyclerView = view.findViewById(R.id.recycler1);
         linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
+
+
         recyclerView.setLayoutManager(linearLayoutManager);
-
+        //recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setEmptyView(view.findViewById(R.id.empty_noti));
         recyclerViewAdapter = new RecyclerViewAdapter(getContext());
+        //recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setAdapter(recyclerViewAdapter);
-
 
 
 
@@ -186,8 +201,16 @@ public class MainFragment extends Fragment {
         }
 
         model = new ViewModelProvider(requireActivity(), new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication())).get(MainViewModel.class);
-        model.getDefaultNotifications().observe(getViewLifecycleOwner(), entities -> recyclerViewAdapter.setEntities(entities));
-        model.getDefaultNotifications().observe(getViewLifecycleOwner(), entities -> recyclerView.smoothScrollToPosition(recyclerViewAdapter.getItemCount()));
+        model.getDefaultNotifications().observe(getViewLifecycleOwner(), entities -> {
+            recyclerViewAdapter.setEntities(entities);
+            recyclerView.smoothScrollToPosition(recyclerViewAdapter.getItemCount());
+        });
+
+
+        if (recyclerViewAdapter.getItemCount() == 0) {
+          lottieAnimationView.setVisibility(View.VISIBLE);
+        }
+        else lottieAnimationView.setVisibility(View.INVISIBLE);
 
         Log.d("MainFragment", "뷰생성됩.");
 
@@ -209,11 +232,9 @@ public class MainFragment extends Fragment {
             public void run() {
 
                 SharedPreferences pref = getContext().getSharedPreferences("developer_mode", Context.MODE_PRIVATE);
-                String defpass = "\"word\":\"freq\",\"알림서랍\":8,\"시각디자인\":8,\"CDO\":12,\"슬기로움\":6,\"안드로이드\":9,\"강민구\":10,\"디자이너\":6";
                 String pass = pref.getString("wordcloud_contents", "");
                 System.out.println("981217" + pass);
                 webview.loadUrl("javascript:makeWordCloud('{" + pass + "}')");
-                //webview.loadUrl("javascript:makeWordCloud('{\"word\":\"freq\",\"알림서랍\":8,\"시각디자인\":8,\"CDO\":12,\"슬기로움\":6,\"안드로이드\":9,\"강민구\":10,\"디자이너\":6}')");
 
             }
         });
@@ -224,7 +245,7 @@ public class MainFragment extends Fragment {
 
     int i = 0;
 
-    public void onLottieClick(android.view.View view) {
+    public void onLottieClick(View view) {
 
         if( i == 0 ) {
             animationView.setSpeed((float) 1.5);
@@ -239,7 +260,7 @@ public class MainFragment extends Fragment {
 
     }
 
-    public void onLottieClick2(android.view.View view) {
+    public void onLottieClick2(View view) {
 
     }
 
@@ -320,6 +341,63 @@ public class MainFragment extends Fragment {
 
 
 
+    /*
+
+    class PreloadAsyncTask extends AsyncTask<Integer, Long, List<NotiData>> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected List<NotiData> doInBackground(Integer... integers) {
+
+            db = NotificationDatabase.getNotificationDatabase(getActivity());
+            Log.i("현우", "노티총개수는" + db.notificationDao().number_of_notification() + "입니다");
+            System.out.println(db.notificationDao().number_of_notification());
+            notiData = new ArrayList<>();
+            time = new Date();
+            format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+            for (int i = 1 ; i <= db.notificationDao().number_of_notification() ; i++ ){
+                //사용자 실제평가(real user evaluation)이 안내려진 경우에만 리사이클러로 넣어줍니다.
+                noti = db.notificationDao().loadNotification(i);
+                arrived_time = format1.format(noti.arrive_time);
+                if (noti.this_user_real_evaluation == 0) {
+
+                    notiData.add(new NotiData((int) noti.id, noti.pakage_name, noti.title, noti.content, "null", "null", "null", "null", "null", "null", "null", noti.app_name, arrived_time));
+                }
+                else {
+
+                }
+            }
+
+            return notiData;
+        }
+
+        @Override
+        protected void onProgressUpdate(Long... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected void onPostExecute(List<NotiData> notiData) {
+            super.onPostExecute(notiData);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(),
+                    LinearLayoutManager.VERTICAL, false);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(new RecyclerViewAdapter(getActivity(), notiData));
+        }
+    }
+
+     */
+
+
+
+
+
 
 
     final ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
@@ -328,8 +406,6 @@ public class MainFragment extends Fragment {
             return false;
         }
 
-
-
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
 
@@ -337,7 +413,11 @@ public class MainFragment extends Fragment {
             System.out.println(direction);
 
             int noti_position = viewHolder.getAdapterPosition();
+            if(recyclerViewAdapter.getItemCount() == 0) {
+                recyclerView.setVisibility(View.VISIBLE);
+            } else {
 
+            }
 
             String noti_id_string = ((TextView) recyclerView.findViewHolderForAdapterPosition(viewHolder.getAdapterPosition()).itemView.findViewById(R.id.noti_id)).getText().toString();
             System.out.println(noti_id_string);

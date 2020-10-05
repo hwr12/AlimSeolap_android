@@ -16,6 +16,7 @@ android {
 
         javaCompileOptions {
             compileOptions {
+                coreLibraryDesugaringEnabled true
                 sourceCompatibility JavaVersion.VERSION_1_8
                 targetCompatibility JavaVersion.VERSION_1_8
             }
@@ -135,5 +136,5 @@ dependencies {
 
     compile 'com.andkulikov:transitionseverywhere:1.7.9'
 
-
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.9'
 }

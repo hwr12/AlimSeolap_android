@@ -14,7 +14,25 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/white_transparency"></com.whysly.alimseolap1.NonSwipeableViewPager>
+        android:background="@color/white_transparency">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animation_view"
+                android:layout_width="200dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/transparent"
+                app:lottie_autoPlay="true"
+                app:lottie_rawRes="@raw/loading_dancing_dots"
+                android:visibility="visible"/>
+
+        </FrameLayout>
+    </com.whysly.alimseolap1.NonSwipeableViewPager>
 
     <LinearLayout
         android:layout_width="match_parent"

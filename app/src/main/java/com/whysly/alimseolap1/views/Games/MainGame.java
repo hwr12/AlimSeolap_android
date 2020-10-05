@@ -2,7 +2,6 @@ package com.whysly.alimseolap1.views.Games;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -34,7 +33,6 @@ public class MainGame extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_layout);
-        tvTimer = (TextView) findViewById(R.id.timer);
 
         recyclerView = findViewById(R.id.recycler_for_game);
         linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, true);
@@ -64,27 +62,25 @@ public class MainGame extends AppCompatActivity {
 //        }
 
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
-        CountDownTimer countDownTimer = new CountDownTimer(60000, 10) {
-            public void onTick(long millisUntilFinished) {
-                tvTimer.setText("Seconds Remaining: " + millisUntilFinished / 1000);
-            }
-
-            public void onFinish() {
-                tvTimer.setText("Time Up!");
-            }
-        };
-        countDownTimer.start();
+//        CountDownTimer countDownTimer = new CountDownTimer(60000, 10) {
+//            public void onTick(long millisUntilFinished) {
+//                tvTimer.setText(millisUntilFinished / 1000  + "초");
+//            }
+//
+//            public void onFinish() {
+//
+//                tvTimer.setText("Time Up!");
+//                Intent intent = new Intent(MainGame.this, Fail.class);
+//            }
+//        };
+//        countDownTimer.start();
     }
-
-
 
     final ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
             return false;
         }
-
-
 
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {

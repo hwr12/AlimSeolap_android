@@ -97,6 +97,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         if(getItemCount() == 0){
             Log.d("준영", "앱 리스트의 사이즈가 0입니다.");
             return;
+
+
         }
         //entities.get(position).this_user_real_evaluation
 

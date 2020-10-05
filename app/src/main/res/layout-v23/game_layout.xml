@@ -8,28 +8,21 @@
     xmlns:tools="http://schemas.android.com/tools">
 
 <LinearLayout
-    android:background="@color/white_transparency"
+    android:background="@color/colorPrimary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <TextView
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/timer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="60초"
+        android:layout_width="120dp"
+        android:layout_height="80dp"
         android:layout_gravity="center_horizontal"
-        android:textColor="#3F4040"
-        android:textSize="45dp"
-        />
-
-
-    <TextView
-        android:id="@+id/textView17"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="남은시간" />
+        android:layout_marginTop="15dp"
+        android:background="@color/mdtp_white"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="false"
+        app:lottie_rawRes="@raw/timer"
+        android:visibility="visible"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,6 +34,7 @@
         <ImageView
             android:layout_gravity="center_horizontal"
             android:id="@+id/imageView3"
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/game_layout_image" />

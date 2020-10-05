@@ -31,14 +31,15 @@
 
 
             <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/animation_view"
-                android:layout_width="125dp"
-                android:layout_height="62.5dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@color/mdtp_white"
-                app:lottie_autoPlay="false"
-                app:lottie_rawRes="@raw/mainlottie"
-                android:visibility="visible"/>
+            android:id="@+id/animation_view"
+            android:layout_width="125dp"
+            android:layout_height="62.5dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/mdtp_white"
+            app:lottie_autoPlay="false"
+            app:lottie_rawRes="@raw/mainlottie"
+            android:visibility="visible"/>
+
 
 
             <!--
@@ -60,13 +61,12 @@
 
         </LinearLayout>
 
-
-
-
     </com.google.android.material.appbar.AppBarLayout>
 
 
-    <androidx.recyclerview.widget.RecyclerView
+
+
+    <com.whysly.alimseolap1.views.Adapters.RecyclerViewEmptySupport
         tools:listitem="@layout/recyclerview_item"
         android:id="@+id/recycler1"
         android:layout_width="match_parent"
@@ -75,6 +75,19 @@
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layoutAnimation="@anim/layout_animation"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
 
+    </com.whysly.alimseolap1.views.Adapters.RecyclerViewEmptySupport>
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/empty_noti"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="100dp"
+        android:layout_gravity="center|bottom"
+        android:background="@color/mdtp_white"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_repeatMode="restart"
+        app:lottie_rawRes="@raw/empty_notification"
+        android:visibility="visible"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

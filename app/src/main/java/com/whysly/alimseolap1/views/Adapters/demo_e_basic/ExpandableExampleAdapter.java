@@ -70,8 +70,7 @@ public class ExpandableExampleAdapter
     public void setEntities(List<NotificationEntity> entities) {
         this.entities = entities;
         notifyDataSetChanged();
-        notifyItemInserted(entities.size());
-
+        notifyItemInserted(entities.size() - 1);
     }
 
     public static class MyGroupViewHolder extends MyBaseViewHolder {
@@ -205,6 +204,7 @@ public class ExpandableExampleAdapter
             }
         };
 
+
         // set text
         holder.mTextView.setText(item.getText());
 
@@ -267,6 +267,7 @@ public class ExpandableExampleAdapter
 
         NotificationEntity data = entities.stream()
                 .filter(e -> simpleDateFormat.format(e.arrive_time).equals(date))
+                .sorted((o1, o2) -> o1.arrive_time.compareTo(o2.arrive_time) * -1)
                 .collect(Collectors.toList()).get(childPosition);
 
 

@@ -103,9 +103,17 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
             protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
 
+//                WindowManager.LayoutParams window = new WindowManager.LayoutParams();
+//                window.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+//                window.dimAmount = 0.75f;
+////		window.windowAnimations = android.R.anim.accelerate_interpolator | android.R.anim.fade_in | android.R.anim.fade_out;
+//                getWindow().setAttributes(window);
+
 //                Intent intent1 = new Intent(MainActivity.this, MainGame.class);
 //                startActivity(intent1);
 //                finish();
+
+
 
                 SharedPreferences pref = getSharedPreferences("data", Activity.MODE_PRIVATE);
                 boolean checkFirst = pref.getBoolean("checkFirst", false);
@@ -372,7 +380,6 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
                 requestPermissions(new String[]
                                 {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE},
                         2);  //마지막 인자는 체크해야될 권한 갯수
-
             } else {
                 //Toast.makeText(this, "권한 승인되었음", Toast.LENGTH_SHORT).show();
             }
