@@ -31,6 +31,7 @@
             android:rotation="180"
             android:scaleType="fitXY"
             android:layout_marginLeft="21dp"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -41,7 +42,7 @@
             android:layout_height="wrap_content"
             android:text="내 정보 수정"
             android:textSize="15dp"
-            android:fontFamily="@font/notosanskr_medium"
+            android:fontFamily="san"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -95,6 +96,7 @@
         android:maxLength="30"
         android:allowUndo="true"
         android:textSize="15dp"
+        android:hint="이메일 또는 아이디를 입력하세요."
         android:background="@drawable/edt_underline"/>
 
     <TextView
@@ -214,7 +216,7 @@
         <com.asksira.dropdownview.DropDownView
             android:id="@+id/agerange1dropdown"
             app:filter_height="30dp"
-            android:layout_width="120dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             app:arrow_drawable="@drawable/dropdownarrow"
             app:arrow_rotate="true"
@@ -239,9 +241,9 @@
 
         <com.asksira.dropdownview.DropDownView
             android:id="@+id/agerange2dropdown"
-            android:layout_width="120dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="5dp"
             android:visibility="invisible"
             app:arrow_drawable="@drawable/dropdownarrow"
             app:arrow_rotate="true"
@@ -296,7 +298,16 @@
         <TextView
             android:id="@+id/area2"
             android:textSize="15dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
+            android:textColor="#707070"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/notosanskr_medium" />
+
+        <TextView
+            android:id="@+id/area3"
+            android:textSize="15dp"
+            android:layout_marginLeft="5dp"
             android:textColor="#707070"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -315,7 +326,7 @@
 
         <com.asksira.dropdownview.DropDownView
             android:id="@+id/area1dropdown"
-            android:layout_width="120dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             app:arrow_drawable="@drawable/dropdownarrow"
             app:arrow_rotate="true"
@@ -335,15 +346,16 @@
             app:filter_text_color="@color/colorTheme"
             app:filter_text_size="12dp"
             app:last_item_has_divider="true"
-            app:placeholder_text="대분류"
+            app:placeholder_text="행정구역"
             app:top_decorator_color="@color/colorTheme"
-            app:top_decorator_height="1dp" />
+            app:top_decorator_height="1dp"/>
+
 
         <com.asksira.dropdownview.DropDownView
             android:id="@+id/area2dropdown"
-            android:layout_width="120dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="5dp"
             android:visibility="invisible"
             app:arrow_drawable="@drawable/dropdownarrow"
             app:arrow_rotate="true"
@@ -363,7 +375,39 @@
             app:filter_text_color="@color/colorTheme"
             app:filter_text_size="12dp"
             app:last_item_has_divider="true"
-            app:placeholder_text="소분류"
+            app:placeholder_text="시/군/구"
+            app:top_decorator_color="@color/colorTheme"
+            app:top_decorator_height="1dp">
+
+
+        </com.asksira.dropdownview.DropDownView>
+
+
+        <com.asksira.dropdownview.DropDownView
+            android:id="@+id/area3dropdown"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:visibility="invisible"
+            app:arrow_drawable="@drawable/dropdownarrow"
+            app:arrow_rotate="true"
+            app:arrow_width="18dp"
+            app:bottom_decorator_color="@color/colorTheme"
+            app:bottom_decorator_height="2dp"
+            app:divider_color="@color/colorTheme"
+            app:dropDownItem_height="35dp"
+            app:dropDownItem_text_color_selected="@color/colorTheme"
+            app:dropDownItem_text_size="12dp"
+            app:dropDownItem_text_size_selected="12dp"
+            app:dropdownItem_text_gravity="center_horizontal"
+            app:expand_dim_background="false"
+            app:expansion_style="reveal"
+            app:filter_bar_background_color="@color/white_transparency"
+            app:filter_height="30dp"
+            app:filter_text_color="@color/colorTheme"
+            app:filter_text_size="12dp"
+            app:last_item_has_divider="true"
+            app:placeholder_text="동/읍/리"
             app:top_decorator_color="@color/colorTheme"
             app:top_decorator_height="1dp">
 

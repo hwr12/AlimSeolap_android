@@ -173,7 +173,7 @@ public class ExpandableExampleAdapter
     @NonNull
     public MyChildViewHolder onCreateChildViewHolder(@NonNull ViewGroup parent, int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        final View v = inflater.inflate(R.layout.recyclerview_item, parent, false);
+        final View v = inflater.inflate(R.layout.recyclerview_item2, parent, false);
         return new MyChildViewHolder(v);
     }
 

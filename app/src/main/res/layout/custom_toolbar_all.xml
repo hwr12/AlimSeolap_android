@@ -5,16 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="177dp"
     android:background="@color/colorTransparent"
+    android:orientation="horizontal"
     android:layout_gravity="center_horizontal"
     android:gravity="center_horizontal">
 
 
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_x="154dp"
-                    android:layout_y="92dp">
                         <WebView
                             android:id="@+id/webViewmain"
                             android:layout_width="300dp"
@@ -25,7 +21,7 @@
                         </WebView>
 
 
-                </FrameLayout>
+
 
 
 </androidx.appcompat.widget.Toolbar>

@@ -4,7 +4,7 @@
     <font
         android:fontStyle = "normal"
         android:fontWeight = "400"
-        android:font = "@font/notosanskr_medium"/>
+        android:font = "@font/notosanskr_light"/>
 
     <font
         android:fontStyle = "normal"

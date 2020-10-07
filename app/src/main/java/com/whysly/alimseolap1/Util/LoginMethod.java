@@ -6,9 +6,12 @@ import com.whysly.alimseolap1.views.Activity.MainActivity;
 
 public class LoginMethod {
 
-    private static String LOGIN_METHOD;
-    private static String USER_NAME;
+    private static String LOGIN_METHOD = "";
+    private static String USER_NAME = "알리미";
     private static String PROFILE_PIC_URL;
+    private static String EMAIL = "";
+    private static String SNS_TOKEN = "default";
+    private static String SNS_UID;
     private static Context applicationContext = MainActivity.getContextOfApplication();
     //private static SharedPreferences sf = applicationContext.getSharedPreferences("user_data", applicationContext.MODE_PRIVATE);
 
@@ -20,6 +23,29 @@ public class LoginMethod {
 //    }
 
 
+    public static String getEMAIL() {
+        return EMAIL;
+    }
+
+    public static void setEMAIL(String EMAIL) {
+        LoginMethod.EMAIL = EMAIL;
+    }
+
+    public static String getSnsToken() {
+        return SNS_TOKEN;
+    }
+
+    public static void setSnsToken(String snsToken) {
+        SNS_TOKEN = snsToken;
+    }
+
+    public static String getSnsUid() {
+        return SNS_UID;
+    }
+
+    public static void setSnsUid(String snsUid) {
+        SNS_UID = snsUid;
+    }
 
     public static String getLoginMethod() {
         return LOGIN_METHOD;
