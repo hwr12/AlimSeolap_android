@@ -382,6 +382,7 @@ public class LoginActivity extends AppCompatActivity   {
                     editor.putString("token", object1.getString("token"));
                     editor.putString("username", LoginMethod.getUserName());
                     editor.putString("profilepicurl", LoginMethod.getProfilePicUrl());
+                    editor.putString("login_method", LoginMethod.getLoginMethod());
                     editor.apply();
                     JSONArray movieArray = object1.getJSONArray("user");
                     String what = movieArray.getJSONObject(0).getJSONObject("fields").getString("age");
@@ -396,6 +397,7 @@ public class LoginActivity extends AppCompatActivity   {
                         Intent login_success = new Intent(context, MainActivity.class);
                         startActivity(login_success);
                     }
+
                     finish();
 
                 } catch (JSONException e) {

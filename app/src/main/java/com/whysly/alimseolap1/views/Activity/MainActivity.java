@@ -42,13 +42,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
-import com.kakao.auth.Session;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.nhn.android.naverlogin.OAuthLogin;
-import com.nhn.android.naverlogin.data.OAuthLoginState;
 import com.whysly.alimseolap1.R;
 import com.whysly.alimseolap1.Util.GoogleSignInOptionSingleTone;
 import com.whysly.alimseolap1.Util.LoginMethod;
@@ -143,36 +140,40 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
                 AccessToken accessToken = AccessToken.getCurrentAccessToken();
 
 
+                if(pref.getString("login_method","") == ""){
+                    Intent loginIntent = new Intent(this, LoginActivity.class);
+                    startActivity(loginIntent);
+                }
 
 
         // 이미 구글 파이어베이스 로그인 되어있을 경우
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            LoginMethod.setLoginMethod("google");
-
-        }
-
-         //이미 네이버 로그인 되어있을 경우
-        else if (OAuthLogin.getInstance().getState(getApplicationContext()) == OAuthLoginState.OK) {
-            LoginMethod.setLoginMethod("naver");
-
-            if (OAuthLogin.getInstance().getState(getApplicationContext()) == OAuthLoginState.NEED_REFRESH_TOKEN) {
-                OAuthLogin.getInstance().refreshAccessToken(getApplicationContext());
-            }
-        }
-
-        else if ( Session.getCurrentSession().isOpened()) {
-            LoginMethod.setLoginMethod("kakao");
-        }
-
-        else if (accessToken != null && !accessToken.isExpired()) {
-            LoginMethod.setLoginMethod("facebook");
-        }
-
-        else {
-            Intent loginIntent = new Intent(this, LoginActivity.class);
-            startActivity(loginIntent);
-        }
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        if (user != null) {
+//            LoginMethod.setLoginMethod("google");
+//
+//        }
+//
+//         //이미 네이버 로그인 되어있을 경우
+//        else if (OAuthLogin.getInstance().getState(getApplicationContext()) == OAuthLoginState.OK) {
+//            LoginMethod.setLoginMethod("naver");
+//
+//            if (OAuthLogin.getInstance().getState(getApplicationContext()) == OAuthLoginState.NEED_REFRESH_TOKEN) {
+//                OAuthLogin.getInstance().refreshAccessToken(getApplicationContext());
+//            }
+//        }
+//
+//        else if ( Session.getCurrentSession().isOpened()) {
+//            LoginMethod.setLoginMethod("kakao");
+//        }
+//
+//        else if (accessToken != null && !accessToken.isExpired()) {
+//            LoginMethod.setLoginMethod("facebook");
+//        }
+//
+//        else {
+//            Intent loginIntent = new Intent(this, LoginActivity.class);
+//            startActivity(loginIntent);
+//        }
 
 //        CsvTry csvTry = new CsvTry(getApplicationContext());
         //csvTry.generateCsvFile();
@@ -314,9 +315,11 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
                 break ;
 
             case R.id.log_out :
+                SharedPreferences pref = getSharedPreferences("data", MODE_PRIVATE);
                 if (LoginMethod.getLoginMethod().equals("naver")){
                     signOutNaver(getApplicationContext());
                     Toast.makeText(this, "네이버1, 정상적으로 로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
+                    pref.edit().clear().apply();
                     Intent intent4 = new Intent(this, LoginActivity.class);
                     startActivity(intent4);
                     this.finish();
@@ -324,6 +327,7 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
                 else if (LoginMethod.getLoginMethod().equals("google")) {
                     signOutGoogle(getApplicationContext());
                     Toast.makeText(this, "구글, 정상적으로 로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
+                    pref.edit().clear().apply();
                     Intent intent4 = new Intent(this, LoginActivity.class);
                     startActivity(intent4);
                     this.finish();
@@ -332,7 +336,7 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
                     UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
                         @Override
                         public void onCompleteLogout() {
-
+                            pref.edit().clear().apply();
                             Intent intent_logout = new Intent(MainActivity.this, LoginActivity.class);
                             intent_logout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent_logout);
@@ -342,12 +346,16 @@ public class MainActivity extends BaseActivity implements MainInterface.View {
 //                    this.finish();
                 }
                 else if (LoginMethod.getLoginMethod().equals("facebook")) {
+                    pref.edit().clear().apply();
                     LoginManager.getInstance().logOut();
                     Intent intent_logout = new Intent(MainActivity.this, LoginActivity.class);
                     intent_logout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent_logout);
                     Toast.makeText(this, "페이스북, 정상적으로 로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
                 }
+
+
+
 
      //           Toast.makeText(this, "정상적으로 로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
                 break ;

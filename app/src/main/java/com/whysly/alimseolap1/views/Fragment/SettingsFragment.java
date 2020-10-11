@@ -24,6 +24,8 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.whysly.alimseolap1.R;
 import com.whysly.alimseolap1.Util.LoginMethod;
 
+import java.io.File;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.content.ContentValues.TAG;
@@ -105,10 +107,14 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        File file = new File(pref.getString("profilepic_path",pref.getString("profilepicurl", "")));
+        Log.d("pfpic_url", pref.getString("profilepic_path",pref.getString("profilepicurl", "")));
+        Uri imageUri = Uri.fromFile(file);
 
         // Glide로 이미지 표시하기
-        String imageUrl = LoginMethod.getProfilePicUrl();
-        Glide.with(getContext()).load(imageUrl)
+        // String imageUrl = pref.getString("profilepic_path",pref.getString("profilepicurl", ""));
+        // Glide로 이미지 표시하기
+        Glide.with(getContext()).load(imageUri)
                 .centerCrop()
 //                .placeholder(R.drawable.alimi_sample)
 //                .error(R.drawable.alimi_sample)

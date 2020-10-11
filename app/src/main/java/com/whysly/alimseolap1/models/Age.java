@@ -1,64 +1,70 @@
 package com.whysly.alimseolap1.models;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 public class Age {
 
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-    @SerializedName("age")
-    @Expose
-    private String age;
-    @SerializedName("created_at")
-    @Expose
-    private String createdAt;
-    @SerializedName("updated_at")
-    @Expose
-    private Object updatedAt;
-    @SerializedName("deleted_at")
-    @Expose
-    private Object deletedAt;
-
-    public Integer getId() {
-        return id;
+    int id;
+    String age;
+    String created_at;
+    String updated_at;
+    String deleted_at;
+    public Age(int id, String age, String created_at, String updated_at, String deleted_at) {
+        this.id = id;
+        this.age = age;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.deleted_at =deleted_at;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+
+
+    public int getId() {
+        return id;
     }
 
     public String getAge() {
         return age;
     }
 
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public String getDeleted_at() {
+        return deleted_at;
+    }
+
+    public String getUpdated_at() {
+        return updated_at;
+    }
+
     public void setAge(String age) {
         this.age = age;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
     }
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+    public void setDeleted_at(String deleted_at) {
+        this.deleted_at = deleted_at;
     }
 
-    public Object getUpdatedAt() {
-        return updatedAt;
+    public void setUpdated_at(String updated_at) {
+        this.updated_at = updated_at;
     }
 
-    public void setUpdatedAt(Object updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public Object getDeletedAt() {
-        return deletedAt;
+    @Override
+    public String toString() {
+        return "Age{" +
+                "id=" + id +
+                ", age='" + age + '\'' +
+                ", created_at='" + created_at + '\'' +
+                ", updated_at='" + updated_at + '\'' +
+                ", deleted_at='" + deleted_at + '\'' +
+                '}';
     }
-
-    public void setDeletedAt(Object deletedAt) {
-        this.deletedAt = deletedAt;
-    }
-
 }

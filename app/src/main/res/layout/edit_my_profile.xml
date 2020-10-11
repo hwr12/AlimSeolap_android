@@ -49,17 +49,20 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@id/profile_pic2"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="54dp"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        />
+
 
     <LinearLayout
-        android:id="@+id/edit_profile"
-        android:onClick="onSettingClick"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -71,7 +74,18 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/notosanskr_regular"
             android:text="알림이"
-            android:textSize="15dp" />
+            android:textSize="15dp"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"/>
+        <ImageButton
+            android:onClick="onEditClick"
+            android:id="@+id/btn_UploadPicture"
+            android:layout_width="20dp"
+            android:scaleType="fitXY"
+            android:layout_height="20dp"
+            android:background="@color/transparent"
+            app:srcCompat="@android:drawable/ic_menu_camera"
+            />
 
 
     </LinearLayout>
@@ -468,6 +482,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
+
 
 
 
